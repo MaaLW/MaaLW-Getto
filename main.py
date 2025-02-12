@@ -7,8 +7,8 @@ from maa.resource import Resource
 from maa.controller import AdbController
 
 from pathlib import Path
-
-from time import time
+import json
+from time import sleep, time
 
 from code import interact
 
@@ -34,13 +34,169 @@ def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override:
     while (time() - time_start) < timeout:
         if job.done:
             return True, job.get()
+        sleep(0.2)
     tasker.post_stop()
     return False, job.get()
 
+def replay_battle_actions(tasker: Tasker, actions: list):
+    """Replay battle actions.
+
+    Args:
+        tasker (Tasker): The Tasker instance to use.
+        actions (list): The battle actions to replay.
+    """
+    pass
+
+def replay_eternal_battle(tasker: Tasker, record: dict) -> bool:
+
+    scene = 1.1
+    while True:
+        match scene:
+            # Scene01: Start from the eternal battle menu: select the desired difficulty (easy, hard, lunatic) and navigate to the prepare screen
+            # Actions: 1. Verify menu presence, 2. Determine current difficulty, 3. Choose the appropriate difficulty, 4. Proceed to the prepare screen
+            # DONE: Implement difficulty selection
+            case 1.1:
+                # Verify eternal battle, difficulty, entrance presence    
+                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=20, 
+                                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_at_entrance"]},
+                                                                            "eternal_battle_Flag_at_entrance":{"next":["battle_Flag_get_difficulty"]},
+                                                                            "battle_Flag_get_difficulty":{"next":["eternal_battle_Flag_seen_entrance"]}})
+                if not b_success:
+                    return False
+                del (b_success, job)
+                scene = 1.2
+            case 1.2:
+                # Choose difficulty
+                difficulty = record.get("difficulty")
+                match difficulty:
+                    case "lunatic" | "hard" | "normal":
+                        entry = "battle_difficulty_goto_" + difficulty
+                    case _:
+                        print("Error: 难度不是 lunatic hard normal 中的一个")
+                        return False
+                
+                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=20, 
+                                                            pipeline_override={"Common_Entrance":{"next":[entry]}})
+                if not b_success:
+                    return False
+                del (b_success, job)
+                scene = 1.3
+            case 1.3:   
+                # Enter prepare screen
+                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=20, 
+                                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_tap_entrance"]},
+                                                                            "eternal_battle_tap_entrance":{"next": "eternal_battle_Flag_seen_entrance"},
+                                                                            "eternal_battle_Flag_seen_entrance":{"inverse":True}})
+                if not b_success:
+                    return False
+                del (b_success, job)
+                scene = 2.1
+            # Scene02: In the prepare screen: We assume the parties are correctly saved. Confirm the parties and then click the start button, or click start if in interrupted state
+            # Actions: 1. Verify prepare screen presence, 2. Check if in interrupted state, 3. Click the confirm button, 4. Click the start button
+            # DONE: pipelines for Scene02
+            case 2.1: 
+                # Verify prepare screen presence & check if in interrupted state
+                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=20, 
+                                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_prepare_chars_01"]},
+                                                                            "eternal_battle_Flag_prepare_chars_01":{"next":["eternal_battle_Flag_prepare_chars_02"]},
+                                                                            "eternal_battle_Flag_prepare_chars_02":{"next":["eternal_battle_Flag_seen_confirm_button", 
+                                                                                                                            "eternal_battle_Flag_seen_start_button"]}})
+                if not b_success:
+                    return False
+                match job.nodes[-1].name:
+                    case "eternal_battle_Flag_seen_confirm_button":
+                        b_start_from_interrupt = False
+                    case "eternal_battle_Flag_seen_start_button":
+                        b_start_from_interrupt = True
+                    case _:
+                        return False
+                del (b_success, job)
+                scene = 2.2
+            case 2.2:
+                # Find which area is next
+                start_area = "area1"
+                if b_start_from_interrupt:
+                    b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=20, 
+                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_next_area_mark_at_2", "eternal_battle_Flag_next_area_mark_at_3",
+                                                                                        "eternal_battle_Flag_next_area_mark_at_4", "eternal_battle_Flag_next_area_mark_at_5"]}})
+                    if not b_success:
+                        print("Error: 找不到下一个挑战的区域")
+                        return False
+                    start_area = "area" + job.nodes[-1].name[-1]
+                    del (b_success, job)
+                scene = 2.3
+            case 2.3:
+                # Tap confirm till seen start
+                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_start_button"], 
+                                                                                                "interrupt":["eternal_battle_tap_confirm_button"]}})
+                if not b_success:
+                    return False
+                del (b_success, job)
+                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_start_button"], 
+                                                                                                "interrupt":["eternal_battle_tap_start_button"]},
+                                                                            "eternal_battle_Flag_seen_start_button":{"inverse":True}})
+                if not b_success:
+                    return False
+                del (b_success, job)
+                scene = 3.1
+            # Scene03: In the game: First leave Full Auto mode if we are in it, then restart battle. 
+            # Actions: 1. Check Full Auto Button, 2. Click Full Auto Button, 3. Restart battle 
+            # DONE: implement full auto & restart battle
+            case 3.1:
+                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=60, 
+                                                            pipeline_override={"Common_Entrance":{"timeout": 60000,
+                                                                                                  "next":["battle_Flag_seen_full_auto_disabled",
+                                                                                                          "battle_Flag_seen_full_auto_enabled"]}})
+                if not b_success:
+                    return False
+                match job.nodes[-1].name:
+                    case "battle_Flag_seen_full_auto_disabled":
+                        b_full_auto_off = True
+                    case "battle_Flag_seen_full_auto_enabled":
+                        b_full_auto_off = False
+                    case _:
+                        return False
+                del (b_success, job)
+                if not b_full_auto_off:
+                    b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                            pipeline_override={"Common_Entrance":{"next":["battle_Flag_seen_full_auto_disabled"],
+                                                                                  "interrupt":["battle_tap_full_auto_enabled"]}})
+                    if not b_success:
+                        return False
+                    del (b_success, job)
+                scene = 4.1
+            # Scene04: In the game: Do the battle actions according to our battle script.
+            # Actions: 1. Make sure we are in the game, 2. implement battle script 3. implement battle actions
+            case 4.1:
+                # TODO: battle script
+                # DONE: battle actions: 1. fs(2|3) Focus Shot, 2. ss(2|3) Spread Shot, 3. sw Switch, 4. ba(2) Back, 5. sc(1-5) Spell Card, 6. sk(1-9) Skill, 
+                # 7. en(2|3)(1-2|3) Enemy Target, 8. bo(1-3|m) Boost, 9. gr(1-3|m) Graze
+                print("Start replay from " + start_area)
+
+    # Scene05: Get Reward and next:
+    # DONE: pipelines for victory
+
+    # Scene06: Game Over
+    # DONE: tap next on failure
+
+    # Scene07: Low Yaruki confirm
+    # DONE: tap confirm when Yaruki is empty on start battle
+    print("end of function")
+    pass
+
+
 def main():
-    # maa.toolkit.Toolkit.pi_run_cli("./assets/resource/base", "./assets/cache", False)
     user_path = "./assets/cache"
     resource_path = "./assets/resource/base"
+
+    with open('./MLW-config.json', 'r', encoding='UTF-8') as file:
+        mlw_config = json.load(file)
+        adb_device_info = mlw_config.get("adb_device")
+        eternal_battle_record_info = mlw_config.get("eternal_battle_record")
+    with open(eternal_battle_record_info.get("path"), 'r', encoding='UTF-8') as file:
+        eternal_battle_record = json.load(file)
 
     Toolkit.init_option(user_path)
 
@@ -48,12 +204,12 @@ def main():
     res_job.wait()
 
     adb_device = AdbDevice(
-        name = "MuMu12-test",
-        adb_path = Path("C:/Program Files/Netease/MuMu Player 12/shell/adb.exe"),
-        address = "127.0.0.1:16416",
-        screencap_methods = 71,     # 64 4 2 1
-        input_methods = 4,         # DON'T USE 8 On Mumu
-        config = {'extras': {'mumu': {'enable': True, 'index': 1, 'path': 'C:/Program Files/Netease/MuMu Player 12'}}},
+        name = adb_device_info.get("name"),
+        adb_path = Path(adb_device_info.get("adb_path")),
+        address = adb_device_info.get("address"),
+        screencap_methods = adb_device_info.get("screencap_methods"),     # 64 4 2 1
+        input_methods = adb_device_info.get("input_methods"),         # DON'T USE 8 On Mumu
+        config = adb_device_info.get("config")
     )
     controller = AdbController(
         adb_path=adb_device.adb_path,
@@ -73,52 +229,20 @@ def main():
         exit()
 
     #task_detail = tasker.post_task("Common_One_Time_Runner",pipeline_override={"Common_One_Time_Runner":{"next":["Peek_OCR"]}}).wait().get()
-    b1, r1 = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_One_Time_Runner", pipeline_override={})
+    #b1, r1 = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_One_Time_Runner", pipeline_override={})
     #b2, r2 = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_One_Time_Runner", pipeline_override={"Common_One_Time_Runner":{"next":["Common_One_Time_Runner"]}})
-    b2, r2 = mlw_run_pipeline_with_timeout(tasker=tasker, entry="battle_difficulty_goto_lunatic", pipeline_override={})
-    print(b1)
-    print(r1)
-    print(b2)
-    print(r2)
+    #b2, r2 = mlw_run_pipeline_with_timeout(tasker=tasker, entry="battle_difficulty_goto_lunatic", pipeline_override={})
+    #print(b1)
+    #print(r1)
+    #print(b2)
+    #print(r2)
+    replay_eternal_battle(tasker=tasker, record=eternal_battle_record)
 
-    interact(local=locals())
+    #interact(local=locals())
     #print(repr(task_detail))
     
 
 
-
-# IN: choose difficulty (easy hard lunatic)
-# IN: battle script
-def play_eternalbattle():
-    # TODO: add a function to play eternal battle
-    # Scene01: We start from the menu of eternal battle: choose desired difficulty (easy hard lunatic) and then enter the prepare screen
-    # Actions: 1. Make sure we are in the menu, 2. Check difficulty, 3. Select difficulty, 4. Enter the prepare screen
-    # DONE: select difficulty
-
-    # Scene02: In the prepare screen: We assume the parties are correctly saved. Confirm the parties and then click the start button, or click start if in interupted state
-    # Actions: 1. Make sure we are in the prepare screen, 2. Check if in interupted state (search for area), 3. Click the confirm button, 4. Click the start button
-    # DONE: pipelines for Scene02
-
-    # Scene03: In the game: First leave Full Auto mode if we are in it, then restart battle. 
-    # Actions: 1. Check Full Auto Button, 2. Click Full Auto Button, 3. Restart battle 
-    # DONE: implement full auto & restart battle
-
-    # Scene04: In the game: Do the battle actions according to our battle script.
-    # Actions: 1. Make sure we are in the game, 2. implement battle script 3. implement battle actions
-    # TODO: battle script
-    # DONE: battle actions: 1. fs(2|3) Focus Shot, 2. ss(2|3) Spread Shot, 3. sw Switch, 4. ba(2|3) Back, 5. sc(1-5) Spell Card, 6. sk(1-9) Skill, 
-    # 7. en(2|3)(1-2|3) Enemy Target, 8. bo(1-3|m) Boost, 9. gr(1-3|m) Graze
-
-    # Scene05: Get Reward and next:
-    # DONE: pipelines for victory
-
-    # Scene06: Game Over
-    # DONE: tap next on failure
-
-    # Scene07: Low Yaruki confirm
-    # DONE: tap confirm when Yaruki is empty on start battle
-
-    pass
 
 
 if __name__ == "__main__":

@@ -1,4 +1,8 @@
 {
+    "Common_Entrance": {
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    },
     "Common_Stop_Task": {
         "recognition": "DirectHit",
         "action": "StopTask"

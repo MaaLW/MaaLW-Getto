@@ -136,5 +136,28 @@
             100,
             34
         ]
+    },
+    "eternal_battle_Flag_seen_entrance": {
+        "recognition": "TemplateMatch",
+        "template": "eternal_battle/entrance__600_150_540_40__550_100_640_140.png",
+        "roi": [
+            600,
+            150,
+            540,
+            40
+        ],
+        "threshold": 0.9
+    },
+    "eternal_battle_tap_entrance": {
+        "recognition": "TemplateMatch",
+        "template": "eternal_battle/entrance__600_150_540_40__550_100_640_140.png",
+        "roi": [
+            600,
+            150,
+            540,
+            40
+        ],
+        "threshold": 0.9,
+        "action": "Click"
     }
 }

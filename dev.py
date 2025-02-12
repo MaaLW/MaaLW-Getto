@@ -1,0 +1,61 @@
+# coding:utf-8
+
+import json
+
+from code import interact
+
+
+
+
+x1 = 1
+while True:
+    match x1:
+        case 1:
+            print(x1)
+            l1 = [1,2,3]
+        case 2:
+            print(x1)
+            print(l1)
+        case 3:
+            break
+    x1 += 1
+    
+
+exit()
+
+with open('./MLW-config.json', 'r', encoding='UTF-8') as file:
+    conf = json.load(file)
+print(conf)
+
+
+exit()
+
+# Open and read the JSON file
+with open('assets/battlescript/1.json', 'r', encoding='UTF-8') as file:
+    data = json.load(file)
+
+# Print the data
+print(data)
+
+d1 = data.get("difficulty")
+a = data.get("actions") #dict
+start_area = "area1"
+b_area_matched = False
+for area, rec in a.items():
+    if (not b_area_matched) and (area == start_area):
+        b_area_matched = True
+    if not b_area_matched:
+        continue
+    print("Replaying ", area)
+    for line in rec:
+        print(line)
+        if isinstance(line, str):
+            for act in line.split():
+                print(act)
+
+
+
+
+
+
+#interact(local=locals())
