@@ -1,0 +1,497 @@
+{
+    "battle_focus_shot": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            600,
+            540,
+            320,
+            120
+        ]
+    },
+    "battle_spread_shot": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            180,
+            540,
+            320,
+            120
+        ]
+    },
+    "battle_switch": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            1100,
+            52,
+            40,
+            40
+        ],
+        "next": [
+            "battle_Flag_seen_back_button_disabled",
+            "battle_Flag_seen_back_button_enabled"
+        ]
+    },
+    "battle_back": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            40,
+            660,
+            72,
+            26
+        ]
+    },
+    "battle_Flag_seen_back_button_disabled": {
+        "recognition": "TemplateMatch",
+        "template": "battle/battle_back_disabled__40_660_72_26__0_610_162_110.png",
+        "roi": [
+            40,
+            660,
+            72,
+            26
+        ],
+        "action": "DoNothing"
+    },
+    "battle_Flag_seen_back_button_enabled": {
+        "recognition": "TemplateMatch",
+        "template": "battle/battle_back_enabled__40_654_72_26__0_604_162_116.png",
+        "roi": [
+            40,
+            654,
+            72,
+            26
+        ],
+        "action": "DoNothing"
+    },
+    "battle_spell_card_toggle_menu": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            30,
+            450,
+            70,
+            50
+        ]
+    },
+    "battle_spell_card_tap_sc1": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            180,
+            300,
+            80,
+            80
+        ]
+    },
+    "battle_spell_card_tap_sc2": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            370,
+            250,
+            80,
+            80
+        ]
+    },
+    "battle_spell_card_tap_sc3": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            560,
+            200,
+            80,
+            80
+        ]
+    },
+    "battle_spell_card_tap_sc4": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            770,
+            150,
+            80,
+            80
+        ]
+    },
+    "battle_spell_card_tap_sc5": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            1000,
+            100,
+            80,
+            80
+        ]
+    },
+    "battle_skill_toggle_menu": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            1200,
+            520,
+            40,
+            40
+        ]
+    },
+    "battle_skill_tap_sk1": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            160,
+            560,
+            75,
+            75
+        ],
+        "next": [
+            "battle_skill_confirm"
+        ]
+    },
+    "battle_skill_tap_sk2": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            160,
+            560,
+            75,
+            75
+        ],
+        "target_offset": [
+            95,
+            0,
+            0,
+            0
+        ],
+        "next": [
+            "battle_skill_confirm"
+        ]
+    },
+    "battle_skill_tap_sk3": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            160,
+            560,
+            75,
+            75
+        ],
+        "target_offset": [
+            190,
+            0,
+            0,
+            0
+        ],
+        "next": [
+            "battle_skill_confirm"
+        ]
+    },
+    "battle_skill_tap_sk4": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            160,
+            560,
+            75,
+            75
+        ],
+        "target_offset": [
+            348,
+            0,
+            0,
+            0
+        ],
+        "next": [
+            "battle_skill_confirm"
+        ]
+    },
+    "battle_skill_tap_sk5": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            160,
+            560,
+            75,
+            75
+        ],
+        "target_offset": [
+            443,
+            0,
+            0,
+            0
+        ],
+        "next": [
+            "battle_skill_confirm"
+        ]
+    },
+    "battle_skill_tap_sk6": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            160,
+            560,
+            75,
+            75
+        ],
+        "target_offset": [
+            538,
+            0,
+            0,
+            0
+        ],
+        "next": [
+            "battle_skill_confirm"
+        ]
+    },
+    "battle_skill_tap_sk7": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            160,
+            560,
+            75,
+            75
+        ],
+        "target_offset": [
+            695,
+            0,
+            0,
+            0
+        ],
+        "next": [
+            "battle_skill_confirm"
+        ]
+    },
+    "battle_skill_tap_sk8": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            160,
+            560,
+            75,
+            75
+        ],
+        "target_offset": [
+            790,
+            0,
+            0,
+            0
+        ],
+        "next": [
+            "battle_skill_confirm"
+        ]
+    },
+    "battle_skill_tap_sk9": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            160,
+            560,
+            75,
+            75
+        ],
+        "target_offset": [
+            885,
+            0,
+            0,
+            0
+        ],
+        "next": [
+            "battle_skill_confirm"
+        ]
+    },
+    "battle_skill_confirm": {
+        "recognition": "TemplateMatch",
+        "template": "battle/skill_confirm_button__690_570_160_40__640_520_260_140.png",
+        "roi": [
+            690,
+            570,
+            160,
+            40
+        ],
+        "action": "Click"
+    },
+    "battle_choose_enemy_en31": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            350,
+            295,
+            40,
+            60
+        ],
+        "target_offset": [
+            130,
+            -55,
+            0,
+            0
+        ]
+    },
+    "battle_choose_enemy_en32": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            350,
+            295,
+            40,
+            60
+        ]
+    },
+    "battle_choose_enemy_en33": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            350,
+            295,
+            40,
+            60
+        ],
+        "target_offset": [
+            -130,
+            55,
+            0,
+            0
+        ]
+    },
+    "battle_boost_tap": {
+        "recognition": "TemplateMatch",
+        "template": "battle/boost_button__1000_550_60_60__950_500_160_160.png",
+        "roi": [
+            1000,
+            550,
+            60,
+            60
+        ],
+        "action": "Click"
+    },
+    "battle_graze_tap": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            1100,
+            360,
+            100,
+            80
+        ]
+    },
+    "battle_toggle_menu": {
+        "recognition": "DirectHit",
+        "action": "Key",
+        "key": 4
+    },
+    "battle_tap_restart_button": {
+        "recognition": "TemplateMatch",
+        "template": "battle/restart_button__420_630_170_34__370_580_270_134.png",
+        "roi": [
+            420,
+            630,
+            170,
+            34
+        ],
+        "roi_offset": [
+            -280,
+            0,
+            820,
+            0
+        ],
+        "action": "Click"
+    },
+    "battle_tap_restart_confirm_button": {
+        "recognition": "TemplateMatch",
+        "template": "battle/restart_confirm_button__700_480_160_48__650_430_260_148.png",
+        "roi": [
+            700,
+            480,
+            160,
+            48
+        ],
+        "action": "Click"
+    },
+    "battle_Flag_seen_full_auto_disabled": {
+        "recognition": "TemplateMatch",
+        "template": "battle/full_auto_disabled__550_20_80_20__500_0_180_90.png",
+        "roi": [
+            550,
+            20,
+            80,
+            20
+        ],
+        "threshold": 0.9
+    },
+    "battle_Flag_seen_full_auto_enabled": {
+        "recognition": "TemplateMatch",
+        "template": "battle/full_auto_enabled__550_20_80_20__500_0_180_90.png",
+        "roi": [
+            550,
+            20,
+            80,
+            20
+        ],
+        "threshold": 0.9
+    },
+    "battle_tap_full_auto": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            550,
+            20,
+            80,
+            20
+        ]
+    },
+    "battle_Flag_seen_turn_flag": {
+        "recognition": "OCR",
+        "expected": "回合",
+        "roi": [
+            560,
+            75,
+            80,
+            40
+        ]
+    },
+    "battle_Flag_seen_get_reward": {
+        "recognition": "OCR",
+        "expected": "获得报酬",
+        "roi": [
+            545,
+            95,
+            195,
+            70
+        ]
+    },
+    "battle_tap_get_reward": {
+        "recognition": "OCR",
+        "expected": "点击画面",
+        "roi": [
+            555,
+            555,
+            175,
+            60
+        ],
+        "action": "Click"
+    },
+    "battle_Flag_seen_game_over": {
+        "recognition": "TemplateMatch",
+        "template": "battle/game_over__215_520_810_70__165_470_910_170.png",
+        "roi": [
+            215,
+            520,
+            810,
+            70
+        ],
+        "threshold": 0.9,
+        "green_mask": true
+    },
+    "battle_tap_next_on_game_over": {
+        "recognition": "TemplateMatch",
+        "template": "battle/next_on_game_over__1100_606_120_33__1050_556_220_133.png",
+        "roi": [
+            1100,
+            606,
+            120,
+            33
+        ],
+        "threshold": 0.9,
+        "action": "Click"
+    }
+}

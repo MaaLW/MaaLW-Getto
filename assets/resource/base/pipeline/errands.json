@@ -1,0 +1,98 @@
+{
+    "Errands_Enter_Page": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "Home01_1050_401_52_77__1000_351_152_177.png",
+            "Home02_1050_401_52_77__1000_351_152_177.png"
+        ],
+        "roi": [
+            1050,
+            401,
+            52,
+            77
+        ],
+        "action": "Click",
+        "next": [
+            "Errands_Gather_Rewards"
+        ]
+    },
+    "Errands_Gather_Rewards": {
+        "recognition": "TemplateMatch",
+        "template": "Errands01_58_660_138_35__8_585_238_135.png",
+        "threshold": 0.85,
+        "roi": [
+            58,
+            660,
+            138,
+            35
+        ],
+        "action": "Click",
+        "next": [
+            "Errands_Gather_Rewards_Confirm_01"
+        ]
+    },
+    "Errands_Gather_Rewards_Confirm_01": {
+        "recognition": "TemplateMatch",
+        "template": "ErrandsRewards01_558_623_164_55__508_565_264_155.png",
+        "roi": [
+            558,
+            623,
+            164,
+            55
+        ],
+        "action": "Click",
+        "next": [
+            "Errands_Gather_Rewards_Confirm_02_Multiple",
+            "Errands_Gather_Rewards_Confirm_02_Single"
+        ]
+    },
+    "Errands_Gather_Rewards_Confirm_02_Single": {
+        "recognition": "TemplateMatch",
+        "template": "ErrandsRewards02_459_114_356_139__409_64_456_239.png",
+        "roi": [
+            459,
+            114,
+            356,
+            139
+        ],
+        "action": "Click",
+        "target": [
+            91,
+            640,
+            171,
+            52
+        ],
+        "next": [
+            "Errands_Gather_Rewards_Confirm_03",
+            "Errands_Gather_Rewards_Confirm_02_Single"
+        ]
+    },
+    "Errands_Gather_Rewards_Confirm_02_Multiple": {
+        "recognition": "TemplateMatch",
+        "template": "ErrandsRewards02_91_640_171_52__41_568_271_152.png",
+        "roi": [
+            91,
+            640,
+            171,
+            52
+        ],
+        "action": "Click",
+        "next": [
+            "Errands_Gather_Rewards_Confirm_03",
+            "Errands_Gather_Rewards_Confirm_02_Multiple"
+        ]
+    },
+    "Errands_Gather_Rewards_Confirm_03": {
+        "recognition": "OCR",
+        "expected": "点击画面",
+        "template": "ErrandsRewards03_562_555_153_54__512_505_253_154.png",
+        "roi": [
+            562,
+            555,
+            153,
+            54
+        ],
+        "action": "Click",
+        "next": []
+    }
+}

@@ -1,0 +1,114 @@
+{
+    "Exchanges_Enter_Shop_Page": {
+        "recognition": "OCR",
+        "roi": [
+            90,
+            620,
+            60,
+            40
+        ],
+        "expected": [
+            "商店"
+        ],
+        "action": "Click",
+        "next": [
+            "Exchanges_Flag_In_Shop_Page"
+        ]
+    },
+    "Exchanges_Flag_In_Shop_Page": {
+        "recognition": "OCR",
+        "roi": [
+            60,
+            10,
+            80,
+            40
+        ],
+        "expected": [
+            "商店"
+        ],
+        "action": "DoNothing",
+        "next": [
+            "Exchanges_Enter_Exchange_Page_From_Shop_Page"
+        ]
+    },
+    "Exchanges_Enter_Exchange_Page_From_Shop_Page": {
+        "recognition": "OCR",
+        "roi": [
+            1170,
+            620,
+            80,
+            40
+        ],
+        "expected": [
+            "交换所"
+        ],
+        "action": "Click",
+        "next": [
+            "Exchanges_Flag_In_Exchange_Page"
+        ]
+    },
+    "Exchanges_Flag_In_Exchange_Page": {
+        "recognition": "OCR",
+        "roi": [
+            60,
+            10,
+            100,
+            40
+        ],
+        "expected": [
+            "交换所"
+        ],
+        "action": "DoNothing",
+        "next": [
+            "Exchanges_Enter_Coin_Tab"
+        ],
+        "interrupt": [
+            "Exchanges_Interrupt_Swipe_Tabs_Left"
+        ]
+    },
+    "Exchanges_Enter_Coin_Tab": {
+        "recognition": "OCR",
+        "roi": [
+            60,
+            620,
+            800,
+            50
+        ],
+        "expected": [
+            "赛钱交换"
+        ],
+        "action": "Click",
+        "next": [
+            "Exchanges_Flag_In_Coin_Tab"
+        ]
+    },
+    "Exchanges_Flag_In_Coin_Tab": {
+        "recognition": "TemplateMatch",
+        "template": "ExchangesCoinTab_725_52_33_33__675_2_133_133.png",
+        "roi": [
+            725,
+            52,
+            33,
+            33
+        ],
+        "action": "DoNothing",
+        "next": []
+    },
+    "Exchanges_Interrupt_Swipe_Tabs_Left": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            845,
+            636,
+            2,
+            23
+        ],
+        "end": [
+            102,
+            636,
+            2,
+            23
+        ],
+        "duration": 200
+    }
+}

@@ -1,0 +1,43 @@
+{
+    "version": "1.0",
+    "message": "Welecome to the Moon!",
+    "controller": [
+        {
+            "name": "安卓端",
+            "type": "Adb"
+        },
+        {
+            "name": "桌面端",
+            "type": "Win32",
+            "win32": {
+                "class_regex": ".*",
+                "window_regex": "Visual Studio"
+            }
+        }
+    ],
+    "resource": [
+        {
+            "name": "Default",
+            "path": [
+                "{PROJECT_DIR}/resource/base"
+            ]
+        },
+        {
+            "name": "Bilibili",
+            "path": [
+                "{PROJECT_DIR}/resource/base",
+                "{PROJECT_DIR}/resource/bilibili"
+            ]
+        }
+    ],
+    "task": [
+        {
+            "name": "MyTask2",
+            "entry": "MyTask2"
+        },
+        {
+            "name": "OCR",
+            "entry": "Peek_OCR"
+        }
+    ]
+}

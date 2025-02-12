@@ -1,0 +1,11 @@
+{
+    "dummy": {
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    },
+    "dummy2": {
+        "recognition": "TemplateMatch",
+        "template": "dummy/dummy.png",
+        "action": "DoNothing"
+    }
+}

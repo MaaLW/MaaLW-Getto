@@ -1,0 +1,45 @@
+{
+    "Peek_OCR": {
+        "recognition": "OCR",
+        "expected": [
+            "结晶",
+            "香木",
+            "[[:digit:]]{2}:[[:digit:]]{2}:[[:digit:]]{2}"
+        ],
+        "order_by": "Vertical",
+        "action": "DoNothing"
+    },
+    "Always_Fail_Task": {
+        "recognition": "DirectHit",
+        "inverse": true
+    },
+    "DEBUG_LOOP": {
+        "next": [
+            "Always_Fail_Task"
+        ],
+        "interrupt": [
+            "Peek_OCR"
+        ]
+    },
+    "Swipe_Tabs_Left": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            845,
+            636,
+            2,
+            23
+        ],
+        "end": [
+            102,
+            636,
+            2,
+            23
+        ],
+        "duration": 10000
+    },
+    "MyTask2": {
+        "recognition": "DirectHit"
+    },
+    "MyTask3": {}
+}

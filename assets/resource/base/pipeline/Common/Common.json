@@ -1,0 +1,14 @@
+{
+    "Common_Stop_Task": {
+        "recognition": "DirectHit",
+        "action": "StopTask"
+    },
+    "Common_One_Time_Runner": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [],
+        "interrupt": [
+            "Common_Stop_Task"
+        ]
+    }
+}

@@ -1,0 +1,129 @@
+{
+    "battle_Flag_seen_not_enough_yaruki_window": {
+        "recognition": "TemplateMatch",
+        "template": "battle/not_enough_yaruki__250_160_780_400__200_110_880_500.png",
+        "roi": [
+            250,
+            160,
+            780,
+            400
+        ],
+        "threshold": 0.9
+    },
+    "battle_tap_not_enough_yaruki_window_confirm_button": {
+        "recognition": "TemplateMatch",
+        "template": "battle/not_enough_yaruki_confirm__700_480_160_50__650_430_260_150.png",
+        "roi": [
+            700,
+            480,
+            160,
+            50
+        ],
+        "threshold": 0.9,
+        "action": "Click"
+    },
+    "battle_Flag_get_difficulty": {
+        "recognition": "OCR",
+        "expected": [
+            "普通",
+            "困难",
+            "月狂"
+        ],
+        "roi": [
+            420,
+            630,
+            80,
+            35
+        ]
+    },
+    "battle_Flag_difficulty_seen_normal": {
+        "recognition": "OCR",
+        "expected": "普通",
+        "roi": [
+            420,
+            630,
+            80,
+            35
+        ]
+    },
+    "battle_Flag_difficulty_seen_hard": {
+        "recognition": "OCR",
+        "expected": "困难",
+        "roi": [
+            420,
+            630,
+            80,
+            35
+        ]
+    },
+    "battle_Flag_difficulty_seen_lunatic": {
+        "recognition": "OCR",
+        "expected": "月狂",
+        "roi": [
+            420,
+            630,
+            80,
+            35
+        ]
+    },
+    "battle_difficulty_tap_on_normal": {
+        "recognition": "OCR",
+        "expected": "普通",
+        "roi": [
+            420,
+            630,
+            80,
+            35
+        ],
+        "action": "Click"
+    },
+    "battle_difficulty_tap_on_hard": {
+        "recognition": "OCR",
+        "expected": "困难",
+        "roi": [
+            420,
+            630,
+            80,
+            35
+        ],
+        "action": "Click"
+    },
+    "battle_difficulty_tap_on_lunatic": {
+        "recognition": "OCR",
+        "expected": "月狂",
+        "roi": [
+            420,
+            630,
+            80,
+            35
+        ],
+        "action": "Click"
+    },
+    "battle_difficulty_goto_normal": {
+        "next": [
+            "battle_Flag_difficulty_seen_normal"
+        ],
+        "interrupt": [
+            "battle_difficulty_tap_on_hard",
+            "battle_difficulty_tap_on_lunatic"
+        ]
+    },
+    "battle_difficulty_goto_hard": {
+        "next": [
+            "battle_Flag_difficulty_seen_hard"
+        ],
+        "interrupt": [
+            "battle_difficulty_tap_on_normal",
+            "battle_difficulty_tap_on_lunatic"
+        ]
+    },
+    "battle_difficulty_goto_lunatic": {
+        "next": [
+            "battle_Flag_difficulty_seen_lunatic"
+        ],
+        "interrupt": [
+            "battle_difficulty_tap_on_normal",
+            "battle_difficulty_tap_on_hard"
+        ]
+    }
+}
