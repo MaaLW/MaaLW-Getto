@@ -14,5 +14,47 @@
         "interrupt": [
             "Common_Stop_Task"
         ]
+    },
+    "Common_Press_Key_Back": {
+        "recognition": "DirectHit",
+        "action": "Key",
+        "key": 4
+    },
+    "Common_Flag_Seen_network_timeout_dialog": {
+        "recognition": "TemplateMatch",
+        "template": "common/timeout_dialog__250_165_780_390__200_115_880_490.png",
+        "roi": [
+            250,
+            165,
+            780,
+            390
+        ],
+        "threshold": 0.9
+    },
+    "Common_tap_on_network_timeout_dialog_confirm_button": {
+        "recognition": "TemplateMatch",
+        "template": "common/timeout_dialog_confirm_button__700_480_160_50__650_430_260_150.png",
+        "roi": [
+            700,
+            480,
+            160,
+            50
+        ],
+        "threshold": 0.9,
+        "action": "Click"
+    },
+    "Common_retry_on_network_timeout_dialog": {
+        "recognition": "TemplateMatch",
+        "template": "common/timeout_dialog__250_165_780_390__200_115_880_490.png",
+        "roi": [
+            250,
+            165,
+            780,
+            390
+        ],
+        "threshold": 0.9,
+        "next": [
+            "Common_tap_on_network_timeout_dialog_confirm_button"
+        ]
     }
 }

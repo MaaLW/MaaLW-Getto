@@ -38,14 +38,152 @@ def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override:
     tasker.post_stop()
     return False, job.get()
 
-def replay_battle_actions(tasker: Tasker, actions: list):
+def replay_single_battle_action(tasker: Tasker, action: str) -> bool:
+    #battle actions: 1. fs(2|3) Focus Shot, 2. ss(2|3) Spread Shot, 3. sw Switch, 4. ba(2) Back, 5. sc(1-5) Spell Card, 6. sk(1-9) Skill, 
+    #               7. en(2|3)(1-2|3) Enemy Target, 8. bo(1-3|m) Boost, 9. gr(1-3|m) Graze
+    if action[:2] == "fs":
+        if action[-1] in "23":
+            repeat_times = int(action[-1])
+        else:
+            repeat_times = 1
+        for i in range(repeat_times):
+            b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                    pipeline_override={"Common_Entrance":{"next":["battle_focus_shot"]}})
+            if not b_success:
+                return False
+            del (b_success, job)
+    elif action[:2] == "ss":
+        if action[-1] in "23":
+            repeat_times = int(action[-1])
+        else:
+            repeat_times = 1
+        for i in range(repeat_times):
+            b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                    pipeline_override={"Common_Entrance":{"next":["battle_spread_shot"]}})
+            if not b_success:
+                return False
+            del (b_success, job)
+    elif action[:2] == "sw":
+        b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=20, 
+                                                pipeline_override={"Common_Entrance":{"next":["battle_switch"]}})
+        if not b_success:
+            return False
+        del (b_success, job)
+    elif action[:2] == "ba":
+        if action[-1] in "2":
+            repeat_times = int(action[-1])
+        else:
+            repeat_times = 1
+        for i in range(repeat_times):
+            b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                    pipeline_override={"Common_Entrance":{"next":["battle_back"]}})
+            if not b_success:
+                return False
+            del (b_success, job)
+    elif action[:2] == "sc":
+        # first toggle spell card menu
+        b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                pipeline_override={"Common_Entrance":{"next":["battle_spell_card_toggle_menu"]}})
+        if not b_success:
+            return False
+        del (b_success, job)
+        # then tap spell card
+        b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                pipeline_override={"Common_Entrance":{"next":["battle_spell_card_tap_" + action]}})
+        if not b_success:
+            return False
+        del (b_success, job)
+    elif action[:2] == "sk":
+        # first toggle skill menu
+        b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                pipeline_override={"Common_Entrance":{"next":["battle_skill_toggle_menu"]}})
+        if not b_success:
+            return False
+        del (b_success, job)
+        # then tap skill and confirm
+        for skill in list(action[2:]):
+            entry = "battle_skill_tap_sk" + skill
+            b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=20, 
+                                                    pipeline_override={"Common_Entrance":{"next":[entry]}, 
+                                                                       entry: {"next":["battle_skill_confirm"]}})
+            if not b_success:
+                return False
+            del (b_success, job)
+        # toggle skill menu
+        b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                pipeline_override={"Common_Entrance":{"next":["battle_skill_toggle_menu"]}})
+        if not b_success:
+            return False
+        del (b_success, job)
+    elif action[:2] == "en":
+        match action:
+            case "en31" | "en21":
+                entry = "battle_choose_enemy_en31"
+            case "en32":
+                entry = "battle_choose_enemy_en32"
+            case "en33" | "en22":
+                entry = "battle_choose_enemy_en33"
+            case _:
+                entry = "battle_choose_enemy_en32"
+        b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                pipeline_override={"Common_Entrance":{"next":[entry]}})
+        if not b_success:
+            return False
+        del (b_success, job)
+    elif action[:2] == "bo":
+        if action[-1] in "123":
+            repeat_times = int(action[-1])
+        else:
+            repeat_times = 1
+        for i in range(repeat_times):
+            b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                    pipeline_override={"Common_Entrance":{"next":["battle_boost_tap"]}})
+            if not b_success:
+                return False
+            del (b_success, job)
+    elif action[:2] == "gr":
+        if action[-1] in "123":
+            repeat_times = int(action[-1])
+        else:
+            repeat_times = 1
+        for i in range(repeat_times):
+            b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                                    pipeline_override={"Common_Entrance":{"next":["battle_graze_tap"]}})
+            if not b_success:
+                return False
+            del (b_success, job)
+    else:
+        return False
+    return True
+
+def replay_battle_actions(tasker: Tasker, actions: list) -> bool:
     """Replay battle actions.
 
     Args:
         tasker (Tasker): The Tasker instance to use.
         actions (list): The battle actions to replay.
     """
-    pass
+    for line in actions:
+        # Wait for waiting order state
+        b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=120, 
+                                                    pipeline_override={"Common_Entrance":{"next":["battle_Flag_seen_turn_flag", "battle_Flag_seen_game_over"], 
+                                                                                          "timeout":180000,
+                                                                                          "interrupt":["Common_retry_on_network_timeout_dialog"]}})
+        if not b_success:
+            return False
+        elif job.nodes[-1].name == "battle_Flag_seen_game_over":
+            # Game Over. Leave
+            return False
+        del (b_success, job)
+        # Replay one group of actions
+        for act in line.split():
+            # Replay action 
+            if not replay_single_battle_action(tasker, act):
+                # Failed to replay one action, exit
+                return False
+            pass
+        pass
+    return True
 
 def replay_eternal_battle(tasker: Tasker, record: dict) -> bool:
 
@@ -96,8 +234,9 @@ def replay_eternal_battle(tasker: Tasker, record: dict) -> bool:
             # DONE: pipelines for Scene02
             case 2.1: 
                 # Verify prepare screen presence & check if in interrupted state
-                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=20, 
-                                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_prepare_chars_01"]},
+                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=120, 
+                                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_prepare_chars_01"], "timeout":180000, 
+                                                                                                  "interrupt":["Common_retry_on_network_timeout_dialog"]},
                                                                             "eternal_battle_Flag_prepare_chars_01":{"next":["eternal_battle_Flag_prepare_chars_02"]},
                                                                             "eternal_battle_Flag_prepare_chars_02":{"next":["eternal_battle_Flag_seen_confirm_button", 
                                                                                                                             "eternal_battle_Flag_seen_start_button"]}})
@@ -135,8 +274,9 @@ def replay_eternal_battle(tasker: Tasker, record: dict) -> bool:
                 del (b_success, job)
                 b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
                                                             pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_start_button"], 
-                                                                                                "interrupt":["eternal_battle_tap_start_button"]},
-                                                                            "eternal_battle_Flag_seen_start_button":{"inverse":True}})
+                                                                                                "interrupt":["battle_confirm_on_not_enough_yaruki_dialog", 
+                                                                                                             "eternal_battle_tap_start_button"]},
+                                                                            "eternal_battle_Flag_seen_start_button":{"inverse":True, "threshold":0.7}})
                 if not b_success:
                     return False
                 del (b_success, job)
@@ -170,21 +310,78 @@ def replay_eternal_battle(tasker: Tasker, record: dict) -> bool:
             # Scene04: In the game: Do the battle actions according to our battle script.
             # Actions: 1. Make sure we are in the game, 2. implement battle script 3. implement battle actions
             case 4.1:
-                # TODO: battle script
                 # DONE: battle actions: 1. fs(2|3) Focus Shot, 2. ss(2|3) Spread Shot, 3. sw Switch, 4. ba(2) Back, 5. sc(1-5) Spell Card, 6. sk(1-9) Skill, 
                 # 7. en(2|3)(1-2|3) Enemy Target, 8. bo(1-3|m) Boost, 9. gr(1-3|m) Graze
-                print("Start replay from " + start_area)
+                #print("Start replay from " + start_area)
+                b_retry = False
+                for area, area_actions in record.get("actions").items():
+                    if area < start_area:
+                        continue
+                    else:
+                        replay_battle_actions(tasker=tasker, actions=area_actions)
+                    # After battle actions replayed, check state
+                    b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=120, 
+                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_victory", "battle_Flag_seen_turn_flag", 
+                                                                                          "battle_Flag_seen_game_over"], "timeout":180000,
+                                                                                  "interrupt":["battle_tap_get_reward", "Common_retry_on_network_timeout_dialog"]}})
+                    if not b_success:
+                        # Try press back to escape from unexpected stuck in battle
+                        b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=30, 
+                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_victory", "battle_Flag_seen_turn_flag", 
+                                                                                          "battle_Flag_seen_game_over"], "timeout":60000,
+                                                                                  "interrupt":["battle_tap_get_reward", "Common_retry_on_network_timeout_dialog", 
+                                                                                               "Common_Press_Key_Back"]}})
+                    if not b_success:
+                        return False
+                    elif job.nodes[-1].name == "eternal_battle_Flag_seen_victory":
+                        # Victory is expected, tap next
+                        b_success1, job1 = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_victory"], 
+                                                                                  "interrupt":["eternal_battle_tap_victory_next_button"]}, 
+                                                                "eternal_battle_Flag_seen_victory":{"inverse":True}})
+                        if not b_success1:
+                            return False
+                        del (b_success1, job1)
+                    elif job.nodes[-1].name == "battle_Flag_seen_turn_flag":
+                        # Still in battle after replay. Might want to retry
+                        b_success1, job1 = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=20, 
+                                            pipeline_override={"Common_Entrance":{"next":["battle_tap_restart_button"], 
+                                                                                  "interrupt":["battle_toggle_menu"]}, 
+                                                                "battle_tap_restart_button":{"next":["battle_tap_restart_confirm_button"],
+                                                                                             "interrupt":["battle_tap_restart_button"]}})
+                        if not b_success1:
+                            return False
+                        del (b_success1, job1)
+                        b_retry = True
+                        start_area = area
+                        break
+                    elif job.nodes[-1].name == "battle_Flag_seen_game_over":
+                        # Game Over. Proceed to entrance
+                        b_success1, job1 = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
+                                            pipeline_override={"Common_Entrance":{"next":["battle_Flag_seen_game_over"], 
+                                                                                  "interrupt":["battle_tap_next_on_game_over"]}, 
+                                                                "battle_Flag_seen_game_over":{"inverse":True}})
+                        if not b_success1:
+                            return False
+                        del (b_success1, job1)
+                        return False
+                    del (b_success, job)
+                if not b_retry:
+                    scene = 9.1
+            case 9.1:
+                # end
+                break
+        #print("Next Scene: Scene", scene)
 
     # Scene05: Get Reward and next:
-    # DONE: pipelines for victory
+    # DONE: Merged into 4.1
 
     # Scene06: Game Over
-    # DONE: tap next on failure
+    # DONE: Merged into 4.1
 
     # Scene07: Low Yaruki confirm
-    # DONE: tap confirm when Yaruki is empty on start battle
-    print("end of function")
-    pass
+    # DONE: Merged into 2.3
+    return True
 
 
 def main():
@@ -236,7 +433,14 @@ def main():
     #print(r1)
     #print(b2)
     #print(r2)
-    replay_eternal_battle(tasker=tasker, record=eternal_battle_record)
+    while True:
+        b_res = replay_eternal_battle(tasker=tasker, record=eternal_battle_record)
+        if not b_res:
+            print("Run Failed once. Please notice.")
+        with open('stop.json', 'r', encoding='UTF-8') as file:
+            data = json.load(file)
+        if data.get("stop"):
+            break
 
     #interact(local=locals())
     #print(repr(task_detail))

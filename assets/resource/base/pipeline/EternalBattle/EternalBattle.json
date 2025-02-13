@@ -362,7 +362,9 @@
             60,
             60
         ],
-        "action": "Click"
+        "action": "Click",
+        "pre_delay": 25,
+        "post_delay": 25
     },
     "battle_graze_tap": {
         "recognition": "DirectHit",
@@ -372,7 +374,9 @@
             360,
             100,
             80
-        ]
+        ],
+        "pre_delay": 25,
+        "post_delay": 25
     },
     "battle_toggle_menu": {
         "recognition": "DirectHit",

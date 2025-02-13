@@ -1,5 +1,5 @@
 {
-    "battle_Flag_seen_not_enough_yaruki_window": {
+    "battle_Flag_seen_not_enough_yaruki_dialog": {
         "recognition": "TemplateMatch",
         "template": "battle/not_enough_yaruki__250_160_780_400__200_110_880_500.png",
         "roi": [
@@ -10,7 +10,7 @@
         ],
         "threshold": 0.9
     },
-    "battle_tap_not_enough_yaruki_window_confirm_button": {
+    "battle_tap_not_enough_yaruki_dialog_confirm_button": {
         "recognition": "TemplateMatch",
         "template": "battle/not_enough_yaruki_confirm__700_480_160_50__650_430_260_150.png",
         "roi": [
@@ -21,6 +21,20 @@
         ],
         "threshold": 0.9,
         "action": "Click"
+    },
+    "battle_confirm_on_not_enough_yaruki_dialog": {
+        "recognition": "TemplateMatch",
+        "template": "battle/not_enough_yaruki__250_160_780_400__200_110_880_500.png",
+        "roi": [
+            250,
+            160,
+            780,
+            400
+        ],
+        "threshold": 0.9,
+        "next": [
+            "battle_tap_not_enough_yaruki_dialog_confirm_button"
+        ]
     },
     "battle_Flag_get_difficulty": {
         "recognition": "OCR",
