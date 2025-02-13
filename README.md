@@ -26,7 +26,7 @@
     "adb_device": {
         "name": "MuMu12-test",
         "adb_path": "C:/Program Files/Netease/MuMu Player 12/shell/adb.exe",
-        "address": "127.0.0.1:164384",
+        "address": "127.0.0.1:16384",
         "screencap_methods": 71,
         "input_methods": 7,
         "config": {
