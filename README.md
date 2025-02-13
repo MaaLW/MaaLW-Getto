@@ -18,6 +18,35 @@
 # 配置文件
 ## MLW-config.json
     可以配置模拟器信息，永远战线作战脚本路径
+
+例子（项目自带的配置文件使用的mumu多开1，例子是没有多开的）
+
+```json
+{
+    "adb_device": {
+        "name": "MuMu12-test",
+        "adb_path": "C:/Program Files/Netease/MuMu Player 12/shell/adb.exe",
+        "address": "127.0.0.1:164384",
+        "screencap_methods": 71,
+        "input_methods": 7,
+        "config": {
+            "extras": {
+                "mumu": {
+                    "enable": true,
+                    "index": 0,
+                    "path": "C:/Program Files/Netease/MuMu Player 12"
+                }
+            }
+        },
+        "doc00": "请确保adb_path和address为实际地址"
+    },
+    "eternal_battle_record": {
+        "path": "assets/battlescript/2.json",
+        "doc00": "path为永远战线录制文件路径"
+    }
+}
+```
+
 ## stop.json
     false 一直玩
     true 本次战斗结束后退出
