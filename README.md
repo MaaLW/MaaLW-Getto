@@ -1,5 +1,7 @@
 # 功能
 
+**[MaaLW-Getto](#https://github.com/MaaLW/MaaLW-Getto)**
+
 自动刷永远战线
 
 ## v0.1.x
