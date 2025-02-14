@@ -145,6 +145,11 @@ actions说明：
 
 目前没有检查指令合法性，不符合列表里模式的指令（如ss11 sc45）可能引发未定义行为
 
+
+# Contact
+
+QQ群 1034459632
+
 # MaaFramework
 
 </div>
