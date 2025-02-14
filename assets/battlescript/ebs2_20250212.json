@@ -1,0 +1,26 @@
+{
+    "name": "ebs2",
+    "target": "eternal_battle",
+    "version": "0.1.0",
+    "doc00": "永远战线操作录制，使用MaaLW-Getto回放 ",
+    "doc01": "battle actions: 1. fs(2|3) Focus Shot, 2. ss(2|3) Spread Shot, 3. sw Switch, 4. ba(2) Back, 5. sc(1-5) Spell Card, 6. sk(1-9) Skill,",
+    "doc02": "7. en(2|3)(1-2|3) Enemy Target, 8. bo(1-3|m) Boost, 9. gr(1-3|m) Graze",
+    "difficulty": "lunatic",
+    "actions": {
+        "area1": [
+            "sk1563 bo3 sc1 bo3 sc2",
+            "sk24 bo3 sc3 bo3 sc5",
+            "bo3 sc5 bo3 fs"
+        ],
+        "area2": [
+            "sk32154 bo3 sc1 bo3 sc1",
+            "bo3 sc3 bo3 sk6 sc5",
+            "bo3 sc5 bo3 gr3 fs"
+        ],
+        "area3": [
+            "sk6591 bo3 gr3 sc1 bo3 sc1 bo2 sc2",
+            "bo3 sk2 sc5 bo3 sk7 sc3 bo3 sc4",
+            "sk348 bo3 gr3 fs bo3 sc5 bo3 gr3 sc5"
+        ]
+    }
+}
