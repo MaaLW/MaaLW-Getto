@@ -80,7 +80,10 @@ Windows可以打开对应名称的bat来执行
 }
 ```
 
-adb_path 和 address 按模拟器实际地址修改，index为多开实例序号
+`adb_path` 和 `address` 按模拟器实际地址修改，index为多开实例序号
+
+可以使用 `find_Adb_device.bat` 或 `python find_Adb_device.py` 脚本来搜索本机的模拟器的 `adb_path` 和 `address`
+
 
 ## stop.json
 

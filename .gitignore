@@ -4,3 +4,8 @@ assets/cache
 
 assets/raw_imgs
 
+
+# build
+main.spec
+dist/
+build/
