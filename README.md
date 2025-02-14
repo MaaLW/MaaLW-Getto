@@ -13,7 +13,13 @@
 
 ## 退出运行
 
-修改stop.json并保存，等待本次战斗结束
+```python Getto_post_stop.py```
+
+本次战斗结束后将停止
+
+```python Getto_keep_play.py```
+
+恢复连续战斗
 
 # 配置文件
 ## MLW-config.json
