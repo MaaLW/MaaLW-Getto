@@ -266,8 +266,8 @@ def replay_eternal_battle(tasker: Tasker, record: dict) -> bool:
                 scene = 2.3
             case 2.3:
                 # Tap confirm till seen start
-                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
-                                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_start_button"], 
+                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=30, 
+                                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_start_button"], "timeout": 40000, 
                                                                                                 "interrupt":["eternal_battle_tap_confirm_button"]}})
                 if not b_success:
                     return False
