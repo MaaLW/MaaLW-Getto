@@ -84,6 +84,39 @@ Windows可以打开对应名称的bat来执行
 
 可以使用 `find_Adb_device.bat` 或 `python find_Adb_device.py` 脚本来搜索本机的模拟器的 `adb_path` 和 `address`
 
+### 截图增强模式
+
+MuMu和雷电模拟器额外参数的配置，设置好了截图速度会快一些，其他模拟器可以不管
+
+MuMu
+
+```json
+        "config": {
+            "extras": {
+                "mumu": {
+                    "enable": true,
+                    "index": 0,
+                    "path": "C:/Program Files/Netease/MuMu Player 12"
+                }
+            }
+        },
+```
+
+雷电
+
+```json
+        "config": {
+            "extras": {
+                "ld": {
+                    "enable": true,
+                    "index": 0,
+                    "path": "C:/leidian/LDPlayer9"
+                }
+            }
+        },
+```
+
+其中 `index` 是多开的实例序号， `path` 是模拟器的安装位置
 
 ## stop.json
 
