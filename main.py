@@ -272,9 +272,10 @@ def replay_eternal_battle(tasker: Tasker, record: dict) -> bool:
                 if not b_success:
                     return False
                 del (b_success, job)
-                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=10, 
-                                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_start_button"], 
-                                                                                                "interrupt":["battle_confirm_on_not_enough_yaruki_dialog", 
+                b_success, job = mlw_run_pipeline_with_timeout(tasker=tasker, entry="Common_Entrance", timeout=120, 
+                                                            pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_start_button"], "timeout": 180000, 
+                                                                                                "interrupt":["Common_retry_on_network_timeout_dialog", 
+                                                                                                             "battle_confirm_on_not_enough_yaruki_dialog", 
                                                                                                              "eternal_battle_tap_start_button"]},
                                                                             "eternal_battle_Flag_seen_start_button":{"inverse":True, "threshold":0.7}})
                 if not b_success:
