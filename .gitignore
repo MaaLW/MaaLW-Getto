@@ -9,3 +9,4 @@ assets/raw_imgs
 main.spec
 dist/
 build/
+dev.py
