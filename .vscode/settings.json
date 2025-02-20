@@ -28,7 +28,6 @@
         "editor.indentSize": "tabSize"
     },
     "[python]": {
-        "editor.defaultFormatter": "Codeium.codeium"
-    },
-    "C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+        "editor.defaultFormatter": "ms-python.vscode-pylance"
+    }
 }

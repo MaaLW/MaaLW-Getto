@@ -3,6 +3,7 @@
 **[MaaLW-Getto](https://github.com/MaaLW/MaaLW-Getto)**
 
 自动刷永远战线
+安卓模拟器建议使用MuMu模拟器或雷电模拟器，识图更快
 
 ## v0.1.x
 
@@ -18,9 +19,9 @@
 
 把队伍配置好，[永远战线作战脚本](#作战脚本)准备好
 
-## 安装MaaFramework
+## 安装
 
-```pip install maafw```
+`install.bat`
 
 ## 修改配置文件
 
@@ -28,23 +29,24 @@
 
 ## 启动脚本
 
-```python main.py```
-
-Windows可以直接打开 `Getto.bat`
-
-启动时请确保游戏在永远战线入口界面
+```start.bat```
 
 ## 退出运行
 
-```python Getto_post_stop.py```
+```stop```
 
 本次战斗结束后将停止
 
-```python Getto_keep_play.py```
+## 再次开始
+
+```start```
 
 恢复连续战斗
 
-Windows可以打开对应名称的bat来执行
+`start 10`
+
+战斗10次后停止
+
 
 # 配置文件
 
