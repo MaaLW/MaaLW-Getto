@@ -2,7 +2,8 @@
 
 import threading 
 import json
-from time import sleep, time
+import time
+from time import sleep, time, localtime, strftime
 
 from maa.tasker import Tasker
 
@@ -26,12 +27,12 @@ class EternalBattlePlayer(Player):
         while self.repeat_times > 0 and not self.b_stop:
             if self.b_stop:
                 break
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]", time.localtime()), self, "Replaying.", self.repeat_times, "Times Remaining...")
+            print(strftime("[%Y-%m-%d %H:%M:%S]", localtime()), self, "Replaying.", self.repeat_times, "Times Remaining...")
             b_res = self.__replay_eternal_battle()
             if not b_res:
-                print(time.strftime("[%Y-%m-%d %H:%M:%S]", time.localtime()), self, "Run Failed once. Please notice.")
+                print(strftime("[%Y-%m-%d %H:%M:%S]", localtime()), self, "Run Failed once. Please notice.")
             else:
-                #print(time.strftime("[%Y-%m-%d %H:%M:%S]", time.localtime()), self, "Successfully Replayed Once.")
+                #print(strftime("[%Y-%m-%d %H:%M:%S]", localtime()), self, "Successfully Replayed Once.")
                 pass
             self.repeat_times -= 1
         pass
