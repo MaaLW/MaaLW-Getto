@@ -72,7 +72,7 @@ def main():
             case ["start", *rest]:
                 if player.is_alive():
                     print(player, "is already running")
-                elif rest.count == 0:
+                elif rest == []:
                     player = EternalBattlePlayer(tasker=tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"))
                     player.start()
                 elif rest[0].isdecimal():
