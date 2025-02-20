@@ -25,8 +25,6 @@ class EternalBattlePlayer(Player):
 
     def run(self):
         while self.repeat_times > 0 and not self.b_stop:
-            if self.b_stop:
-                break
             print(strftime("[%Y-%m-%d %H:%M:%S]", localtime()), self, "Replaying.", self.repeat_times, "Times Remaining...")
             b_res = self.__replay_eternal_battle()
             if not b_res:
@@ -215,7 +213,7 @@ class EternalBattlePlayer(Player):
                                                                                         "interrupt":["eternal_battle_tap_victory_interrupt_button", 
                                                                                                      "eternal_battle_tap_victory_next_button"]}, 
                                                                         "eternal_battle_Flag_seen_victory":{"inverse":True}})
-
+                                scene = 9.1
                             else:
                                 b_success1, job1 = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                     pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_victory"], 
