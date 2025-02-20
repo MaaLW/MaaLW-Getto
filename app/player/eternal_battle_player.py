@@ -33,6 +33,8 @@ class EternalBattlePlayer(Player):
                 #print(strftime("[%Y-%m-%d %H:%M:%S]", localtime()), self, "Successfully Replayed Once.")
                 pass
             self.repeat_times -= 1
+            if not threading.main_thread().is_alive():
+                break
         pass
 
     def post_stop(self):
