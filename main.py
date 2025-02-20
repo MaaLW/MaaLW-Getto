@@ -80,7 +80,7 @@ def main():
                     player.start()
                 else:
                     print("unknown command")
-            case [""]:
+            case []:
                 pass
             case _:
                 print("unknown command")
