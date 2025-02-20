@@ -3,7 +3,10 @@
 **[MaaLW-Getto](https://github.com/MaaLW/MaaLW-Getto)**
 
 自动刷永远战线
+
 安卓模拟器建议使用MuMu模拟器或雷电模拟器，识图更快
+
+Python 3.12
 
 ## v0.1.x
 
