@@ -22,6 +22,7 @@ class EternalBattlePlayer(Player):
         self.repeat_times = repeat_times
         self.b_stop = False
         self.load_recordfile()
+        self.__run_ppl = mlw_run_pipeline_with_timeout
 
     def run(self):
         while self.repeat_times > 0 and not self.b_stop:
@@ -38,8 +39,32 @@ class EternalBattlePlayer(Player):
         pass
 
     def post_stop(self):
+        """Sets the stop flag to True, indicating that the player should stop gracefully.
+        
+        This method sets the `b_stop` attribute to True and logs a message indicating
+        that the player has received a stop signal and will stop gracefully. Consider
+        adding logging functionality for better tracking and debugging.
+        """
+
         self.b_stop = True
         print("[EternalBattlePlayer] Get Stop Signal, Will Stop Gracefully. Please Wait...")
+        # TODO maybe want to log here
+
+    def force_stop(self):
+        """Forces the player to stop executing any more actions and stop soon.
+
+        This method immediately sets the `b_stop` attribute to True and replaces the
+        `__run_ppl` function with a dummy function that always returns False. This
+        prevents the player from executing any more actions and stops the player
+        as soon as possible. The player will finish the current action and then
+        stop.
+
+        This method is useful when you want to immediately stop the player from
+        executing any more actions."""
+        self.b_stop = True
+        # Replace the Driver function to a dummy one
+        self.__run_ppl = lambda *args, **kwargs: (bool(False), object())
+        print("[EternalBattlePlayer] Get Force Stop Signal, Will Do No More Actions and Stop Soon. Please Wait...")
         # TODO maybe want to log here
         pass
 
@@ -67,7 +92,7 @@ class EternalBattlePlayer(Player):
                 # DONE: Implement difficulty selection
                 case 1.1:
                     # Verify eternal battle, difficulty, entrance presence    
-                    b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
+                    b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
                                                                 pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_at_entrance"]},
                                                                                 "eternal_battle_Flag_at_entrance":{"next":["battle_Flag_get_difficulty"]},
                                                                                 "battle_Flag_get_difficulty":{"next":["eternal_battle_Flag_seen_entrance"]}})
@@ -85,7 +110,7 @@ class EternalBattlePlayer(Player):
                             print("Error: 难度不是 lunatic hard normal 中的一个")
                             return False
                     
-                    b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
+                    b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
                                                                 pipeline_override={"Common_Entrance":{"next":[entry]}})
                     if not b_success:
                         return False
@@ -93,7 +118,7 @@ class EternalBattlePlayer(Player):
                     scene = 1.3
                 case 1.3:   
                     # Enter prepare screen
-                    b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
+                    b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
                                                                 pipeline_override={"Common_Entrance":{"next":["eternal_battle_tap_entrance"]},
                                                                                 "eternal_battle_tap_entrance":{"next": "eternal_battle_Flag_seen_entrance"},
                                                                                 "eternal_battle_Flag_seen_entrance":{"inverse":True}})
@@ -106,7 +131,7 @@ class EternalBattlePlayer(Player):
                 # DONE: pipelines for Scene02
                 case 2.1: 
                     # Verify prepare screen presence & check if in interrupted state
-                    b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=120, 
+                    b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=120, 
                                                                 pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_prepare_chars_01"], "timeout":180000, 
                                                                                                     "interrupt":["Common_retry_on_network_timeout_dialog"]},
                                                                                 "eternal_battle_Flag_prepare_chars_01":{"next":["eternal_battle_Flag_prepare_chars_02"]},
@@ -127,7 +152,7 @@ class EternalBattlePlayer(Player):
                     # Find which area is next
                     start_area = "area1"
                     if b_start_from_interrupt:
-                        b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
+                        b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
                                                 pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_next_area_mark_at_2", "eternal_battle_Flag_next_area_mark_at_3",
                                                                                             "eternal_battle_Flag_next_area_mark_at_4", "eternal_battle_Flag_next_area_mark_at_5"]}})
                         if not b_success:
@@ -138,13 +163,13 @@ class EternalBattlePlayer(Player):
                     scene = 2.3
                 case 2.3:
                     # Tap confirm till seen start
-                    b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=30, 
+                    b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=30, 
                                                                 pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_start_button"], "timeout": 40000, 
                                                                                                     "interrupt":["eternal_battle_tap_confirm_button"]}})
                     if not b_success:
                         return False
                     del (b_success, job)
-                    b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=120, 
+                    b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=120, 
                                                                 pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_start_button"], "timeout": 180000, 
                                                                                                     "interrupt":["Common_retry_on_network_timeout_dialog", 
                                                                                                                 "battle_confirm_on_not_enough_yaruki_dialog", 
@@ -158,7 +183,7 @@ class EternalBattlePlayer(Player):
                 # Actions: 1. Check Full Auto Button, 2. Click Full Auto Button, 3. Restart battle 
                 # DONE: implement full auto & restart battle
                 case 3.1:
-                    b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=60, 
+                    b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=60, 
                                                                 pipeline_override={"Common_Entrance":{"timeout": 60000,
                                                                                                     "next":["battle_Flag_seen_full_auto_disabled",
                                                                                                             "battle_Flag_seen_full_auto_enabled"]}})
@@ -173,7 +198,7 @@ class EternalBattlePlayer(Player):
                             return False
                     del (b_success, job)
                     if not b_full_auto_off:
-                        b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+                        b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                 pipeline_override={"Common_Entrance":{"next":["battle_Flag_seen_full_auto_disabled"],
                                                                                     "interrupt":["battle_tap_full_auto_enabled"]}})
                         if not b_success:
@@ -193,13 +218,13 @@ class EternalBattlePlayer(Player):
                         else:
                             self.__replay_battle_actions(actions=area_actions)
                         # After battle actions replayed, check state
-                        b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=120, 
+                        b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=120, 
                                                 pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_victory", "battle_Flag_seen_turn_flag", 
                                                                                             "battle_Flag_seen_game_over"], "timeout":180000,
                                                                                     "interrupt":["battle_tap_get_reward", "Common_retry_on_network_timeout_dialog"]}})
                         if not b_success:
                             # Try press back to escape from unexpected stuck in battle
-                            b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=30, 
+                            b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=30, 
                                                 pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_victory", "battle_Flag_seen_turn_flag", 
                                                                                             "battle_Flag_seen_game_over"], "timeout":60000,
                                                                                     "interrupt":["battle_tap_get_reward", "Common_retry_on_network_timeout_dialog", 
@@ -210,14 +235,14 @@ class EternalBattlePlayer(Player):
                             # Victory is expected, tap next
                             if self.b_stop:
                                 # try to tap interrupt button first
-                                b_success1, job1 = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+                                b_success1, job1 = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                     pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_victory"], 
                                                                                         "interrupt":["eternal_battle_tap_victory_interrupt_button", 
                                                                                                      "eternal_battle_tap_victory_next_button"]}, 
                                                                         "eternal_battle_Flag_seen_victory":{"inverse":True}})
                                 scene = 9.1
                             else:
-                                b_success1, job1 = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+                                b_success1, job1 = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                     pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_victory"], 
                                                                                         "interrupt":["eternal_battle_tap_victory_next_button"]}, 
                                                                         "eternal_battle_Flag_seen_victory":{"inverse":True}})
@@ -226,7 +251,7 @@ class EternalBattlePlayer(Player):
                             del (b_success1, job1)
                         elif job.nodes[-1].name == "battle_Flag_seen_turn_flag":
                             # Still in battle after replay. Might want to retry
-                            b_success1, job1 = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
+                            b_success1, job1 = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
                                                 pipeline_override={"Common_Entrance":{"next":["battle_tap_restart_button"], 
                                                                                     "interrupt":["battle_toggle_menu"]}, 
                                                                     "battle_tap_restart_button":{"next":["battle_tap_restart_confirm_button"],
@@ -239,7 +264,7 @@ class EternalBattlePlayer(Player):
                             break
                         elif job.nodes[-1].name == "battle_Flag_seen_game_over":
                             # Game Over. Proceed to entrance
-                            b_success1, job1 = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+                            b_success1, job1 = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                 pipeline_override={"Common_Entrance":{"next":["battle_Flag_seen_game_over"], 
                                                                                     "interrupt":["battle_tap_next_on_game_over"]}, 
                                                                     "battle_Flag_seen_game_over":{"inverse":True}})
@@ -274,7 +299,7 @@ class EternalBattlePlayer(Player):
         """
         for line in actions:
             # Wait for waiting order state
-            b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=120, 
+            b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=120, 
                                                         pipeline_override={"Common_Entrance":{"next":["battle_Flag_seen_turn_flag", "battle_Flag_seen_game_over"], 
                                                                                             "timeout":180000,
                                                                                             "interrupt":["Common_retry_on_network_timeout_dialog"]}})
@@ -303,7 +328,7 @@ class EternalBattlePlayer(Player):
             else:
                 repeat_times = 1
             for i in range(repeat_times):
-                b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+                b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                         pipeline_override={"Common_Entrance":{"next":["battle_focus_shot"]}})
                 if not b_success:
                     return False
@@ -314,13 +339,13 @@ class EternalBattlePlayer(Player):
             else:
                 repeat_times = 1
             for i in range(repeat_times):
-                b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+                b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                         pipeline_override={"Common_Entrance":{"next":["battle_spread_shot"]}})
                 if not b_success:
                     return False
                 del (b_success, job)
         elif action[:2] == "sw":
-            b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
+            b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
                                                     pipeline_override={"Common_Entrance":{"next":["battle_switch"]}})
             if not b_success:
                 return False
@@ -331,27 +356,27 @@ class EternalBattlePlayer(Player):
             else:
                 repeat_times = 1
             for i in range(repeat_times):
-                b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+                b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                         pipeline_override={"Common_Entrance":{"next":["battle_back"]}})
                 if not b_success:
                     return False
                 del (b_success, job)
         elif action[:2] == "sc":
             # first toggle spell card menu
-            b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+            b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                     pipeline_override={"Common_Entrance":{"next":["battle_spell_card_toggle_menu"]}})
             if not b_success:
                 return False
             del (b_success, job)
             # then tap spell card
-            b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+            b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                     pipeline_override={"Common_Entrance":{"next":["battle_spell_card_tap_" + action]}})
             if not b_success:
                 return False
             del (b_success, job)
         elif action[:2] == "sk":
             # first toggle skill menu
-            b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+            b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                     pipeline_override={"Common_Entrance":{"next":["battle_skill_toggle_menu"]}})
             if not b_success:
                 return False
@@ -359,14 +384,14 @@ class EternalBattlePlayer(Player):
             # then tap skill and confirm
             for skill in list(action[2:]):
                 entry = "battle_skill_tap_sk" + skill
-                b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
+                b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
                                                         pipeline_override={"Common_Entrance":{"next":[entry]}, 
                                                                         entry: {"next":["battle_skill_confirm"]}})
                 if not b_success:
                     return False
                 del (b_success, job)
             # toggle skill menu
-            b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+            b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                     pipeline_override={"Common_Entrance":{"next":["battle_skill_toggle_menu"]}})
             if not b_success:
                 return False
@@ -381,7 +406,7 @@ class EternalBattlePlayer(Player):
                     entry = "battle_choose_enemy_en33"
                 case _:
                     entry = "battle_choose_enemy_en32"
-            b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+            b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                     pipeline_override={"Common_Entrance":{"next":[entry]}})
             if not b_success:
                 return False
@@ -392,7 +417,7 @@ class EternalBattlePlayer(Player):
             else:
                 repeat_times = 1
             for i in range(repeat_times):
-                b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+                b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                         pipeline_override={"Common_Entrance":{"next":["battle_boost_tap"]}})
                 if not b_success:
                     return False
@@ -403,7 +428,7 @@ class EternalBattlePlayer(Player):
             else:
                 repeat_times = 1
             for i in range(repeat_times):
-                b_success, job = mlw_run_pipeline_with_timeout(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
+                b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                         pipeline_override={"Common_Entrance":{"next":["battle_graze_tap"]}})
                 if not b_success:
                     return False

@@ -9,9 +9,13 @@ class Player(Thread, ABC):
         pass
 
     @abstractmethod
-    def run(self) -> bool:
+    def run(self):
         pass
 
     @abstractmethod
-    def post_stop(self) -> bool:
+    def post_stop(self):
+        pass
+
+    @abstractmethod
+    def force_stop(self):
         pass

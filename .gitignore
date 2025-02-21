@@ -4,9 +4,14 @@ assets/cache
 
 assets/raw_imgs
 
+# cache
+**/__pycache__/
 
 # build
 main.spec
 dist/
 build/
+
+# dev
 dev.py
+dev-cunstom.py

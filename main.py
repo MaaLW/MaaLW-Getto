@@ -69,6 +69,8 @@ def main():
                 break
             case ["stop"]:
                 player.post_stop()
+            case ["force", "stop"]:
+                player.force_stop()
             case ["start", *rest]:
                 if player.is_alive():
                     print(player, "is already running")
