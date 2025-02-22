@@ -13,6 +13,7 @@ from maa.toolkit import Toolkit, AdbDevice
 from maa.resource import Resource
 from maa.controller import AdbController
 
+from app.utils.logger import logger
 from app.player.eternal_battle_player import Player, EternalBattlePlayer
 
 
@@ -52,7 +53,7 @@ def main():
     tasker.bind(resource, controller)
 
     if not tasker.inited:
-        print("Failed to init MAA.")
+        logger.error("Failed to init MAA.")
         exit()
 
     # On Start, Start an EternalBattlePlayer by default for now. Will be removed later
@@ -73,7 +74,7 @@ def main():
                 player.force_stop()
             case ["start", *rest]:
                 if player.is_alive():
-                    print(player, "is already running")
+                    logger.warning("%s is already running", player)
                 elif rest == []:
                     player = EternalBattlePlayer(tasker=tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"))
                     player.start()
@@ -81,17 +82,12 @@ def main():
                     player = EternalBattlePlayer(tasker=tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"), repeat_times=int(rest[0]))
                     player.start()
                 else:
-                    print("unknown command")
+                    logger.warning("unknown command")
             case []:
                 pass
             case _:
-                print("unknown command")
+                logger.warning("unknown command")
         sleep(0.1)
-
-    #interact(local=locals())
-    #print(repr(task_detail))
-    
-
 
 
 

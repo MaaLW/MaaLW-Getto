@@ -8,6 +8,7 @@ from time import sleep, time, localtime, strftime
 from maa.tasker import Tasker
 
 from .player import Player
+from ..utils.logger import logger
 
 class EternalBattlePlayer(Player):
     def __init__(
@@ -26,12 +27,11 @@ class EternalBattlePlayer(Player):
 
     def run(self):
         while self.repeat_times > 0 and not self.b_stop:
-            print(strftime("[%Y-%m-%d %H:%M:%S]", localtime()), self, "Replaying.", self.repeat_times, "Times Remaining...")
+            logger.info("%s Replaying. %s Times Remaining...", self, self.repeat_times)
             b_res = self.__replay_eternal_battle()
             if not b_res:
-                print(strftime("[%Y-%m-%d %H:%M:%S]", localtime()), self, "Run Failed once. Please notice.")
+                logger.warning("%s Run Failed once. Please notice.", self)
             else:
-                #print(strftime("[%Y-%m-%d %H:%M:%S]", localtime()), self, "Successfully Replayed Once.")
                 pass
             self.repeat_times -= 1
             if not threading.main_thread().is_alive():
@@ -47,8 +47,7 @@ class EternalBattlePlayer(Player):
         """
 
         self.b_stop = True
-        print("[EternalBattlePlayer] Get Stop Signal, Will Stop Gracefully. Please Wait...")
-        # TODO maybe want to log here
+        logger.info("%s Get Stop Signal, Will Stop Gracefully. Please Wait...", self)
 
     def force_stop(self):
         """Forces the player to stop executing any more actions and stop soon.
@@ -64,8 +63,7 @@ class EternalBattlePlayer(Player):
         self.b_stop = True
         # Replace the Driver function to a dummy one
         self.__run_ppl = lambda *args, **kwargs: (bool(False), object())
-        print("[EternalBattlePlayer] Get Force Stop Signal, Will Do No More Actions and Stop Soon. Please Wait...")
-        # TODO maybe want to log here
+        logger.info("%s Get Force Stop Signal, Will Do No More Actions and Stop Soon. Please Wait...", self)
         pass
 
     def load_recordfile(self):
@@ -107,7 +105,7 @@ class EternalBattlePlayer(Player):
                         case "lunatic" | "hard" | "normal":
                             entry = "battle_difficulty_goto_" + difficulty
                         case _:
-                            print("Error: 难度不是 lunatic hard normal 中的一个")
+                            logger.error("%s Unknown Difficulty %s! Must be one of {lunatic hard normal} ", self, difficulty)
                             return False
                     
                     b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
@@ -156,7 +154,7 @@ class EternalBattlePlayer(Player):
                                                 pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_next_area_mark_at_2", "eternal_battle_Flag_next_area_mark_at_3",
                                                                                             "eternal_battle_Flag_next_area_mark_at_4", "eternal_battle_Flag_next_area_mark_at_5"]}})
                         if not b_success:
-                            print("Error: 找不到下一个挑战的区域")
+                            logger.error("%s Cannot Find Next Area Mark", self)
                             return False
                         start_area = "area" + job.nodes[-1].name[-1]
                         del (b_success, job)
@@ -210,7 +208,6 @@ class EternalBattlePlayer(Player):
                 case 4.1:
                     # DONE: battle actions: 1. fs(2|3) Focus Shot, 2. ss(2|3) Spread Shot, 3. sw Switch, 4. ba(2) Back, 5. sc(1-5) Spell Card, 6. sk(1-9) Skill, 
                     # 7. en(2|3)(1-2|3) Enemy Target, 8. bo(1-3|m) Boost, 9. gr(1-3|m) Graze
-                    #print("Start replay from " + start_area)
                     b_retry = False
                     for area, area_actions in self.record.get("actions").items():
                         if area < start_area:
@@ -278,7 +275,6 @@ class EternalBattlePlayer(Player):
                 case 9.1:
                     # end
                     break
-            #print("Next Scene: Scene", scene)
 
         # Scene05: Get Reward and next:
         # DONE: Merged into 4.1
@@ -456,6 +452,8 @@ def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override:
     while (time() - time_start) < timeout:
         if job.done:
             return True, job.get()
+        # TODO consider shorten sleep time to enhance performance
         sleep(0.2)
     tasker.post_stop()
     return False, job.get()
+
