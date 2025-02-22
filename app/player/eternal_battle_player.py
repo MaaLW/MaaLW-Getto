@@ -63,6 +63,7 @@ class EternalBattlePlayer(Player):
         self.b_stop = True
         # Replace the Driver function to a dummy one
         self.__run_ppl = lambda *args, **kwargs: (bool(False), object())
+        self.tasker.post_stop()
         logger.info("%s Get Force Stop Signal, Will Do No More Actions and Stop Soon. Please Wait...", self)
         pass
 
