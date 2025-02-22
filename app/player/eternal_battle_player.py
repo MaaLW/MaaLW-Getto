@@ -453,7 +453,7 @@ def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override:
         if job.done:
             return True, job.get()
         # TODO consider shorten sleep time to enhance performance
-        sleep(0.2)
+        sleep(0.01)
     tasker.post_stop()
     return False, job.get()
 
