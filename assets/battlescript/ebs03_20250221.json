@@ -8,19 +8,19 @@
     "difficulty": "lunatic",
     "actions": {
         "area1": [
-            "sk1563 bo3 sc1 bo3 sc2",
-            "sk24 bo3 sc3 bo3 sc5",
-            "bo3 sc5 bo3 fs"
+            "sk6321 bo3 sc4 bo3 sc1",
+            "bo2 sc5 bo2 sc3",
+            "sk45 gr3 fs bo3 sc5"
         ],
         "area2": [
-            "sk32154 bo3 sc1 bo3 sc1",
-            "bo3 sc3 bo3 sk6 sc5",
-            "bo3 sc5 bo3 gr3 fs"
+            "sk9873215 bo3 sc1 bo3 sc1 bo3 sc2",
+            "sk6 bo3 sc3 bo2 ss bo3 gr3 sc4",
+            "sk4 bo3 sc5 bo2 gr3 fs bo3 gr1 sc5"
         ],
         "area3": [
-            "sk6591 bo3 gr3 sc1 bo3 sc1 bo2 sc2",
-            "bo3 sk2 sc5 bo3 sk7 sc3 bo3 sc4",
-            "sk348 bo3 gr3 fs bo3 sc5 bo3 gr3 sc5"
+            "sk23165497 bo3 gr3 sc3 bo3 gr1 sc4 bo2 sc1",
+            "bo3 sc5 bo3 gr2 sc5 bo2 sc3",
+            "sk8 bo3 fs gr3 fs bo3 sc5"
         ]
     }
 }
