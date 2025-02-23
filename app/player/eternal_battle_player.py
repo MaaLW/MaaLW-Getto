@@ -36,7 +36,7 @@ class EternalBattlePlayer(Player):
             self.repeat_times -= 1
             if not threading.main_thread().is_alive():
                 break
-        pass
+        logger.info("%s Replaying Finished.", self)
 
     def post_stop(self):
         """Sets the stop flag to True, indicating that the player should stop gracefully.
