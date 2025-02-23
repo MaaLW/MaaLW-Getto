@@ -238,7 +238,7 @@ class EternalBattlePlayer(Player):
                                                                                         "interrupt":["eternal_battle_tap_victory_interrupt_button", 
                                                                                                      "eternal_battle_tap_victory_next_button"]}, 
                                                                         "eternal_battle_Flag_seen_victory":{"inverse":True}})
-                                scene = 9.1
+                                break
                             else:
                                 b_success1, job1 = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                     pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_victory"], 
