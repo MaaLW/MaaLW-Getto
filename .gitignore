@@ -15,3 +15,4 @@ build/
 # dev
 dev.py
 dev-cunstom.py
+.vscode/launch.json

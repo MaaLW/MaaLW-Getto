@@ -1,29 +1,17 @@
 # coding:utf-8
 
-from dataclasses import asdict
 from pathlib import Path
 import json
 from time import sleep, time
 
-from code import interact
-
 #import maa
-from maa.tasker import Tasker
 from maa.toolkit import Toolkit, AdbDevice
-from maa.resource import Resource
-from maa.controller import AdbController
 
+from app.utils.maafw import maafw
 from app.utils.logger import logger
 from app.player.eternal_battle_player import Player, EternalBattlePlayer
 
-
-# for register decorator
-resource = Resource()
-
-
 def main():
-    user_path = "./assets/cache"
-    resource_path = "./assets/resource/base"
 
     with open('./MLW-config.json', 'r', encoding='UTF-8') as file:
         mlw_config = json.load(file)
@@ -32,10 +20,11 @@ def main():
     with open(eternal_battle_record_info.get("path"), 'r', encoding='UTF-8') as file:
         eternal_battle_record = json.load(file)
 
-    Toolkit.init_option(user_path)
+    if not Toolkit.init_option(maafw.user_path):
+        logger.error("Failed to init MaaToolkit.")
 
-    res_job = resource.post_bundle(resource_path)
-    res_job.wait()
+    if not maafw.load_resource(maafw.resource_path):
+        logger.error("Failed to load resource.")
 
     adb_device = AdbDevice(
         name = adb_device_info.get("name"),
@@ -45,19 +34,17 @@ def main():
         input_methods = adb_device_info.get("input_methods"),         # DON'T USE 8 On Mumu
         config = adb_device_info.get("config")
     )
-    controller = AdbController(**{k:v for k,v in asdict(adb_device).items() if not k == "name"})
-    controller.post_connection().wait()
+    #adb_device.input_methods = 2  # force to use minitouch
+    #adb_device.input_methods = 4  # force to use maatouch
+    if not maafw.connect_adb_device(adb_device):
+        logger.error("Failed to connect adb device.")
 
-    tasker = Tasker()
-    # tasker = Tasker(notification_handler=MyNotificationHandler())
-    tasker.bind(resource, controller)
-
-    if not tasker.inited:
-        logger.error("Failed to init MAA.")
+    if not maafw.bind_tasker():
+        logger.error("Failed to init MaaFramework.")
         exit()
 
     # On Start, Start an EternalBattlePlayer by default for now. Will be removed later
-    player = EternalBattlePlayer(tasker=tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"))
+    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"))
     player.start()
 
     command_str = ""
@@ -76,10 +63,10 @@ def main():
                 if player.is_alive():
                     logger.warning("%s is already running", player)
                 elif rest == []:
-                    player = EternalBattlePlayer(tasker=tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"))
+                    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"))
                     player.start()
                 elif rest[0].isdecimal():
-                    player = EternalBattlePlayer(tasker=tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"), repeat_times=int(rest[0]))
+                    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"), repeat_times=int(rest[0]))
                     player.start()
                 else:
                     logger.warning("unknown command")
