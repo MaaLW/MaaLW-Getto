@@ -1,0 +1,264 @@
+{
+    "Errand_Base_Flag_Seen_Errand_Entrance": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "errand/Home_Errand_01_1050_401_52_77__1000_351_152_177.png",
+            "errand/Home_Errand_02_1050_401_52_77__1000_351_152_177.png"
+        ],
+        "roi": [
+            1050,
+            401,
+            52,
+            77
+        ],
+        "threshold": 0.9
+    },
+    "Errand_Base_Tap_Errand_Entrance": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "errand/Home_Errand_01_1050_401_52_77__1000_351_152_177.png",
+            "errand/Home_Errand_02_1050_401_52_77__1000_351_152_177.png"
+        ],
+        "roi": [
+            1050,
+            401,
+            52,
+            77
+        ],
+        "threshold": 0.9,
+        "action": "Click"
+    },
+    "Errand_Base_Flag_At_Errand_Page": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Errand_Page.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "next": []
+    },
+    "Errand_Base_Flag_At_Errand_Page_0": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Errand_Page_0.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "next": []
+    },
+    "Errand_Base_Flag_Seen_Finish_Onekey": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Errand_Finish_Onekey__60_660_135_40__10_610_235_110.png",
+        "threshold": 0.9,
+        "roi": [
+            60,
+            660,
+            135,
+            40
+        ],
+        "next": []
+    },
+    "Errand_Base_Tap_Finish_Onekey_Left": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Errand_Finish_Onekey__60_660_135_40__10_610_235_110.png",
+        "threshold": 0.9,
+        "roi": [
+            60,
+            660,
+            135,
+            40
+        ],
+        "action": "Click",
+        "target": true,
+        "target_offset": [
+            0,
+            0,
+            -80,
+            0
+        ],
+        "next": []
+    },
+    "Errand_Base_Flag_Seen_Get_Reward_Close_Button01": {
+        "recognition": "TemplateMatch",
+        "template": "errand\\Get_Reward_Close_button01__560_620_160_60__510_570_260_150.png",
+        "threshold": 0.9,
+        "roi": [
+            560,
+            620,
+            160,
+            60
+        ]
+    },
+    "Errand_Base_Tap_Get_Reward_Close_Button01": {
+        "recognition": "TemplateMatch",
+        "template": "errand\\Get_Reward_Close_button01__560_620_160_60__510_570_260_150.png",
+        "threshold": 0.9,
+        "roi": [
+            560,
+            620,
+            160,
+            60
+        ],
+        "action": "Click"
+    },
+    "Errand_Base_Flag_At_Daily_Tab": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Errand_At_Daily__0_80_120_250__0_30_170_350.png",
+        "green_mask": true,
+        "threshold": 0.7,
+        "roi": [
+            0,
+            80,
+            120,
+            250
+        ]
+    },
+    "Errand_Base_Flag_At_Temp_Tab": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Errand_At_Temp__0_80_120_250__0_30_170_350.png",
+        "green_mask": true,
+        "threshold": 0.7,
+        "roi": [
+            0,
+            80,
+            120,
+            250
+        ]
+    },
+    "Errand_Base_Flag_Seen_Daily_Tab": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "errand/Errand_Daily_Up__0_80_120_120__0_30_170_220.png",
+            "errand/Errand_Daily_Down__0_80_120_120__0_30_170_220.png"
+        ],
+        "green_mask": true,
+        "threshold": 0.7,
+        "order_by": "Score",
+        "roi": [
+            0,
+            80,
+            120,
+            120
+        ]
+    },
+    "Errand_Base_Flag_Seen_Temp_Tab": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "errand/Errand_Temp_Up__0_210_120_120__0_160_170_220.png",
+            "errand/Errand_Temp_Down__0_210_120_120__0_160_170_220.png"
+        ],
+        "green_mask": true,
+        "threshold": 0.7,
+        "order_by": "Score",
+        "roi": [
+            0,
+            210,
+            120,
+            120
+        ]
+    },
+    "Errand_Base_Tap_Daily_Tab": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "errand/Errand_Daily_Up__0_80_120_120__0_30_170_220.png",
+            "errand/Errand_Daily_Down__0_80_120_120__0_30_170_220.png"
+        ],
+        "green_mask": true,
+        "threshold": 0.7,
+        "order_by": "Score",
+        "roi": [
+            0,
+            80,
+            120,
+            120
+        ],
+        "action": "Click",
+        "target": true,
+        "target_offset": [
+            20,
+            20,
+            -40,
+            -40
+        ],
+        "next": []
+    },
+    "Errand_Base_Tap_Temp_Tab": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "errand/Errand_Temp_Up__0_210_120_120__0_160_170_220.png",
+            "errand/Errand_Temp_Down__0_210_120_120__0_160_170_220.png"
+        ],
+        "green_mask": true,
+        "threshold": 0.7,
+        "order_by": "Score",
+        "roi": [
+            0,
+            210,
+            120,
+            120
+        ],
+        "action": "Click",
+        "target": true,
+        "target_offset": [
+            20,
+            10,
+            -40,
+            -40
+        ],
+        "next": []
+    },
+    "Errand_Base_Flag_Seen_Scroll_Bar_4": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "errand\\ScrollBar_4__1240_70_13_638__1190_20_90_700.png"
+        ],
+        "threshold": 0.95,
+        "order_by": "Score",
+        "roi": [
+            1240,
+            70,
+            13,
+            638
+        ]
+    },
+    "Errand_Base_Flag_Seen_Scroll_Bar_5": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "errand\\ScrollBar_5__1240_70_13_638__1190_20_90_700.png"
+        ],
+        "threshold": 0.95,
+        "order_by": "Score",
+        "roi": [
+            1240,
+            70,
+            13,
+            638
+        ]
+    },
+    "Errand_Base_Flag_Seen_Scroll_Bar_6": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "errand\\ScrollBar_6__1240_70_13_638__1190_20_90_700.png"
+        ],
+        "threshold": 0.95,
+        "order_by": "Score",
+        "roi": [
+            1240,
+            70,
+            13,
+            638
+        ]
+    },
+    "Errand_Base_Flag_Seen_Scroll_Bar_456": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "errand\\ScrollBar_4__1240_70_13_638__1190_20_90_700.png",
+            "errand\\ScrollBar_5__1240_70_13_638__1190_20_90_700.png",
+            "errand\\ScrollBar_6__1240_70_13_638__1190_20_90_700.png"
+        ],
+        "threshold": 0.95,
+        "order_by": "Score",
+        "roi": [
+            1240,
+            70,
+            13,
+            638
+        ]
+    }
+}

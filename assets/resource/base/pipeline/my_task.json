@@ -41,5 +41,31 @@
     "MyTask2": {
         "recognition": "DirectHit"
     },
-    "MyTask3": {}
+    "MyTask3": {},
+    "MyTestEntry": {
+        "next": [
+            "MyTestFail"
+        ],
+        "interrupt": [
+            "MyTestInt"
+        ]
+    },
+    "MyTestInt": {
+        "next": [
+            "MyTestIntNext"
+        ],
+        "interrupt": []
+    },
+    "MyTestIntNext": {
+        "action": "StopTask",
+        "next": [],
+        "interrupt": []
+    },
+    "MyTest4": {
+        "next": [],
+        "interrupt": []
+    },
+    "MyTestFail": {
+        "inverse": true
+    }
 }
