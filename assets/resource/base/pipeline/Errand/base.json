@@ -76,7 +76,7 @@
     },
     "Errand_Base_Flag_Seen_Get_Reward_Close_Button01": {
         "recognition": "TemplateMatch",
-        "template": "errand\\Get_Reward_Close_button01__560_620_160_60__510_570_260_150.png",
+        "template": "errand/Get_Reward_Close_button01__560_620_160_60__510_570_260_150.png",
         "threshold": 0.9,
         "roi": [
             560,
@@ -87,12 +87,64 @@
     },
     "Errand_Base_Tap_Get_Reward_Close_Button01": {
         "recognition": "TemplateMatch",
-        "template": "errand\\Get_Reward_Close_button01__560_620_160_60__510_570_260_150.png",
+        "template": "errand/Get_Reward_Close_button01__560_620_160_60__510_570_260_150.png",
         "threshold": 0.9,
         "roi": [
             560,
             620,
             160,
+            60
+        ],
+        "action": "Click"
+    },
+    "Errand_Base_Flag_Seen_Finish_Caption": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Finish_Caption__460_120_360_120__410_70_460_220.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "roi": [
+            460,
+            120,
+            360,
+            120
+        ]
+    },
+    "Errand_Base_Tap_Next_When_Seen_Finish_Caption": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Finish_Caption__460_120_360_120__410_70_460_220.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "roi": [
+            460,
+            120,
+            360,
+            120
+        ],
+        "action": "Click",
+        "target": [
+            90,
+            640,
+            160,
+            50
+        ]
+    },
+    "Errand_Base_Flag_Seen_Get_Reward": {
+        "recognition": "OCR",
+        "expected": "获得报酬",
+        "roi": [
+            545,
+            95,
+            195,
+            70
+        ]
+    },
+    "Errand_Base_Tap_Get_Reward": {
+        "recognition": "OCR",
+        "expected": "点击画面",
+        "roi": [
+            555,
+            555,
+            175,
             60
         ],
         "action": "Click"
@@ -203,10 +255,10 @@
         ],
         "next": []
     },
-    "Errand_Base_Flag_Seen_Scroll_Bar_4": {
+    "Errand_Base_Flag_Seen_Scroll_Bar_Top_4": {
         "recognition": "TemplateMatch",
         "template": [
-            "errand\\ScrollBar_4__1240_70_13_638__1190_20_90_700.png"
+            "errand/ScrollBar_4__1240_70_13_638__1190_20_90_700.png"
         ],
         "threshold": 0.95,
         "order_by": "Score",
@@ -217,10 +269,10 @@
             638
         ]
     },
-    "Errand_Base_Flag_Seen_Scroll_Bar_5": {
+    "Errand_Base_Flag_Seen_Scroll_Bar_Top_5": {
         "recognition": "TemplateMatch",
         "template": [
-            "errand\\ScrollBar_5__1240_70_13_638__1190_20_90_700.png"
+            "errand/ScrollBar_5__1240_70_13_638__1190_20_90_700.png"
         ],
         "threshold": 0.95,
         "order_by": "Score",
@@ -231,10 +283,10 @@
             638
         ]
     },
-    "Errand_Base_Flag_Seen_Scroll_Bar_6": {
+    "Errand_Base_Flag_Seen_Scroll_Bar_Top_6": {
         "recognition": "TemplateMatch",
         "template": [
-            "errand\\ScrollBar_6__1240_70_13_638__1190_20_90_700.png"
+            "errand/ScrollBar_6__1240_70_13_638__1190_20_90_700.png"
         ],
         "threshold": 0.95,
         "order_by": "Score",
@@ -245,12 +297,12 @@
             638
         ]
     },
-    "Errand_Base_Flag_Seen_Scroll_Bar_456": {
+    "Errand_Base_Flag_Seen_Scroll_Bar_Top_456": {
         "recognition": "TemplateMatch",
         "template": [
-            "errand\\ScrollBar_4__1240_70_13_638__1190_20_90_700.png",
-            "errand\\ScrollBar_5__1240_70_13_638__1190_20_90_700.png",
-            "errand\\ScrollBar_6__1240_70_13_638__1190_20_90_700.png"
+            "errand/ScrollBar_4__1240_70_13_638__1190_20_90_700.png",
+            "errand/ScrollBar_5__1240_70_13_638__1190_20_90_700.png",
+            "errand/ScrollBar_6__1240_70_13_638__1190_20_90_700.png"
         ],
         "threshold": 0.95,
         "order_by": "Score",
@@ -259,6 +311,78 @@
             70,
             13,
             638
+        ]
+    },
+    "Errand_Base_Flag_Seen_In_Progress_Mark_At_Slot_1": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "roi": [
+            430,
+            101,
+            60,
+            150
+        ]
+    },
+    "Errand_Base_Flag_Seen_In_Progress_Mark_At_Slot_2": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "roi": [
+            430,
+            290,
+            60,
+            150
+        ]
+    },
+    "Errand_Base_Flag_Seen_In_Progress_Mark_At_Slot_3": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "roi": [
+            430,
+            479,
+            60,
+            150
+        ]
+    },
+    "Errand_Base_Flag_Seen_In_Progress_Mark_At_Slot_-1": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "roi": [
+            430,
+            564,
+            60,
+            150
+        ]
+    },
+    "Errand_Base_Flag_Seen_In_Progress_Mark_At_Slot_-2": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "roi": [
+            430,
+            375,
+            60,
+            150
+        ]
+    },
+    "Errand_Base_Flag_Seen_In_Progress_Mark_At_Slot_-3": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "roi": [
+            430,
+            186,
+            60,
+            150
         ]
     }
 }

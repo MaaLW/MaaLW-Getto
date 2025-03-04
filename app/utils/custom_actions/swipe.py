@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from random import random, randint
 from time import sleep
 import json
@@ -12,7 +12,7 @@ from ..maafw import maafw
 class VerticalSwipe(CustomAction):
     @dataclass
     class CustomParam:
-        delta_y: int
+        delta_y: int = 0
         delta_fuzzy_x: int = 5
         delta_x_min: int = 30
         delta_x_max: int = 40
@@ -36,8 +36,8 @@ class VerticalSwipe(CustomAction):
         """
         # First determine the Start Point and the End Point, make a horizontal 30-40 pxs touch_move to enter the swipe mode, then move step by step to the End Point
         # parse argv
-        params = json.loads(argv.custom_action_param)
-        custom_param = self.CustomParam(**params)
+        # params = json.loads(argv.custom_action_param)
+        custom_param = self.CustomParam(**{k: v for k, v in json.loads(argv.custom_action_param).items() if k in (f.name for f in fields(self.CustomParam))})
         # determine the Start Point from argv.box
         start_point = (randint(argv.box.x, argv.box.x + argv.box.w), randint(argv.box.y, argv.box.y + argv.box.h))
         # determine the End Point, fuzzy x and determined y
@@ -84,7 +84,7 @@ class VerticalSwipe(CustomAction):
 class HorizontalSwipe(CustomAction):
     @dataclass
     class CustomParam:
-        delta_x: int
+        delta_x: int = 0
         delta_fuzzy_y: int = 5
         delta_y_min: int = 30
         delta_y_max: int = 40
@@ -108,8 +108,8 @@ class HorizontalSwipe(CustomAction):
         """
         # First determine the Start Point and the End Point, make a vertical 30-40 pxs touch_move to enter the swipe mode, then move step by step to the End Point
         # parse argv
-        params = json.loads(argv.custom_action_param)
-        custom_param = self.CustomParam(**params)
+        # params = json.loads(argv.custom_action_param)
+        custom_param = self.CustomParam(**{k: v for k, v in json.loads(argv.custom_action_param).items() if k in (f.name for f in fields(self.CustomParam))})
         # determine the Start Point from argv.box
         start_point = (randint(argv.box.x, argv.box.x + argv.box.w), randint(argv.box.y, argv.box.y + argv.box.h))
         # determine the End Point, fuzzy y and determined x
