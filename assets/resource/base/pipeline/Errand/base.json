@@ -417,7 +417,7 @@
     },
     "Errand_Base_Flag_Seen_Limited_Errand_At_Slot_1": {
         "recognition": "TemplateMatch",
-        "template": "errand\\Errand_Limited_Errand__250_70_170_110__200_20_270_210.png",
+        "template": "errand/Errand_Limited_Errand__250_70_170_110__200_20_270_210.png",
         "threshold": 0.9,
         "order_by": "Vertical",
         "roi": [
@@ -429,7 +429,7 @@
     },
     "Errand_Base_Flag_Seen_Limited_Errand_At_Slot_-1": {
         "recognition": "TemplateMatch",
-        "template": "errand\\Errand_Limited_Errand__250_70_170_110__200_20_270_210.png",
+        "template": "errand/Errand_Limited_Errand__250_70_170_110__200_20_270_210.png",
         "threshold": 0.9,
         "order_by": "Vertical",
         "roi": [
@@ -441,13 +441,13 @@
     },
     "Errand_Base_Find_Sealed_Crystal": {
         "recognition": "TemplateMatch",
-        "template": "errand\\Sealed_Crystal__725_135_85_55__675_85_185_155.png",
+        "template": "errand/Sealed_Crystal__725_135_85_55__675_85_185_155.png",
         "threshold": 0.9,
         "order_by": "Vertical"
     },
     "Errand_Base_Find_God_Crystal": {
         "recognition": "TemplateMatch",
-        "template": "errand\\God_Crystal__725_135_85_55__675_85_185_155.png",
+        "template": "errand/God_Crystal__725_135_85_55__675_85_185_155.png",
         "threshold": 0.9,
         "order_by": "Vertical"
     },
@@ -459,7 +459,7 @@
         "threshold": 0.7,
         "replace": [
             [
-                ";：；",
+                "[;：；]",
                 ":"
             ]
         ],
