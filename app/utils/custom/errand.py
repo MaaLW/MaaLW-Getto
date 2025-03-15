@@ -302,9 +302,8 @@ class ErrandRecognition(CustomRecognition):
         if reco_detail is None: logger.debug("Not at Daily Tab"); return failed_result
         reco_detail = context.run_recognition("Errand_Base_Flag_Seen_Scroll_Bar_Top_5", img) # Assume Daily Tab always have 5 Errands
         if reco_detail is None: logger.debug("Not at Top Position"); return failed_result
-        logger.debug("Got 1st image. Time Elapsed %3f seconds",datetime.now() - enter_time)
+        logger.debug("Got 1st image. Time Elapsed %3f seconds",(datetime.now() - enter_time).total_seconds())
         # Scroll Down and Get 2nd Image
-        logger.debug("Scroll Down and Get 2nd Image")
         delta_y = dims.offset_t4_2_b1.y + dims.offset_one_errand_up.y
         action_result = context.run_action("Errand_Base_Run_VerticalSwipe", dims.box_t_4th + dims.offset_click, "", 
                                            {"Errand_Base_Run_VerticalSwipe":{"custom_action_param": {"delta_y": delta_y}}})
@@ -313,7 +312,7 @@ class ErrandRecognition(CustomRecognition):
         images = images + (img,); reco_times = reco_times + (datetime.now(),)
         reco_detail = context.run_recognition("Errand_Base_Flag_Seen_Scroll_Bar_Bottom_68px", img)
         if reco_detail is None: logger.debug("Not at Bottom Position"); return failed_result
-        logger.debug("Got 2nd image. Time Elapsed %3f seconds",datetime.now() - enter_time)
+        logger.debug("Got 2nd image. Time Elapsed %3f seconds",(datetime.now() - enter_time).total_seconds())
         # Scroll Up to Top
         delta_y = dims.offset_b4_2_t1.y + dims.offset_one_errand_down.y
         action_result = context.run_action("Errand_Base_Run_VerticalSwipe", dims.box_b_4th + dims.offset_click, "", 
@@ -330,7 +329,7 @@ class ErrandRecognition(CustomRecognition):
         if reco_detail is None: logger.debug("Got Finished Errand, Stop Recognition"); return failed_result
         reco_detail = context.run_recognition("Errand_Base_Flag_At_Limited_Tab", img)
         if reco_detail is None: logger.debug("Not at Limited Tab"); return failed_result
-        logger.debug("Got 3rd image. Time Elapsed %3f seconds",datetime.now() - enter_time)
+        logger.debug("Got 3rd image. Time Elapsed %3f seconds",(datetime.now() - enter_time).total_seconds())
         # Check if necessary to Scroll Down to Bottom
         count_daily_errands = 5
         count_limited_errands = 0
@@ -353,13 +352,13 @@ class ErrandRecognition(CustomRecognition):
             if reco_detail is None: logger.debug("Not at Bottom Position"); return failed_result
             reco_detail = context.run_recognition("Errand_Base_Flag_At_Errand_Page_0", img)
             if reco_detail is None: logger.debug("Got Finished Errand, Stop Recognition"); return failed_result
-            logger.debug("Got 4th image. Time Elapsed %3f seconds",datetime.now() - enter_time)
+            logger.debug("Got 4th image. Time Elapsed %3f seconds",(datetime.now() - enter_time).total_seconds())
             # Scroll Up to Top
             delta_y = dims.offset_b4_2_t1.y + dims.offset_one_errand_down.y * (count_limited_errands - 4)
             action_result = context.run_action("Errand_Base_Run_VerticalSwipe", dims.box_b_4th + dims.offset_click, "", 
                                             {"Errand_Base_Run_VerticalSwipe":{"custom_action_param": {"delta_y": delta_y}}})
             if action_result is None: logger.debug("Failed to Scroll Up"); return failed_result
-        logger.debug("Got %d images. Time Elapsed %3f seconds", len(images),datetime.now() - enter_time)
+        logger.debug("Got %d images. Time Elapsed %3f seconds", len(images),(datetime.now() - enter_time).total_seconds())
         # For Debug Save the Images
         from ..image import save_cvmat_as_imagefile
         for i, img in enumerate(images):
@@ -507,9 +506,7 @@ class ErrandRecognition(CustomRecognition):
             #print(current_out_now, current_sealed_crystal, current_god_crystal, current_times)
             # TODO : Validate errand?
             daily_errands = daily_errands + (errand,)
-        
-        print(daily_errands)
-        print(limited_errands)
+        logger.debug("Successfully parsed %d Daily Errands and %d Limited Errands. Time Elapsed %3f seconds.", len(daily_errands), len(limited_errands), (datetime.now() - enter_time).total_seconds())
         dumped = jsons.dumps((daily_errands, limited_errands))
         
         return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail=dumped)
