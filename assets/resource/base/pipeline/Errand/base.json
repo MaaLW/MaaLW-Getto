@@ -161,9 +161,9 @@
             250
         ]
     },
-    "Errand_Base_Flag_At_Temp_Tab": {
+    "Errand_Base_Flag_At_Limited_Tab": {
         "recognition": "TemplateMatch",
-        "template": "errand/Errand_At_Temp__0_80_120_250__0_30_170_350.png",
+        "template": "errand/Errand_At_Limited__0_80_120_250__0_30_170_350.png",
         "green_mask": true,
         "threshold": 0.7,
         "roi": [
@@ -189,11 +189,11 @@
             120
         ]
     },
-    "Errand_Base_Flag_Seen_Temp_Tab": {
+    "Errand_Base_Flag_Seen_Limited_Tab": {
         "recognition": "TemplateMatch",
         "template": [
-            "errand/Errand_Temp_Up__0_210_120_120__0_160_170_220.png",
-            "errand/Errand_Temp_Down__0_210_120_120__0_160_170_220.png"
+            "errand/Errand_Limited_Up__0_210_120_120__0_160_170_220.png",
+            "errand/Errand_Limited_Down__0_210_120_120__0_160_170_220.png"
         ],
         "green_mask": true,
         "threshold": 0.7,
@@ -221,7 +221,12 @@
             120
         ],
         "action": "Click",
-        "target": true,
+        "target": [
+            0,
+            80,
+            120,
+            120
+        ],
         "target_offset": [
             20,
             20,
@@ -230,11 +235,11 @@
         ],
         "next": []
     },
-    "Errand_Base_Tap_Temp_Tab": {
+    "Errand_Base_Tap_Limited_Tab": {
         "recognition": "TemplateMatch",
         "template": [
-            "errand/Errand_Temp_Up__0_210_120_120__0_160_170_220.png",
-            "errand/Errand_Temp_Down__0_210_120_120__0_160_170_220.png"
+            "errand/Errand_Limited_Up__0_210_120_120__0_160_170_220.png",
+            "errand/Errand_Limited_Down__0_210_120_120__0_160_170_220.png"
         ],
         "green_mask": true,
         "threshold": 0.7,
@@ -246,7 +251,12 @@
             120
         ],
         "action": "Click",
-        "target": true,
+        "target": [
+            0,
+            210,
+            120,
+            120
+        ],
         "target_offset": [
             20,
             10,
@@ -313,11 +323,26 @@
             638
         ]
     },
+    "Errand_Base_Flag_Seen_Scroll_Bar_Bottom_68px": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "errand/ScrollBar_At_Bottom_68px__1240_640_13_68__1190_590_90_130.png"
+        ],
+        "threshold": 0.95,
+        "order_by": "Score",
+        "roi": [
+            1240,
+            640,
+            13,
+            68
+        ]
+    },
     "Errand_Base_Flag_Seen_In_Progress_Mark_At_Slot_1": {
         "recognition": "TemplateMatch",
         "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
         "green_mask": true,
         "threshold": 0.9,
+        "order_by": "Vertical",
         "roi": [
             430,
             101,
@@ -330,6 +355,7 @@
         "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
         "green_mask": true,
         "threshold": 0.9,
+        "order_by": "Vertical",
         "roi": [
             430,
             290,
@@ -342,6 +368,7 @@
         "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
         "green_mask": true,
         "threshold": 0.9,
+        "order_by": "Vertical",
         "roi": [
             430,
             479,
@@ -353,6 +380,7 @@
         "recognition": "TemplateMatch",
         "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
         "green_mask": true,
+        "order_by": "Vertical",
         "threshold": 0.9,
         "roi": [
             430,
@@ -365,6 +393,7 @@
         "recognition": "TemplateMatch",
         "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
         "green_mask": true,
+        "order_by": "Vertical",
         "threshold": 0.9,
         "roi": [
             430,
@@ -377,6 +406,7 @@
         "recognition": "TemplateMatch",
         "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
         "green_mask": true,
+        "order_by": "Vertical",
         "threshold": 0.9,
         "roi": [
             430,
@@ -384,5 +414,60 @@
             60,
             150
         ]
+    },
+    "Errand_Base_Flag_Seen_Limited_Errand_At_Slot_1": {
+        "recognition": "TemplateMatch",
+        "template": "errand\\Errand_Limited_Errand__250_70_170_110__200_20_270_210.png",
+        "threshold": 0.9,
+        "order_by": "Vertical",
+        "roi": [
+            250,
+            60,
+            170,
+            120
+        ]
+    },
+    "Errand_Base_Flag_Seen_Limited_Errand_At_Slot_-1": {
+        "recognition": "TemplateMatch",
+        "template": "errand\\Errand_Limited_Errand__250_70_170_110__200_20_270_210.png",
+        "threshold": 0.9,
+        "order_by": "Vertical",
+        "roi": [
+            250,
+            523,
+            170,
+            120
+        ]
+    },
+    "Errand_Base_Find_Sealed_Crystal": {
+        "recognition": "TemplateMatch",
+        "template": "errand\\Sealed_Crystal__725_135_85_55__675_85_185_155.png",
+        "threshold": 0.9,
+        "order_by": "Vertical"
+    },
+    "Errand_Base_Find_God_Crystal": {
+        "recognition": "TemplateMatch",
+        "template": "errand\\God_Crystal__725_135_85_55__675_85_185_155.png",
+        "threshold": 0.9,
+        "order_by": "Vertical"
+    },
+    "Errand_Base_Find_Times": {
+        "recognition": "OCR",
+        "expected": [
+            "[0-9]{2}:[0-9]{2}:[0-9]{2}"
+        ],
+        "threshold": 0.7,
+        "replace": [
+            [
+                ";：；",
+                ":"
+            ]
+        ],
+        "order_by": "Vertical"
+    },
+    "Errand_Base_Run_VerticalSwipe": {
+        "action": "Custom",
+        "custom_action": "VerticalSwipe",
+        "custom_action_param": {}
     }
 }

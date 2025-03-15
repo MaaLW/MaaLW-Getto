@@ -2,7 +2,7 @@
 
 from pathlib import Path
 import json
-from time import sleep, time
+from time import sleep
 
 #import maa
 from maa.toolkit import Toolkit, AdbDevice

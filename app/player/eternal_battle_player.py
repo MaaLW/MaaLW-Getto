@@ -2,13 +2,13 @@
 
 import threading 
 import json
-import time
-from time import sleep, time, localtime, strftime
+from time import sleep
 
 from maa.tasker import Tasker
 
 from .player import Player
 from ..utils.logger import logger
+from ..utils.datetime import datetime, timedelta
 
 class EternalBattlePlayer(Player):
     def __init__(
@@ -448,9 +448,9 @@ def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override:
         tuple[bool, object]: A tuple of a boolean indicating whether the task was completed successfully,
             and the job result if the task was completed.
     """
-    time_start = time()
+    time_start = datetime.now()
     job = tasker.post_task(entry, pipeline_override)
-    while (time() - time_start) < timeout:
+    while (datetime.now() - time_start) < timedelta(seconds=timeout):
         if job.done:
             return True, job.get()
         # TODO consider shorten sleep time to enhance performance

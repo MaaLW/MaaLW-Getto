@@ -29,5 +29,6 @@
     },
     "[python]": {
         "editor.defaultFormatter": "ms-python.vscode-pylance"
-    }
+    },
+    "python.terminal.activateEnvironment": true
 }
