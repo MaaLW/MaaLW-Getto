@@ -439,6 +439,20 @@
             120
         ]
     },
+    "Errand_Base_Find_In_Progress_Mark": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Mark_In_Progress__430_300_60_130__380_250_160_230.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "order_by": "Vertical"
+    },
+    "Errand_Base_Find_Done_Mark": {
+        "recognition": "TemplateMatch",
+        "template": "errand/Mark_Done__430_111_60_130__380_61_160_230.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "order_by": "Vertical"
+    },
     "Errand_Base_Find_Sealed_Crystal": {
         "recognition": "TemplateMatch",
         "template": "errand/Sealed_Crystal__725_135_85_55__675_85_185_155.png",

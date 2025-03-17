@@ -4,11 +4,10 @@ import threading
 import json
 from time import sleep
 
-from maa.tasker import Tasker
-
 from .player import Player
 from ..utils.logger import logger
 from ..utils.datetime import datetime, timedelta
+from ..utils.maafw import Tasker
 
 class EternalBattlePlayer(Player):
     def __init__(

@@ -4,21 +4,14 @@ from pathlib import Path
 import json
 from time import sleep
 
-#import maa
-from maa.toolkit import Toolkit, AdbDevice
-
-from app.utils.maafw import maafw
+from app.config import config
+from app.utils.maafw import maafw, Toolkit, AdbDevice
 from app.utils.logger import logger
 from app.player.eternal_battle_player import Player, EternalBattlePlayer
 
 def main():
 
-    with open('./MLW-config.json', 'r', encoding='UTF-8') as file:
-        mlw_config = json.load(file)
-        adb_device_info = mlw_config.get("adb_device")
-        eternal_battle_record_info = mlw_config.get("eternal_battle_record")
-    with open(eternal_battle_record_info.get("path"), 'r', encoding='UTF-8') as file:
-        eternal_battle_record = json.load(file)
+    adb_device_info = config["adb_device"]
 
     if not Toolkit.init_option(maafw.user_path):
         logger.error("Failed to init MaaToolkit.")
@@ -30,9 +23,9 @@ def main():
         name = adb_device_info.get("name"),
         adb_path = Path(adb_device_info.get("adb_path")),
         address = adb_device_info.get("address"),
-        screencap_methods = adb_device_info.get("screencap_methods"),     # 64 4 2 1
-        input_methods = adb_device_info.get("input_methods"),         # DON'T USE 8 On Mumu
-        config = adb_device_info.get("config")
+        screencap_methods = adb_device_info.getint("screencap_methods"),     # 64 4 2 1
+        input_methods = adb_device_info.getint("input_methods"),         # DON'T USE 8 On Mumu
+        config = json.loads(adb_device_info.get("config"))
     )
     #adb_device.input_methods = 2  # force to use minitouch
     #adb_device.input_methods = 4  # force to use maatouch
@@ -44,7 +37,7 @@ def main():
         exit()
 
     # On Start, Start an EternalBattlePlayer by default for now. Will be removed later
-    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"))
+    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile= config.get('lostword.eternal_battle_record', 'path'))
     player.start()
 
     command_str = ""
@@ -63,10 +56,10 @@ def main():
                 if player.is_alive():
                     logger.warning("%s is already running", player)
                 elif rest == []:
-                    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"))
+                    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=config.get('lostword.eternal_battle_record', 'path'))
                     player.start()
                 elif rest[0].isdecimal():
-                    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=mlw_config.get("eternal_battle_record").get("path"), repeat_times=int(rest[0]))
+                    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=config.get('lostword.eternal_battle_record', 'path'), repeat_times=int(rest[0]))
                     player.start()
                 else:
                     logger.warning("unknown command")

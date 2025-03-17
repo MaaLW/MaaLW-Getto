@@ -1,0 +1,64 @@
+{
+    "Home_Go_Back_Home_Ruthlessly": {
+        "next": [
+            "Home_Go_Back_Home_Ruthlessly_Already_At_Home"
+        ],
+        "interrupt": [
+            "Common_retry_on_network_timeout_dialog",
+            "Home_Go_Back_Home_Ruthlessly_Tap_Home_Button",
+            "Home_Go_Back_Home_Ruthlessly_Tap_Back_Button"
+        ],
+        "timeout": 10000,
+        "on_error": [
+            "Home_Go_Back_Home_Ruthlessly_On_Error_Press_Back_Key"
+        ]
+    },
+    "Home_Go_Back_Home_Ruthlessly_Tap_Home_Button": {
+        "recognition": "TemplateMatch",
+        "template": "Home\\Home_Button__1225_3_43_43__1175_0_105_96.png",
+        "roi": [
+            1225,
+            3,
+            43,
+            43
+        ],
+        "roi_offset": [
+            -10,
+            -10,
+            20,
+            20
+        ],
+        "threshold": 0.9,
+        "action": "Click"
+    },
+    "Home_Go_Back_Home_Ruthlessly_Tap_Back_Button": {
+        "recognition": "TemplateMatch",
+        "template": "Home\\Back_Button__0_0_70_70__0_0_120_120.png",
+        "green_mask": true,
+        "roi": [
+            0,
+            0,
+            70,
+            70
+        ],
+        "roi_offset": [
+            0,
+            0,
+            10,
+            10
+        ],
+        "threshold": 0.9,
+        "action": "Click"
+    },
+    "Home_Go_Back_Home_Ruthlessly_On_Error_Press_Back_Key": {
+        "action": "Key",
+        "key": 4,
+        "next": "Home_Go_Back_Home_Ruthlessly"
+    },
+    "Home_Go_Back_Home_Ruthlessly_Already_At_Home": {
+        "recognition": "TemplateMatch",
+        "template": "Home.png",
+        "green_mask": true,
+        "threshold": 0.9
+    }
+}

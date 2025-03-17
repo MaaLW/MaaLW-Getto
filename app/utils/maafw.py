@@ -3,7 +3,7 @@
 
 
 from maa.resource import Resource
-from maa.toolkit import AdbDevice
+from maa.toolkit import AdbDevice, Toolkit
 from maa.controller import AdbController
 from maa.tasker import Tasker
 

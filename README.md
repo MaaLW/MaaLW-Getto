@@ -30,7 +30,7 @@ Python 3.12
 
 ## 修改配置文件
 
-[MLW-config.json](#MLW-config)
+[config.ini](#MLW-config)
 
 ## 启动脚本
 
@@ -61,34 +61,26 @@ Python 3.12
 
 ## MLW-config
 
-    MLW-config.json 可以配置模拟器信息，永远战线作战脚本路径
+    config.ini 配置模拟器信息，游戏包名，永远战线作战脚本路径
 
 例子（项目自带的配置文件使用的mumu多开1，例子是没有多开的）
 
-```json
-{
-    "adb_device": {
-        "name": "MuMu12-test",
-        "adb_path": "C:/Program Files/Netease/MuMu Player 12/shell/adb.exe",
-        "address": "127.0.0.1:16384",
-        "screencap_methods": 71,
-        "input_methods": 7,
-        "config": {
-            "extras": {
-                "mumu": {
-                    "enable": true,
-                    "index": 0,
-                    "path": "C:/Program Files/Netease/MuMu Player 12"
-                }
-            }
-        },
-        "doc00": "请确保adb_path和address为实际地址"
-    },
-    "eternal_battle_record": {
-        "path": "assets/battlescript/2.json",
-        "doc00": "path为永远战线录制文件路径"
-    }
-}
+```ini
+[adb_device]
+name = MuMu12
+adb_path = C:/Program Files/Netease/MuMu Player 12/shell/adb.exe
+address = 127.0.0.1:16384
+screencap_methods = 71
+input_methods = 7
+config = {"extras": {"mumu": {"enable": true, "index": 0, "path": "C:/Program Files/Netease/MuMu Player 12"}}}
+
+[lostword]
+package_name = com.gg.lostword.bilibili
+
+[lostword.eternal_battle_record]
+path = assets/battlescript/2.json
+
+
 ```
 
 `adb_path` 和 `address` 按模拟器实际地址修改，index为多开实例序号
@@ -102,33 +94,22 @@ MuMu和雷电模拟器额外参数的配置，设置好了截图速度会快一�
 MuMu
 
 ```json
-        "config": {
-            "extras": {
-                "mumu": {
-                    "enable": true,
-                    "index": 0,
-                    "path": "C:/Program Files/Netease/MuMu Player 12"
-                }
-            }
-        },
+        {"extras": {"mumu": {"enable": true, "index": 0, "path": "C:/Program Files/Netease/MuMu Player 12"}}}
 ```
 
 雷电
 
 ```json
-        "config": {
-            "extras": {
-                "ld": {
-                    "enable": true,
-                    "index": 0,
-                    "path": "C:/leidian/LDPlayer9"
-                }
-            }
-        },
+        {"extras": {"mumu": {"enable": true, "index": 0, "path": "C:/leidian/LDPlayer9"}}}
 ```
 
 其中 `index` 是多开的实例序号， `path` 是模拟器的安装位置
 
+### 包名
+
+可使用adb命令查找游戏包名
+
+`adb shell "pm list packages | grep lostword"`
 
 ## 作战脚本
 

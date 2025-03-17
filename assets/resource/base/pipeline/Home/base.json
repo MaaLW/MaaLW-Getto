@@ -1,0 +1,16 @@
+{
+    "Home_Base_Flag_At_Home": {
+        "recognition": "TemplateMatch",
+        "template": "Home.png",
+        "green_mask": true,
+        "threshold": 0.9
+    },
+    "Home_Base_Stop_Game": {
+        "action": "StopApp",
+        "package": "com.gg.lostword.bilibili"
+    },
+    "Home_Base_Start_Game": {
+        "action": "StartApp",
+        "package": "com.gg.lostword.bilibili"
+    }
+}
