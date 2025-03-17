@@ -5,11 +5,8 @@ from typing import Optional
 import json, re
 
 import jsons
-from maa.define import Rect
-from maa.context import Context
-from maa.custom_recognition import CustomRecognition
 
-from ..maafw import maafw
+from ..maafw import maafw, Rect, Context, CustomRecognition
 from ..logger import logger
 from ..datetime import datetime, time, timedelta
 
@@ -88,11 +85,11 @@ class Errand:
     state: ErrandState = ErrandState.UNKNOWN     # DEFAULT, OUT_NOW, DONE
     reward_type: ErrandReward = ErrandReward.UNKNOWN  # SC, GC, SPIRIT_P, TILES, BOOKS, INCENSE_WOOD, OTHERS
     reward_count: int = 0
-    time_expire: Optional[timedelta] = None      # only for Limited Errands
-    time_cost: Optional[timedelta] = None
-    datetime_reco: Optional[datetime] = None
-    datetime_expire: Optional[datetime] = None      # Time when the errand is expired
-    datetime_complete: Optional[datetime] = None
+    time_expire: timedelta | None = None      # only for Limited Errands
+    time_cost: timedelta | None = None
+    datetime_reco: datetime | None = None
+    datetime_expire: datetime | None = None      # Time when the errand is expired
+    datetime_complete: datetime | None = None
     pass
 
 @maafw.resource.custom_recognition("ErrandRecoTestBench")

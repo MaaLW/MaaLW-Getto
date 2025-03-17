@@ -14,7 +14,7 @@ except ImportError:
 else:
     def datetime_serializer(obj: datetime,
                             *,
-                            strip_microseconds: Optional[bool] = False,
+                            strip_microseconds: bool | None = False,
                             **kwargs) -> str:
         if obj.tzinfo is None: 
             # for this project we only use timezone naive datetime with timespec='seconds'

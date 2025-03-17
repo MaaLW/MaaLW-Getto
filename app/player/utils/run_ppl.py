@@ -1,7 +1,7 @@
-from ..utils.maafw import Tasker
-from ..utils.datetime import datetime, timedelta, sleep
+from ...utils.maafw import Tasker, JobWithResult
+from ...utils.datetime import datetime, timedelta, sleep
 
-def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override: dict = {}, timeout: int = 10) -> tuple[bool, object]:
+def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override: dict = {}, timeout: int = 10) -> tuple[bool, JobWithResult | None]:
     """Run a pipeline task with a timeout.
 
     Args:

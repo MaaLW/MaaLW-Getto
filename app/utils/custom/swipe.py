@@ -3,10 +3,7 @@ from random import random, randint
 from time import sleep
 import json
 
-from maa.context import Context
-from maa.custom_action import CustomAction
-
-from ..maafw import maafw
+from ..maafw import maafw, Context, CustomAction
 
 @maafw.resource.custom_action("VerticalSwipe")
 class VerticalSwipe(CustomAction):

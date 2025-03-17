@@ -1,7 +1,4 @@
-from maa.define import Rect
-from maa.context import Context
-from maa.custom_recognition import CustomRecognition
-from ..maafw import maafw
+from ..maafw import maafw, Rect, Context, CustomRecognition, CustomAction
 @maafw.resource.custom_recognition("Reco2")
 class Reco2(CustomRecognition):
     def analyze(
@@ -19,7 +16,6 @@ class Reco2(CustomRecognition):
         print(res)
         return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail="Hello World!")
     
-from maa.custom_action import CustomAction
 @maafw.resource.custom_action("Act2")
 class Act2(CustomAction):
     def run(
