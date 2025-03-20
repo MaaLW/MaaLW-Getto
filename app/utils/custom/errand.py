@@ -92,7 +92,7 @@ class Errand:
     datetime_complete: datetime | None = None
     pass
 
-@maafw.resource.custom_recognition("ErrandRecoTestBench")
+@maafw.custom_recognition("ErrandRecoTestBench")
 class ErrandRecognitionTestBench(CustomRecognition):
     def analyze(
         self,
@@ -123,7 +123,7 @@ class ErrandRecognitionTestBench(CustomRecognition):
 
         return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail="Hello World!")
 
-@maafw.resource.custom_recognition("ErrandRecoSingle")
+@maafw.custom_recognition("ErrandRecoSingle")
 class ErrandRecognitionSingle(CustomRecognition):
     def analyze(
         self,
@@ -159,7 +159,7 @@ class ErrandRecognitionSingle(CustomRecognition):
         
         return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail=jsons.dumps(errand))
 
-@maafw.resource.custom_recognition("ErrandRecoTest1")
+@maafw.custom_recognition("ErrandRecoTest1")
 class ErrandRecognition1(CustomRecognition):
     '''
     ErrandRecognition1
@@ -340,7 +340,7 @@ class ErrandRecognition1(CustomRecognition):
         return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail=dumped)
         
 
-@maafw.resource.custom_recognition("ErrandReco")
+@maafw.custom_recognition("ErrandReco")
 class ErrandRecognition(CustomRecognition):
     '''
     ErrandRecognition

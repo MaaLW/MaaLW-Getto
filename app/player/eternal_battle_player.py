@@ -37,17 +37,6 @@ class EternalBattlePlayer(Player):
                 break
         logger.info("%s Replaying Finished.", self)
 
-    def post_stop(self):
-        """Sets the stop flag to True, indicating that the player should stop gracefully.
-        
-        This method sets the `b_stop` attribute to True and logs a message indicating
-        that the player has received a stop signal and will stop gracefully. Consider
-        adding logging functionality for better tracking and debugging.
-        """
-
-        self.b_stop = True
-        logger.info("%s Get Stop Signal, Will Stop Gracefully. Please Wait...", self)
-
     def force_stop(self):
         """Forces the player to stop executing any more actions and stop soon.
 

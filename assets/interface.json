@@ -1,6 +1,12 @@
 {
     "version": "1.0",
     "message": "Welecome to the Moon!",
+    "agent": {
+        "child_exec": "python",
+        "child_args": [
+            "agent.py"
+        ]
+    },
     "controller": [
         {
             "name": "安卓端",

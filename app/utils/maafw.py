@@ -1,7 +1,4 @@
 
-
-
-
 from maa.resource import Resource
 from maa.toolkit import AdbDevice, Toolkit
 from maa.controller import AdbController
@@ -10,7 +7,6 @@ from maa.define import Rect
 from maa.context import Context
 from maa.custom_recognition import CustomRecognition
 from maa.custom_action import CustomAction
-
 
 class MaaFW:
     def __init__(self):
@@ -37,5 +33,13 @@ class MaaFW:
         self.tasker = Tasker(notification_handler=self.notification_handler)
         self.tasker.bind(self.resource, self.controller)
         return self.tasker.inited
+
+    def custom_recognition(self, name: str):
+        self_deco = self.resource.custom_recognition(name)
+        return self_deco
+
+    def custom_action(self, name: str):
+        self_deco = self.resource.custom_action(name)
+        return self_deco
 
 maafw = MaaFW()

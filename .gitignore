@@ -13,8 +13,7 @@ dist/
 build/
 
 # dev
-dev.py
-dev-cunstom.py
+
 .vscode/launch.json
 deps/MaaFramework/*.whl
-dev-*.py
+

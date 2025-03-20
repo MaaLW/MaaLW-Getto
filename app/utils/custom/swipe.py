@@ -5,7 +5,7 @@ import json
 
 from ..maafw import maafw, Context, CustomAction
 
-@maafw.resource.custom_action("VerticalSwipe")
+@maafw.custom_action("VerticalSwipe")
 class VerticalSwipe(CustomAction):
     @dataclass
     class CustomParam:
@@ -77,7 +77,7 @@ class VerticalSwipe(CustomAction):
                 return end_point
         return next_x, next_y
 
-@maafw.resource.custom_action("HorizontalSwipe")
+@maafw.custom_action("HorizontalSwipe")
 class HorizontalSwipe(CustomAction):
     @dataclass
     class CustomParam:
