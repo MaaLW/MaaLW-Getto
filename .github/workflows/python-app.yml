@@ -1,10 +1,13 @@
 name: Python CI
 
 on:
-  push:
-    branches: [ main feat ]
-  pull_request:
-    branches: [ main ]
+    push:
+      branches: 
+        - main
+        - feat  # 确保分支名与你的实际分支名完全一致
+    pull_request:
+      branches:
+        - main
 
 jobs:
   build:
