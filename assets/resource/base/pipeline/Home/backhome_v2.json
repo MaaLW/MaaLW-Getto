@@ -15,7 +15,7 @@
     },
     "Home_Go_Back_Home_Ruthlessly_v2_Tap_Home_Button": {
         "recognition": "TemplateMatch",
-        "template": "Home\\Home_Button__1225_3_43_43__1175_0_105_96.png",
+        "template": "Home/Home_Button__1225_3_43_43__1175_0_105_96.png",
         "roi": [
             1225,
             3,
@@ -33,7 +33,7 @@
     },
     "Home_Go_Back_Home_Ruthlessly_v2_Tap_Back_Button": {
         "recognition": "TemplateMatch",
-        "template": "Home\\Back_Button__0_0_70_70__0_0_120_120.png",
+        "template": "Home/Back_Button__0_0_70_70__0_0_120_120.png",
         "green_mask": true,
         "roi": [
             0,

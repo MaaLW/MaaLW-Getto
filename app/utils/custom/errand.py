@@ -1,12 +1,12 @@
 from enum import StrEnum, auto
 from dataclasses import dataclass, field, fields
 from time import sleep
-from typing import Optional
 import json, re
 
 import jsons
 
-from ..maafw import maafw, Rect, Context, CustomRecognition
+from ..maafw import Rect, Context, CustomRecognition
+from ..maafw.custom import custom_registry
 from ..logger import logger
 from ..datetime import datetime, time, timedelta
 
@@ -92,7 +92,7 @@ class Errand:
     datetime_complete: datetime | None = None
     pass
 
-@maafw.custom_recognition("ErrandRecoTestBench")
+@custom_registry.custom_recognition("ErrandRecoTestBench")
 class ErrandRecognitionTestBench(CustomRecognition):
     def analyze(
         self,
@@ -123,7 +123,7 @@ class ErrandRecognitionTestBench(CustomRecognition):
 
         return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail="Hello World!")
 
-@maafw.custom_recognition("ErrandRecoSingle")
+@custom_registry.custom_recognition("ErrandRecoSingle")
 class ErrandRecognitionSingle(CustomRecognition):
     def analyze(
         self,
@@ -159,7 +159,7 @@ class ErrandRecognitionSingle(CustomRecognition):
         
         return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail=jsons.dumps(errand))
 
-@maafw.custom_recognition("ErrandRecoTest1")
+@custom_registry.custom_recognition("ErrandRecoTest1")
 class ErrandRecognition1(CustomRecognition):
     '''
     ErrandRecognition1
@@ -340,7 +340,7 @@ class ErrandRecognition1(CustomRecognition):
         return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail=dumped)
         
 
-@maafw.custom_recognition("ErrandReco")
+@custom_registry.custom_recognition("ErrandReco")
 class ErrandRecognition(CustomRecognition):
     '''
     ErrandRecognition
@@ -354,7 +354,7 @@ class ErrandRecognition(CustomRecognition):
     ) -> CustomRecognition.AnalyzeResult:
         enter_time = datetime.now()
         today_end_time = datetime.combine(enter_time, time.max)
-        failed_result = CustomRecognition.AnalyzeResult(None, "")
+        failed_result = CustomRecognition.AnalyzeResult(box=(0, 0, 50, 50), detail="")
         dims = Dimensions(**{k: v for k, v in json.loads(argv.custom_recognition_param).items() if k in (f.name for f in fields(Dimensions))})
         images, reco_times = (), ()
         new_context = context.clone()
@@ -573,7 +573,7 @@ class ErrandRecognition(CustomRecognition):
             # TODO : Validate errand?
             daily_errands = daily_errands + (errand,)
         logger.debug("Successfully parsed %d Daily Errands and %d Limited Errands. Time Elapsed %3f seconds.", len(daily_errands), len(limited_errands), (datetime.now() - enter_time).total_seconds())
-        dumped = jsons.dumps((daily_errands, limited_errands))
+        dumped = jsons.dumps(daily_errands + limited_errands)
         
-        return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail=dumped)
+        return CustomRecognition.AnalyzeResult(box=(0, 0, 50, 50), detail=dumped)
 

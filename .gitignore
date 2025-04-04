@@ -16,4 +16,7 @@ build/
 
 .vscode/launch.json
 deps/MaaFramework/*.whl
+lostword.db
+.coverage
+
 

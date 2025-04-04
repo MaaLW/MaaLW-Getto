@@ -1,5 +1,4 @@
 # For Debug Use
-from typing import Optional
 
 from numpy import ndarray, array
 

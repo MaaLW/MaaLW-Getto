@@ -1,1 +1,13 @@
-{}
+{
+    "Errand_Player_Run_Errand_Reco_Entry": {
+        "next": [
+            "Errand_Player_Run_Errand_Reco"
+        ],
+        "timeout": 40000
+    },
+    "Errand_Player_Run_Errand_Reco": {
+        "recognition": "Custom",
+        "custom_recognition": "ErrandReco"
+    },
+    "Errand_Player_Common_Entry": {}
+}

@@ -3,9 +3,10 @@ from random import random, randint
 from time import sleep
 import json
 
-from ..maafw import maafw, Context, CustomAction
+from ..maafw import Context, CustomAction
+from ..maafw.custom import custom_registry
 
-@maafw.custom_action("VerticalSwipe")
+@custom_registry.custom_action("VerticalSwipe")
 class VerticalSwipe(CustomAction):
     @dataclass
     class CustomParam:
@@ -77,7 +78,7 @@ class VerticalSwipe(CustomAction):
                 return end_point
         return next_x, next_y
 
-@maafw.custom_action("HorizontalSwipe")
+@custom_registry.custom_action("HorizontalSwipe")
 class HorizontalSwipe(CustomAction):
     @dataclass
     class CustomParam:

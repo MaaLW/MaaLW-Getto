@@ -12,7 +12,8 @@ from code import interact
 
 from app.utils.datetime import datetime
 from app.utils.logger import logger
-from app.utils.maafw import maafw, Context, CustomRecognition, CustomAction, Toolkit, AdbDevice
+from app.utils.maafw import Context, CustomRecognition, CustomAction, Toolkit, AdbDevice
+from app.utils.maafw.maafw import maafw
 from app.config import config
 
 logger.setLevel(DEBUG)

@@ -11,7 +11,8 @@ from logging import NOTSET, DEBUG
 from code import interact
 
 from app.utils.logger import logger
-from app.utils.maafw import maafw, Context, CustomAction, Toolkit, AdbDevice
+from app.utils.maafw import Context, CustomAction, Toolkit, AdbDevice
+from app.utils.maafw.maafw import maafw
 from app.config import config
 
 logger.setLevel(DEBUG)
@@ -55,7 +56,7 @@ def main():
             case ["exit" | "quit", *rest]:
                 break
             case ["stop"]:
-                if isinstance(player, Player) and player.is_alive(): player.post_stop()
+                if isinstance(player, Player) and player.is_alive(): player.stop()
             case ["force", "stop"]:
                 if isinstance(player, Player) and player.is_alive(): player.force_stop()
             case ["start", *rest]:

@@ -30,5 +30,8 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.vscode-pylance"
     },
-    "python.terminal.activateEnvironment": true
+    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.terminal.focusAfterLaunch": true,
+    "python.terminal.shellIntegration.enabled": true
 }

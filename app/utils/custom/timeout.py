@@ -1,8 +1,9 @@
-from ..maafw import maafw, Rect, Context, CustomRecognition
+from ..maafw import Rect, Context, CustomRecognition
+from ..maafw.custom import custom_registry
 from ..logger import logger
 from ..datetime import datetime, time, timedelta
 
-@maafw.custom_recognition("LostwordFindNetworkTimeoutDialog_v1")
+@custom_registry.custom_recognition("LostwordFindNetworkTimeoutDialog_v1")
 class LostwordFindNetworkTimeoutDialog_v1(CustomRecognition):
     def analyze(
         self,

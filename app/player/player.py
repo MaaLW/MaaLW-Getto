@@ -1,31 +1,52 @@
 # app/player/player.py
+from threading import Thread, Event
+from queue import Queue
 
-from abc import ABC, abstractmethod
-from threading import Thread
-
+from ..core import Message, Source, Command
 from ..utils.logger import logger
 
-class Player(Thread, ABC):
-    @abstractmethod
-    def __init__(self):
-        super().__init__()
-        self.b_stop = False
+class Player(Thread):
+
+    def __init__(self, queue: Queue = None, **kwargs):
+        super().__init__(**kwargs)
+        self._stop_event = Event()
+        self.queue = queue
         pass
 
-    @abstractmethod
     def run(self):
+        '''DO NOT OVERRIDE.
+        Override peri_run() instead'''
+        try:
+            self.pre_run()
+            self.peri_run()
+        finally:
+            self.post_run()
         pass
 
-    def post_stop(self):
-        self.__stop()
+    def stop(self):
+        self.__set_stop()
         logger.info("%s Get Stop Signal, Will Stop Gracefully. Please Wait...", self)
         pass
 
-    @abstractmethod
     def force_stop(self):
-        self.__stop()
+        self.__set_stop()
         logger.info("%s Get Force Stop Signal, Will Do No More Actions and Stop Soon. Please Wait...", self)
         pass
+    
+    def pre_run(self):
+        self.queue.put_nowait((100, Message(Source.PLAYER, Command.NOTIFY, content={"info": "start", "instance": self})))
+        pass
 
-    def __stop(self):
-        self.b_stop = True
+    def post_run(self):
+        self.queue.put_nowait((100, Message(Source.PLAYER, Command.NOTIFY, content={"info": "done", "instance": self})))
+        pass
+
+    def peri_run(self):
+        '''
+        Override this method.
+        Put anything here.
+        '''
+        pass
+
+    def __set_stop(self):
+        self._stop_event.set()

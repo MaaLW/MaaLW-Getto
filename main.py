@@ -3,14 +3,19 @@
 from pathlib import Path
 import json
 from time import sleep
+from queue import PriorityQueue
+import threading
 
 from app.config import config
-from app.utils.maafw import maafw, Toolkit, AdbDevice
+from app.utils.maafw import Toolkit, AdbDevice
+from app.utils.maafw.maafw import maafw
 from app.utils.logger import logger
 from app.player.eternal_battle_player import Player, EternalBattlePlayer
+from app.ui.cmd import UserInterface
+from app.core import Message, Command, Source
 
 def main():
-
+    # StartUp()
     adb_device_info = config["adb_device"]
 
     if not Toolkit.init_option(maafw.user_path):
@@ -27,8 +32,7 @@ def main():
         input_methods = adb_device_info.getint("input_methods"),         # DON'T USE 8 On Mumu
         config = json.loads(adb_device_info.get("config"))
     )
-    #adb_device.input_methods = 2  # force to use minitouch
-    #adb_device.input_methods = 4  # force to use maatouch
+
     if not maafw.connect_adb_device(adb_device):
         logger.error("Failed to connect adb device.")
 
@@ -36,11 +40,36 @@ def main():
         logger.error("Failed to init MaaFramework.")
         exit()
 
-    # On Start, Start an EternalBattlePlayer by default for now. Will be removed later
-    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile= config.get('lostword.eternal_battle_record', 'path'))
-    player.start()
+    scheduler_queue = PriorityQueue()
+    def run_user_interface():
+        ui = UserInterface(scheduler_queue)
+        ui.cmdloop()
+    
+    ui_thread = threading.Thread(target=run_user_interface)
+    ui_thread.start()
 
-    command_str = ""
+    player = None
+
+    # Scheduler Loop
+    try:
+        while True:
+            priority, message = scheduler_queue.get()
+            if isinstance(message, Message):
+                print(message)
+            
+            # 如果收到用户退出信号，结束主线程
+                if message.source is Source.USER and message.command is Command.EXIT:
+                    print("Main thread exiting...")
+                    break
+    except KeyboardInterrupt:
+        print("Main thread interrupted.")
+    finally:
+        if isinstance(player, Player):
+            player.force_stop()
+        ui_thread.join()
+        pass
+    return
+
     # Main Loop
     while True:
         # get input
