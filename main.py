@@ -10,9 +10,9 @@ from app.config import config
 from app.utils.maafw import Toolkit, AdbDevice
 from app.utils.maafw.maafw import maafw
 from app.utils.logger import logger
-from app.player.eternal_battle_player import Player, EternalBattlePlayer
+from app.player.eternal_battle_player import Player
 from app.ui.cmd import UserInterface
-from app.core import Message, Command, Source
+from app.core import Core
 
 def main():
     # StartUp()
@@ -40,64 +40,23 @@ def main():
         logger.error("Failed to init MaaFramework.")
         exit()
 
-    scheduler_queue = PriorityQueue()
-    def run_user_interface():
-        ui = UserInterface(scheduler_queue)
-        ui.cmdloop()
+    core = Core()
+    core.start()
     
+    def run_user_interface():
+        ui = UserInterface(core=core)
+        ui.cmdloop()
     ui_thread = threading.Thread(target=run_user_interface)
     ui_thread.start()
 
-    player = None
-
-    # Scheduler Loop
     try:
-        while True:
-            priority, message = scheduler_queue.get()
-            if isinstance(message, Message):
-                print(message)
-            
-            # 如果收到用户退出信号，结束主线程
-                if message.source is Source.USER and message.command is Command.EXIT:
-                    print("Main thread exiting...")
-                    break
+        ui_thread.join()
     except KeyboardInterrupt:
         print("Main thread interrupted.")
     finally:
-        if isinstance(player, Player):
-            player.force_stop()
         ui_thread.join()
         pass
     return
-
-    # Main Loop
-    while True:
-        # get input
-        command = input("Getto > ")
-        match command.split():
-            case ["exit" | "quit", *rest]:
-                break
-            case ["stop"]:
-                player.post_stop()
-            case ["force", "stop"]:
-                player.force_stop()
-            case ["start", *rest]:
-                if player.is_alive():
-                    logger.warning("%s is already running", player)
-                elif rest == []:
-                    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=config.get('lostword.eternal_battle_record', 'path'))
-                    player.start()
-                elif rest[0].isdecimal():
-                    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=config.get('lostword.eternal_battle_record', 'path'), repeat_times=int(rest[0]))
-                    player.start()
-                else:
-                    logger.warning("unknown command")
-            case []:
-                pass
-            case _:
-                logger.warning("unknown command")
-        sleep(0.1)
-
 
 
 if __name__ == "__main__":

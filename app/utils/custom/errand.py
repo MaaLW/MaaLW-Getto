@@ -9,24 +9,7 @@ from ..maafw import Rect, Context, CustomRecognition
 from ..maafw.custom import custom_registry
 from ..logger import logger
 from ..datetime import datetime, time, timedelta
-
-def is_in_rect(r: Rect):
-    """
-    Returns a function that checks if a given rectangle `r1` is completely
-    within the boundaries of rectangle `r`.
-
-    Parameters:
-    - r: The reference rectangle within which the check is performed.
-
-    Returns:
-    - A function that takes a rectangle `r1` and returns True if `r1` is
-      entirely within `r`, otherwise False.
-    """
-
-    def _is_in_rect(r1: Rect) -> bool:
-        return max(r1.x, r1.x + r1.w) <= max(r.x, r.x + r.w) and min(r1.x, r1.x + r1.w) >= min(r.x, r.x + r.w) and\
-              max(r1.y, r1.y + r1.h) <= max(r.y, r.y + r.h) and min(r1.y, r1.y + r1.h) >= min(r.y, r.y + r.h)
-    return _is_in_rect
+from .define import is_in_rect
 
 regex_time = re.compile(r"[0-9]{2}:[0-9]{2}:[0-9]{2}")
 img_save_path = "./assets/cache/debug/errand/"
@@ -50,13 +33,6 @@ class Dimensions:
     relative_box_negative_whole_errand: Rect = field(default_factory=lambda: Rect(0, 0, -980, -189)) # add this to ctual box for whole errand to get the origin
     relative_box_time_expire: Rect = field(default_factory=lambda: Rect(0, 120, 220, 70)) # add this to origin to get the actual box for time expire
     relative_box_time_cost: Rect = field(default_factory=lambda: Rect(250, 80, 240, 90)) # add this to origin to get the actual box for time cost
-    pass
-@dataclass
-class CustomParam:
-    num_daily_errands: int = 5
-    num_limited_errands: int = 3
-@dataclass
-class CustomResult:
     pass
 
 class ErrandState(StrEnum):

@@ -8,6 +8,10 @@ from code import interact
 from app.utils.logger import logger
 
 
+import app.core.varspool.storage as storage
+print(storage.vars)
+exit()
+
 
 logger.info("test")
 logger.debug("test")

@@ -1,10 +1,15 @@
+import configparser
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from .models import Base, Variable, datetime
+from ..define import GamePage
 
 # if a variable needs persistence, add it to this list
-intvars = ("level", "sp")
-datetimevars = ("errand_finish_time",)
+config = configparser.ConfigParser(allow_no_value=True)
+config.read('config/core/vars.ini', encoding='UTF-8')
+intvars = tuple(config['intvars'].keys())
+datetimevars = tuple(config['datetimevars'].keys())
+datetimevars += tuple(config.get("generator_prefixes", "datetime_last_scrape") + gp.value for gp in GamePage)
 vars = intvars + datetimevars
 
 class VarDict(dict):

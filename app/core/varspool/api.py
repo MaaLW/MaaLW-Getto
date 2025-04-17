@@ -1,32 +1,30 @@
-import threading
-from queue import Queue
-from .. import Message, Command
 from .storage import VariableStorage, VarDict
-from ...utils.logger import logger
+from ..corethread import (CoreThread,
+                          logger,
+                          Message,
+                          Command)
 
-class VarsPool(threading.Thread):
-    def __init__(self):
-        super().__init__(daemon=True)
-        self.queue = Queue()          # 其他模块通过此队列发送消息
-        self.storage = VariableStorage()
-        self.storage.load_all()      # 初始化时加载已有数据
+class VarsPool(CoreThread):
+    def __init__(self, db_url = None, **kwargs):
+        super().__init__(**kwargs)
+        self.storage = VariableStorage() if db_url is None else VariableStorage(db_url)
+        self.storage.load_all()  # Load from db at init
 
-    def run(self):
-        while True:
-            try:
-                msg: Message = self.queue.get()
-                if msg.command == Command.SET_VARIABLE:
-                    self._handle_set_variable(msg.content)
-            except Exception as e:
-                logger.error(e)
-                continue
+    def _process(self, msg: Message, priority=100):
+        logger.debug("VarsPool processing %s", msg)
+        if msg.command == Command.SET_VARIABLE:
+            self._handle_set_variable(msg.content)
+        # Other commands
 
-    def _handle_set_variable(self, data: VarDict[str, object]):
-        """处理变量更新请求"""
-        name = data["name"]
-        value = data["value"]
-        self.storage.update_variable(name, value)
+    def _handle_set_variable(self, data: dict[str, object]):
+        """Handle SET_VARIABLE command"""
+        name = data.get("name")
+        value = data.get("value")
+        try:
+            self.storage.update_variable(name, value)
+        except Exception as e:
+            logger.error(f"Error updating variable: {name}={value}, Exception: {e}")
 
     def get_variable(self, name: str) -> VarDict[str, object]:
-        """非阻塞读取接口（直接返回缓存数据）"""
+        """Unblocking get variable"""
         return self.storage.get_variable(name)

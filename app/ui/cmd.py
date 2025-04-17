@@ -1,17 +1,16 @@
 import cmd
-from queue import Queue
 from argparse import ArgumentParser
 
 #from pyreadline3 import Readline
 
 from app.utils.logger import logger
 from app.utils.datetime import datetime
-from app.core import Message, Command, Source
+from app.core import Message, Command, Source, CoreInterface
 
 class UserInterface(cmd.Cmd):
-    def __init__(self, data_queue: Queue, prompt="Getto> "):
+    def __init__(self, core:CoreInterface, prompt="Getto> "):
         super().__init__()
-        self.data_queue = data_queue
+        self.core:CoreInterface = core
         self.prompt = prompt
         self.use_rawinput = False
         #self.readline = Readline()
@@ -29,7 +28,7 @@ class UserInterface(cmd.Cmd):
         """Try to send whatever you want. Can only send string in kwargs"""
         try:
             args = arg.split()
-            self.data_queue.put_nowait((50, Message(Source.USER, Command(args[0]), content={k:v for k,v in zip(args[1::2], args[2::2])})))
+            self.core.post_message(Message(Source.USER, Command(args[0]), content={k:v for k,v in zip(args[1::2], args[2::2])}), priority=50)
         except Exception as e: 
             logger.error(e)
 
@@ -37,7 +36,7 @@ class UserInterface(cmd.Cmd):
         """Start a player. Usage: play <player>"""
         try: args = self.play_parser.parse_args(arg.split())
         except: return
-        self.data_queue.put_nowait((50, Message(Source.USER, Command.PLAY, content=vars(args))))
+        self.core.post_message(Message(Source.USER, Command.PLAY, content=vars(args)), priority=50)
 
     def help_play(self):
         self.play_parser.print_help()
@@ -46,7 +45,7 @@ class UserInterface(cmd.Cmd):
         """Stop current player. Usage: stop [-f]"""
         try: args = self.stop_parser.parse_args(arg.split())
         except: return
-        self.data_queue.put((50, Message(Source.USER, Command.STOP, content=vars(args))))
+        self.core.post_message(Message(Source.USER, Command.STOP, content=vars(args)), priority=50)
 
     def help_stop(self):
         self.stop_parser.print_help()
@@ -55,7 +54,7 @@ class UserInterface(cmd.Cmd):
         """Exit the user interface."""
         logger.info("Exiting user interface...")
         # 将退出信号放入队列
-        self.data_queue.put((0, Message(Source.USER, Command.EXIT)))
+        self.core.post_message(Message(Source.USER, Command.EXIT), priority=0)
         return True
     
     def emptyline(self):

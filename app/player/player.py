@@ -1,26 +1,30 @@
 # app/player/player.py
 from threading import Thread, Event
 from queue import Queue
+import json
 
-from ..core import Message, Source, Command
+from .define import NavigateResult
+from ..core import Message, Source, Command, CoreInterface, GamePage, NotifyInfo
 from ..utils.logger import logger
+from ..utils.datetime import datetime
+from ..utils.maafw.maafw import maafw, JobWithResult
 
 class Player(Thread):
-
-    def __init__(self, queue: Queue = None, **kwargs):
+    def __init__(self, core: CoreInterface = None, **kwargs):
         super().__init__(**kwargs)
+        self._core = core
         self._stop_event = Event()
-        self.queue = queue
+        self._run_ppl = maafw.run_ppl
         pass
 
     def run(self):
         '''DO NOT OVERRIDE.
         Override peri_run() instead'''
         try:
-            self.pre_run()
+            self._pre_run()
             self.peri_run()
         finally:
-            self.post_run()
+            self._post_run()
         pass
 
     def stop(self):
@@ -30,15 +34,20 @@ class Player(Thread):
 
     def force_stop(self):
         self.__set_stop()
+        self._run_ppl = maafw.dummy_run_ppl
         logger.info("%s Get Force Stop Signal, Will Do No More Actions and Stop Soon. Please Wait...", self)
         pass
+
+    def _notify_core(self, **kwargs):
+        msg = Message(source=Source.PLAYER, command=Command.NOTIFY, content={**kwargs, "instance": self})
+        self._core.post_message(msg=msg)
     
-    def pre_run(self):
-        self.queue.put_nowait((100, Message(Source.PLAYER, Command.NOTIFY, content={"info": "start", "instance": self})))
+    def _pre_run(self):
+        self._notify_core(info=NotifyInfo.STARTED)
         pass
 
-    def post_run(self):
-        self.queue.put_nowait((100, Message(Source.PLAYER, Command.NOTIFY, content={"info": "done", "instance": self})))
+    def _post_run(self):
+        self._notify_core(info=NotifyInfo.DONE)
         pass
 
     def peri_run(self):
@@ -50,3 +59,54 @@ class Player(Thread):
 
     def __set_stop(self):
         self._stop_event.set()
+
+    def stopping(self):
+        return self._stop_event.is_set()
+    
+    def _navigate(self, dest: GamePage) -> NavigateResult:
+        if self.stopping(): return NavigateResult.STOPPED
+        logger.debug("Navigating for %s, destination is %s", self, dest)
+        if dest is GamePage.HOME:
+            return self.__navigate_home()
+        elif dest is GamePage.UNKNOWN:
+            logger.error("Invalid: %s", dest)
+            return NavigateResult.FAILED
+        else:
+            logger.error("Not Implemented: %s", dest)
+            return NavigateResult.FAILED
+        pass
+
+    def __navigate_home(self) -> NavigateResult:
+        dest = GamePage.HOME
+        b, job = self._run_ppl("Home_Go_Back_Home_Ruthlessly_v2", timeout=60)
+        if not b:
+            if self.stopping(): # error due to force stop
+                return NavigateResult.STOPPED
+            logger.error("%s Failed to navigate to home page", self)
+            #self._notify_core(info="failed", action="navigate", dest=dest)
+            return NavigateResult.FAILED
+        if self._core.need_scrape(gp=dest):
+            try:
+                self.__scrape_home()
+            except Exception as e:
+                logger.error("%s Failed to scrape home page: %s", self, e)
+            pass
+        return NavigateResult.SUCCEEDED
+    
+    def __scrape_home(self) -> bool:
+        datetime_last_scrape_home = datetime.now()
+        b, job = self._run_ppl("Home_Scrape_Custom_Reco_Runner_v1", timeout=10)
+        if b and isinstance(job, JobWithResult):
+            str_result = job.nodes[-1].recognition.best_result.detail
+            logger.debug("%s Home Page Scrape Result: %s", self, str_result)
+            dict_result = json.loads(str_result)
+            assert isinstance(dict_result, dict)
+            dict_result["datetime_last_scrape_home"] = datetime_last_scrape_home
+            self._notify_core(info=NotifyInfo.SCRAPED, gamepage=GamePage.HOME, result=dict_result)
+            return True
+        return False
+
+    def _replay_daemon(self):
+        if self.stopping(): return
+        # create a replay daemon and join it
+        pass

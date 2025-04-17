@@ -1,7 +1,7 @@
 ## To Scheduler
 | Message |  command |    source   | time |      kwargs      |       Handling       |
 |:-------:|:--------:|:-----------:|:----:|:----------------:|:--------------------:|
-|         | NAVIGATE | USER<br>PLAYER |      | dest: str = DEST | Forward to Navigator |
+|         | NAVIGATE | USER<br>PLAYER |      | dest: str = DEST<br>cond: Condition = COND | Forward to Navigator |
 |         |          |             |      |                  |                      |
 |         |          |             |      |                  |                      |
 
@@ -15,7 +15,7 @@
 ## To AI
 | Message | Command | Source | time | kwargs |   |
 |:-------:|:-------:|:------:|:----:|:------:|:-:|
-|         |         |        |      |        |   |
+|         |  NOTIFY | PLAYER |      | info: NotifyInfo = INFO |   |
 |         |         |        |      |        |   |
 |         |         |        |      |        |   |
 
