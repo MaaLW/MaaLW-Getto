@@ -1,5 +1,5 @@
 # coding:utf-8
-
+# Consider adapt this to tests 2025/4/17
 from dataclasses import asdict
 from pathlib import Path
 import json
@@ -72,6 +72,13 @@ def main():
         logger.error("Failed to init MaaFramework.")
         exit()
 
+    job = maafw.tasker.post_task("1",{"1": {"recognition": "custom", "custom_recognition": "TestBenchCustomRecognition", 
+                                            "custom_recognition_param": {"image": "MuMu12-20250415-230237", 
+                                                 "custom_recognition": "GettoScrapeHome_v1"}
+                                    }}
+                                ).wait().get()
+    print(job)
+    return
     job = maafw.tasker.post_task("1",{"1": {"recognition": "custom", "custom_recognition": "TestBenchCustomRecognition", 
                                             "custom_recognition_param": {"image": "lostword_timeout_01", 
                                                  "custom_recognition": "LostwordFindNetworkTimeoutDialog_v1"}

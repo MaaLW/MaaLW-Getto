@@ -22,8 +22,8 @@ class DimensionsHome:
     box_sc: Rect = field(default_factory=lambda: Rect(1060, 0, 120, 60))
     pass
 
-@custom_registry.custom_recognition("GettoScrapeHomeV1")
-class GettoScrapeHomeV1(CustomRecognition):
+@custom_registry.custom_recognition("GettoScrapeHome_v1")
+class GettoScrapeHome_v1(CustomRecognition):
     def analyze(self, context, argv):
         enter_time = datetime.now()
         failed_result = CustomRecognition.AnalyzeResult(None, "")

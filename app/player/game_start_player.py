@@ -1,18 +1,16 @@
-
-
-from .player import Player, Queue, logger
-from .utils.run_ppl import maafw_run_ppl, dummy_run_ppl
-from ..utils.maafw import Tasker
+from .player import Player, Queue, logger, CoreInterface
 
 class GameStartPlayer(Player):
+    '''
+    This player would always try to go to Lostword Home Page. 
+    If it fails to go home, it would stop the game and then start the game
+    '''
     def __init__(
-            self, *,
-            queue: Queue,
-            tasker: Tasker,
+            self, 
+            core: CoreInterface, 
+            **kwargs
             ):
-        super().__init__(queue=queue, name="ErrandPlayer")
-        self.tasker = tasker
-        self.__run_ppl = maafw_run_ppl
+        super().__init__(core=core, **kwargs)
 
     def peri_run(self):
         # TODO: Check if game has started
@@ -21,4 +19,8 @@ class GameStartPlayer(Player):
         # Scene03: Restart Game (Soft)
         # Scene04: Restart Game
         # Scene05: 
+        # Should handle Download Query Dialog & Wait for Downloading
+
+        #PSEUDO CODE
+        # Check for Date-Changed / Maintainance / Network-Error Force-Log-Out Dialog
         pass

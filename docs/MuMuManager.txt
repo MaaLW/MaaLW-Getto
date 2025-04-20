@@ -1,0 +1,36 @@
+PS C:\Program Files\Netease\MuMu Player 12\shell> .\MuMuManager.exe control -v 1 app info -pkg com.gg.lostword.bilibili
+{
+  "state": "running"
+}
+PS C:\Program Files\Netease\MuMu Player 12\shell> .\MuMuManager.exe control -v 1 app info -pkg com.gg.lostword.bilibil
+{
+  "state": "not_installed"
+}
+PS C:\Program Files\Netease\MuMu Player 12\shell> .\MuMuManager.exe control -v 1 app info -i
+{
+  "active": "com.gg.lostword.bilibili",
+  "com.buzbuz.smartautoclicker": {
+    "app_name": "Klick'r",
+    "version": "3.2.2"
+  },
+  "com.gg.lostword.bilibili": {
+    "app_name": "东方归言录",
+    "version": "6.2.0"
+  },
+  "com.gg.lostword.yofun.mumu": {
+    "app_name": "东方归言录",
+    "version": "6.0.0"
+  },
+  "jp.goodsmile.touhoulostwordglobal_android": {
+    "app_name": "Touhou LostWord",
+    "version": "1.33.0"
+  },
+  "tv.danmaku.bili": {
+    "app_name": "哔哩哔哩",
+    "version": "8.2.0"
+  }
+}
+PS C:\Program Files\Netease\MuMu Player 12\shell> .\MuMuManager.exe control -v 1 app info -pkg com.gg.lostword.yofun.mumu
+{
+  "state": "stopped"
+}

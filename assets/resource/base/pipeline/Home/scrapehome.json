@@ -7,6 +7,6 @@
     },
     "Home_Scrape_Custom_Reco_Runner_v1": {
         "recognition": "Custom",
-        "custom_recognition": "GettoScrapeHomeV1"
+        "custom_recognition": "GettoScrapeHome_v1"
     }
 }

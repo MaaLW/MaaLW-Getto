@@ -10,7 +10,9 @@ from ..utils.datetime import datetime
 from ..utils.maafw.maafw import maafw, JobWithResult
 
 class Player(Thread):
-    def __init__(self, core: CoreInterface = None, **kwargs):
+    def __init__(self, 
+                 core: CoreInterface, 
+                 **kwargs):
         super().__init__(**kwargs)
         self._core = core
         self._stop_event = Event()
@@ -69,7 +71,6 @@ class Player(Thread):
         if dest is GamePage.HOME:
             return self.__navigate_home()
         elif dest is GamePage.UNKNOWN:
-            logger.error("Invalid: %s", dest)
             return NavigateResult.FAILED
         else:
             logger.error("Not Implemented: %s", dest)

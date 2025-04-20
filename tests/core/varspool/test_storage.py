@@ -11,15 +11,15 @@ def memory_storage():
 def test_variable_persistence(memory_storage):
     assert isinstance(memory_storage, VariableStorage)
     # 测试插入新变量
-    memory_storage.update_variable("level", 5)
-    var_data = memory_storage.get_variable("level")
+    memory_storage.update_variable("player_level", 5)
+    var_data = memory_storage.get_variable("player_level")
     assert isinstance(var_data, VarDict)
     assert var_data.get("value") == 5
     assert var_data.value == 5
     
     # 测试更新变量
-    memory_storage.update_variable("level", 10)
-    updated_data = memory_storage.get_variable("level")
+    memory_storage.update_variable("player_level", 10)
+    updated_data = memory_storage.get_variable("player_level")
     assert isinstance(updated_data, dict)
     assert updated_data.get("value") == 10
     

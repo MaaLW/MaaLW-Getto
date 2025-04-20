@@ -2,6 +2,7 @@ from ...utils.maafw import Tasker, JobWithResult
 from ...utils.datetime import datetime, timedelta, sleep
 
 def maafw_run_ppl(tasker: Tasker, entry: str, pipeline_override: dict = {}, timeout: int = 10) -> tuple[bool, JobWithResult | None]:
+    # Deprecated 2025/04/18
     """Run a pipeline task with a timeout.
 
     Args:
