@@ -11,7 +11,9 @@ class MuMu12Emulator(GenericEmulator):
                  emulator_name: str,
                  adb_path: str,
                  adb_address: str,
-                 default_app_package_name: str) -> None:
+                 default_app_package_name: str,
+                 **kwargs
+                 ) -> None:
         """
         Args:
             manager_path: Path to MuMuManager.exe

@@ -4,14 +4,27 @@
         "custom_recognition": "LostwordFindNetworkTimeoutDialog_v1",
         "action": "Click"
     },
+    "Common_Network_Timeout_Handler_Stop_v1": {
+        "recognition": "Custom",
+        "custom_recognition": "LostwordFindNetworkTimeoutDialog_v1",
+        "action": "StopTask"
+    },
+    "Common_Network_Timeout_Handler_Cancel_v1": {
+        "recognition": "Custom",
+        "custom_recognition": "LostwordFindNetworkTimeoutDialog_v1",
+        "custom_recognition_param": {
+            "find_button": "cancel"
+        },
+        "action": "Click"
+    },
     "Common_Network_Timeout_Handler_v1_Helper_Template_Match": {
         "recognition": "TemplateMatch",
         "template": "common/timeout_dialog__250_165_780_390__200_115_880_490.png",
         "roi": [
-            250,
-            165,
-            780,
-            390
+            200,
+            115,
+            880,
+            490
         ]
     },
     "Common_Network_Timeout_Handler_v1_Helper_OCR": {
@@ -32,6 +45,18 @@
             430,
             260,
             150
-        ]
+        ],
+        "threshold": 0.9
+    },
+    "Common_Network_Timeout_Handler_v1_Helper_Cancel_Button": {
+        "recognition": "TemplateMatch",
+        "template": "common/timeout_dialog_cancel_button__420_480_160_50__370_430_260_150.png",
+        "roi": [
+            370,
+            430,
+            260,
+            150
+        ],
+        "threshold": 0.9
     }
 }

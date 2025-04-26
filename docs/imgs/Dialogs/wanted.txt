@@ -1,0 +1,6 @@
+[Error]
+Network_Error
+Server_Error
+
+[Dismissable]
+Friend_Points_Confirm

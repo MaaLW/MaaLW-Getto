@@ -4,14 +4,19 @@ from ..datetime import sleep
 from .define import Emulator
 
 class GenericEmulator(Emulator):
-    """Generic emulator class
-    Uses adb only
+    """Generic emulator class.
+
+    Uses adb only.
+    
+    Subclass this class to implement specific emulators.
     """
     def __init__(self, *, 
                  emulator_name: str,
                  adb_path: str,
                  adb_address: str,
-                 default_app_package_name: str) -> None:
+                 default_app_package_name: str,
+                 **kwargs
+                 ) -> None:
         """
         Args:
             emulator_name: Name of the emulator

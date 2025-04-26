@@ -1,0 +1,42 @@
+{
+    "Home_Enter_Home_v1_Entry": {
+        "recognition": "DirectHit",
+        "next": [
+            "Home_Enter_Home_v1"
+        ]
+    },
+    "Home_Enter_Home_v1": {
+        "recognition": "TemplateMatch",
+        "template": "Home/title_page__160_120_940_380__110_70_1040_480.png",
+        "roi": [
+            160,
+            120,
+            940,
+            380
+        ],
+        "threshold": 0.9,
+        "next": [
+            "Home_Go_Back_Home_Ruthlessly_v2_Flag_Already_At_Home"
+        ],
+        "interrupt": [
+            "Common_Network_Timeout_Handler_Cancel_v1",
+            "Home_Enter_Home_v1_Click"
+        ]
+    },
+    "Home_Enter_Home_v1_Click": {
+        "recognition": "TemplateMatch",
+        "template": "Home/title_page__160_120_940_380__110_70_1040_480.png",
+        "roi": [
+            160,
+            120,
+            940,
+            380
+        ],
+        "threshold": 0.9,
+        "action": "Click",
+        "next": [
+            "Home_Go_Back_Home_Ruthlessly_v2_Flag_Already_At_Home"
+        ],
+        "timeout": 10000
+    }
+}

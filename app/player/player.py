@@ -35,6 +35,11 @@ class Player(Thread):
         pass
 
     def force_stop(self):
+        '''
+        Set stop event and replace any resources to dummy ones.
+        
+        If you have added any other resources, please replace them here.
+        '''
         self.__set_stop()
         self._run_ppl = maafw.dummy_run_ppl
         logger.info("%s Get Force Stop Signal, Will Do No More Actions and Stop Soon. Please Wait...", self)
@@ -72,6 +77,7 @@ class Player(Thread):
             return self.__navigate_home()
         elif dest is GamePage.UNKNOWN:
             return NavigateResult.FAILED
+        # TODO: Navigate to Exchange Shop
         else:
             logger.error("Not Implemented: %s", dest)
             return NavigateResult.FAILED
@@ -80,7 +86,7 @@ class Player(Thread):
     def __navigate_home(self) -> NavigateResult:
         dest = GamePage.HOME
         b, job = self._run_ppl("Home_Go_Back_Home_Ruthlessly_v2", timeout=60)
-        if not b:
+        if not b or not job.succeeded:
             if self.stopping(): # error due to force stop
                 return NavigateResult.STOPPED
             logger.error("%s Failed to navigate to home page", self)

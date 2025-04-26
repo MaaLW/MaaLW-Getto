@@ -1,0 +1,6 @@
+{
+    "Common_Network_Error_Handler_Stop_v1": {
+        "enabled": false
+    },
+    "UnfinishedPipeline 20250426TODO: StopTask if Network Error Dialog is detected": {}
+}

@@ -1,7 +1,7 @@
 {
     "Home_Go_Back_Home_Ruthlessly_v2": {
         "next": [
-            "Home_Go_Back_Home_Ruthlessly_v2_Already_At_Home"
+            "Home_Go_Back_Home_Ruthlessly_v2_Flag_Already_At_Home"
         ],
         "interrupt": [
             "Common_Network_Timeout_Handler_v1",
@@ -55,7 +55,7 @@
         "key": 4,
         "next": "Home_Go_Back_Home_Ruthlessly_v2"
     },
-    "Home_Go_Back_Home_Ruthlessly_v2_Already_At_Home": {
+    "Home_Go_Back_Home_Ruthlessly_v2_Flag_Already_At_Home": {
         "recognition": "TemplateMatch",
         "template": "Home.png",
         "green_mask": true,

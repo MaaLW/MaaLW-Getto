@@ -1,0 +1,17 @@
+{
+    "PipelineLab20250426_Entry": {
+        "next": [
+            "PipelineLab20250426_NeverHitNode"
+        ],
+        "interrupt": [
+            "PipelineLab20250426_Int01"
+        ]
+    },
+    "PipelineLab20250426_NeverHitNode": {
+        "recognition": "DirectHit",
+        "inverse": true
+    },
+    "PipelineLab20250426_Int01": {
+        "action": "StopTask"
+    }
+}
