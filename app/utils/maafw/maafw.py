@@ -1,15 +1,18 @@
 
-from . import (Resource, JobWithResult,
+from . import (Resource, 
+               TaskDetail, 
                AdbDevice, 
-               AdbController, Tasker)
+               AdbController, Controller,
+               NotificationHandler,
+               Tasker)
 from ..datetime import timedelta, sleep, datetime
 
 class MaaFW:
-    def __init__(self):
+    def __init__(self, controller: Controller | None = None, notification_handler: NotificationHandler | None = None):
         self.resource = Resource()
-        self.controller = None
+        self.controller = controller
         self.tasker = None
-        self.notification_handler = None
+        self.notification_handler = notification_handler
         self.user_path = "./assets/cache"
         self.resource_path = "./assets/resource/base"
         self.register_custom()
@@ -46,7 +49,7 @@ class MaaFW:
         self_deco = self.resource.custom_action(name)
         return self_deco
     
-    def run_ppl(self, entry: str, pipeline_override: dict = {}, timeout: int = 10) -> tuple[bool, JobWithResult | None]:
+    def run_ppl(self, entry: str, pipeline_override: dict = {}, timeout: int = 10) -> tuple[bool, TaskDetail | None]:
         time_start = datetime.now()
         job = self.tasker.post_task(entry, pipeline_override)
         while (datetime.now() - time_start) < timedelta(seconds=timeout):
@@ -57,7 +60,7 @@ class MaaFW:
         self.tasker.post_stop()
         return False, job.get()
     
-    def dummy_run_ppl(self, *args, **kwargs) -> tuple[bool, JobWithResult | None]:
+    def dummy_run_ppl(self, *args, **kwargs) -> tuple[bool, TaskDetail | None]:
         return (False, None)
 
 maafw = MaaFW()

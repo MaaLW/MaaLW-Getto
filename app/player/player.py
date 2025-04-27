@@ -7,7 +7,7 @@ from .define import NavigateResult
 from ..core import Message, Source, Command, CoreInterface, GamePage, NotifyInfo
 from ..utils.logger import logger
 from ..utils.datetime import datetime
-from ..utils.maafw.maafw import maafw, JobWithResult
+from ..utils.maafw.maafw import maafw, TaskDetail
 
 class Player(Thread):
     def __init__(self, 
@@ -85,8 +85,8 @@ class Player(Thread):
 
     def __navigate_home(self) -> NavigateResult:
         dest = GamePage.HOME
-        b, job = self._run_ppl("Home_Go_Back_Home_Ruthlessly_v2", timeout=60)
-        if not b or not job.succeeded:
+        b, td = self._run_ppl("Home_Go_Back_Home_Ruthlessly_v2", timeout=60)
+        if not b or not td.status.succeeded:
             if self.stopping(): # error due to force stop
                 return NavigateResult.STOPPED
             logger.error("%s Failed to navigate to home page", self)
@@ -102,9 +102,9 @@ class Player(Thread):
     
     def __scrape_home(self) -> bool:
         datetime_last_scrape_home = datetime.now()
-        b, job = self._run_ppl("Home_Scrape_Custom_Reco_Runner_v1", timeout=10)
-        if b and isinstance(job, JobWithResult):
-            str_result = job.nodes[-1].recognition.best_result.detail
+        b, td = self._run_ppl("Home_Scrape_Custom_Reco_Runner_v1", timeout=10)
+        if b and isinstance(td, TaskDetail):
+            str_result = td.nodes[-1].recognition.best_result.detail
             logger.debug("%s Home Page Scrape Result: %s", self, str_result)
             dict_result = json.loads(str_result)
             assert isinstance(dict_result, dict)

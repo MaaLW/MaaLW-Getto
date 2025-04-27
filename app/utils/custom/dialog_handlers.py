@@ -16,6 +16,8 @@ class LostwordFindYarukiWarningDialog_v1(CustomRecognition):
         failed_result = CustomRecognition.AnalyzeResult(None, "")
         rd_tm = context.run_recognition("Common_Yaruki_Warning_Handler_v1_Helper_Template_Match", argv.image)
         if rd_tm is None: return failed_result
+        rd_ocr = context.run_recognition("Common_Yaruki_Warning_Handler_v1_Helper_OCR_01", argv.image)
+        if rd_ocr is None: return failed_result
         rd_ocr = context.run_recognition("Common_Yaruki_Warning_Handler_v1_Helper_OCR_02", argv.image)
         if rd_ocr is None: return failed_result
         try:

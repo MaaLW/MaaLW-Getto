@@ -26,7 +26,10 @@ def test_queue_handling(vars_pool):
     
     # 验证结果
     while True:
-        if vp.get_variable("sp").value == test_value:
+        sleep(0.03)
+        res = vp.get_variable("sp")
+        if res is None: continue
+        if res.value == test_value:
             break
         if time() - time1 > 1:
             raise Exception("Test failed: Timeout")

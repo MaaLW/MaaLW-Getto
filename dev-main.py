@@ -44,6 +44,33 @@ def main():
         logger.error("Failed to init MaaFramework.")
         exit()
 
+    b, td = maafw.run_ppl("PipelineLab20250427_Entry_01")
+    print(b, td)
+    print("td.status.succeeded: ", td.status.succeeded)
+    print("td.status.done: ", td.status.done)
+    print("td.status.failed: ",td.status.failed)
+    print("td.status.pending: ", td.status.pending)
+    print("td.status.running: ", td.status.running)
+    b, td = maafw.run_ppl("PipelineLab20250427_Entry_02")
+    print(b, td)
+    print("td.status.succeeded: ", td.status.succeeded)
+    print("td.status.done: ", td.status.done)
+    print("td.status.failed: ",td.status.failed)
+    print("td.status.pending: ", td.status.pending)
+    print("td.status.running: ", td.status.running)
+    
+    b, td = maafw.run_ppl("PipelineLab20250426_NeverHitNode", timeout=30)
+    print(b, td)
+    print("td.status.succeeded: ", td.status.succeeded)
+    print("td.status.done: ", td.status.done)
+    print("td.status.failed: ",td.status.failed)
+    print("td.status.pending: ", td.status.pending)
+    print("td.status.running: ", td.status.running)
+    try: print(td.nodes.pop().name)
+    except: pass
+    
+    return
+
     from app.player import Player, ErrandPlayer, EternalBattlePlayer
 
     player = ErrandPlayer(tasker=maafw.tasker)
@@ -78,34 +105,34 @@ def main():
 
 
     return
-    job = maafw.tasker.post_task("1",{"1": {"recognition": "custom", "custom_recognition": "ErrandRecoTestBench"}}).wait().get()
-    print(job)
+    td = maafw.tasker.post_task("1",{"1": {"recognition": "custom", "custom_recognition": "ErrandRecoTestBench"}}).wait().get()
+    print(td)
     import jsons
     from app.utils.custom.errand import Errand
     from app.utils.datetime import datetime
 
     return
 
-    job = maafw.tasker.post_task("1",{"1": {"recognition": "custom", "custom_recognition": "ErrandReco"}}).wait().get()
-    print(job)
+    td = maafw.tasker.post_task("1",{"1": {"recognition": "custom", "custom_recognition": "ErrandReco"}}).wait().get()
+    print(td)
     import jsons
     from app.utils.custom.errand import Errand
     from app.utils.datetime import datetime
     
-    l1 = jsons.load(job.nodes[0].recognition.best_result.detail, cls=list[list[Errand],list[Errand]])
+    l1 = jsons.load(td.nodes[0].recognition.best_result.detail, cls=list[list[Errand],list[Errand]])
     for e in l1[0]+l1[1]:
         print(e)
     return
 
 
-    job = maafw.tasker.post_task("1",{"1": {"recognition": "custom", "custom_recognition": "ErrandRecoTest1"}}).wait().get()
+    td = maafw.tasker.post_task("1",{"1": {"recognition": "custom", "custom_recognition": "ErrandRecoTest1"}}).wait().get()
     #job = maafw.tasker.post_task("Errand_Base_Flag_Seen_In_Progress_Mark_At_Slot_test").wait().get()
-    print(job)
+    print(td)
     import jsons
     from app.utils.custom.errand import Errand
     from app.utils.datetime import datetime
     
-    l1 = jsons.load(job.nodes[0].recognition.best_result.detail, cls=list[list[Errand],list[Errand]])
+    l1 = jsons.load(td.nodes[0].recognition.best_result.detail, cls=list[list[Errand],list[Errand]])
     td1 = datetime.now() - l1[0][0].datetime_reco
     print(td1)
     print(datetime.now().tzinfo); print(l1[0][0].datetime_reco.tzinfo)
@@ -120,18 +147,18 @@ def main():
 
     # scroll exchange shop
     while True:
-        job = maafw.tasker.post_task("1",{"1": {"action": "custom", "custom_action": "HorizontalSwipe", "target": [80+185*4, 620, 20, 20], 
+        td = maafw.tasker.post_task("1",{"1": {"action": "custom", "custom_action": "HorizontalSwipe", "target": [80+185*4, 620, 20, 20], 
                                       "custom_action_param": {"delta_x": -185*4, "xxx": 0.5}}}).wait().get()   
-        job = maafw.tasker.post_task("1",{"1": {"action": "custom", "custom_action": "HorizontalSwipe", "target": [80, 620, 20, 20], 
+        td = maafw.tasker.post_task("1",{"1": {"action": "custom", "custom_action": "HorizontalSwipe", "target": [80, 620, 20, 20], 
                                       "custom_action_param": {"delta_x": 185*4}}}).wait().get()
      
     return
 
     # scroll vsSpirit Tower tags
     while True:
-        job = maafw.tasker.post_task("1",{"1": {"action": "custom", "custom_action": "VerticalSwipe", "target": [1000, 550, 20, 20], 
+        td = maafw.tasker.post_task("1",{"1": {"action": "custom", "custom_action": "VerticalSwipe", "target": [1000, 550, 20, 20], 
                                       "custom_action_param": {"delta_y": -400, "hold_time": 0.5}}}).wait().get()
-        job = maafw.tasker.post_task("1",{"1": {"action": "custom", "custom_action": "VerticalSwipe", "target": [1000, 300, 20, 20], 
+        td = maafw.tasker.post_task("1",{"1": {"action": "custom", "custom_action": "VerticalSwipe", "target": [1000, 300, 20, 20], 
                                       "custom_action_param": {"delta_y": 400, "hold_time": 0.6}}}).wait().get()
 
 

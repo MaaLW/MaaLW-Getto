@@ -34,13 +34,13 @@ class EmuPlayer(Player):
         navigation_result = self._navigate(dest=GamePage.HOME)
         if navigation_result is not NavigateResult.SUCCEEDED:
             return False
-        b, job = self._run_ppl("Home_Go_Back_Title_v1", timeout=30)
-        if not b or not job.succeeded:
+        b, td = self._run_ppl("Home_Go_Back_Title_v1", timeout=30)
+        if not b or not td.status.succeeded:
             logger.error("%s Failed to go back to title page", self)
             return False
-        b, job = self._run_ppl("Home_Enter_Home_v1_Entry", timeout=30, pipeline_override=
+        b, td = self._run_ppl("Home_Enter_Home_v1_Entry", timeout=30, pipeline_override=
                                {"Home_Enter_Home_v1_Entry":{"timeout": 30000}})
-        if not b or not job.succeeded:
+        if not b or not td.status.succeeded:
             logger.error("%s Failed to enter home page", self)
             return False
         return True
@@ -55,9 +55,9 @@ class EmuPlayer(Player):
         if self._wait_game_ready() is False:
             logger.error("Failed to start game")
             return False
-        b, job = self._run_ppl("Home_Enter_Home_v1_Entry", timeout=120, pipeline_override=
+        b, td = self._run_ppl("Home_Enter_Home_v1_Entry", timeout=120, pipeline_override=
                                {"Home_Enter_Home_v1_Entry":{"timeout": 120000}})
-        if not b or not job.succeeded:
+        if not b or not td.status.succeeded:
             logger.error("%s Failed to enter home page", self)
             return False        
         return True

@@ -13,5 +13,11 @@
     },
     "PipelineLab20250426_Int01": {
         "action": "StopTask"
+    },
+    "PipelineLab20250427_Entry_01": {
+        "action": "DoNothing"
+    },
+    "PipelineLab20250427_Entry_02": {
+        "action": "StopTask"
     }
 }

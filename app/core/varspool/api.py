@@ -25,6 +25,6 @@ class VarsPool(CoreThread):
         except Exception as e:
             logger.error(f"Error updating variable: {name}={value}, Exception: {e}")
 
-    def get_variable(self, name: str) -> VarDict[str, object]:
+    def get_variable(self, name: str) -> VarDict[str, object] | None:
         """Unblocking get variable"""
         return self.storage.get_variable(name)
