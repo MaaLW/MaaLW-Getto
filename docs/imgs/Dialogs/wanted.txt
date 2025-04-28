@@ -3,4 +3,5 @@ Network_Error
 Server_Error
 
 [Dismissable]
-Friend_Points_Confirm
+公告
+Friend_Points_Confirm 好友点数确认出现在公告之后。返回键或点框外都可以关闭。

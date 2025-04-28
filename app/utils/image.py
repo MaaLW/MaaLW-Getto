@@ -34,7 +34,9 @@ else:
         return str(p1)
 
     def image_to_cvmat(image: Image.Image) -> ndarray | None:
-        r, g, b = image.split()
+        r = image.getchannel(0)
+        g = image.getchannel(1)
+        b = image.getchannel(2)
         new_image = Image.merge("RGB", (b, g, r))
         return array(new_image)
     
