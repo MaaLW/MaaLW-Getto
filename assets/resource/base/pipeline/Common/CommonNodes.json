@@ -56,5 +56,9 @@
         "next": [
             "Common_tap_on_network_timeout_dialog_confirm_button"
         ]
+    },
+    "Common_Stop_Task_on_Dialog": {
+        "recognition": "DirectHit",
+        "action": "StopTask"
     }
 }

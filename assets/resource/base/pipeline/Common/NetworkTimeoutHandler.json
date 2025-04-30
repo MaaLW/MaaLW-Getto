@@ -7,7 +7,9 @@
     "Common_Network_Timeout_Handler_Stop_v1": {
         "recognition": "Custom",
         "custom_recognition": "LostwordFindNetworkTimeoutDialog_v1",
-        "action": "StopTask"
+        "next": [
+            "Common_Stop_Task_on_Dialog"
+        ]
     },
     "Common_Network_Timeout_Handler_Cancel_v1": {
         "recognition": "Custom",
