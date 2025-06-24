@@ -1,32 +1,33 @@
 {
     "eternal_battle_Flag_prepare_chars_01": {
         "recognition": "OCR",
-        "expected": "永远战线",
+        "expected": "出发队伍",
         "roi": [
-            1024,
-            60,
-            90,
-            30
-        ]
+            0,
+            0,
+            240,
+            70
+        ],
+        "threshold": 0.8
     },
     "eternal_battle_Flag_prepare_chars_02": {
         "recognition": "OCR",
         "expected": "区域情报",
         "roi": [
-            1060,
-            150,
-            105,
-            40
+            960,
+            120,
+            300,
+            300
         ]
     },
     "eternal_battle_Flag_seen_confirm_button": {
         "recognition": "TemplateMatch",
         "template": "eternal_battle/confirm_button__1030_610_160_45__980_560_260_145.png",
         "roi": [
-            1030,
-            610,
-            160,
-            45
+            980,
+            460,
+            280,
+            245
         ],
         "threshold": 0.9
     },
@@ -34,10 +35,10 @@
         "recognition": "TemplateMatch",
         "template": "eternal_battle/confirm_button__1030_610_160_45__980_560_260_145.png",
         "roi": [
-            1030,
-            610,
-            160,
-            45
+            980,
+            460,
+            280,
+            245
         ],
         "threshold": 0.9,
         "action": "Click"
@@ -46,10 +47,10 @@
         "recognition": "TemplateMatch",
         "template": "eternal_battle/start_button__1000_540_220_50__950_490_320_150.png",
         "roi": [
-            1000,
-            540,
-            220,
-            50
+            980,
+            460,
+            280,
+            245
         ],
         "threshold": 0.9
     },
@@ -57,10 +58,10 @@
         "recognition": "TemplateMatch",
         "template": "eternal_battle/start_button__1000_540_220_50__950_490_320_150.png",
         "roi": [
-            1000,
-            540,
-            220,
-            50
+            980,
+            460,
+            280,
+            245
         ],
         "threshold": 0.9,
         "action": "Click"
@@ -71,8 +72,8 @@
         "roi": [
             100,
             130,
-            48,
-            50
+            148,
+            60
         ],
         "threshold": 0.9
     },
@@ -82,8 +83,8 @@
         "roi": [
             100,
             130,
-            48,
-            50
+            148,
+            60
         ],
         "roi_offset": [
             0,
@@ -99,8 +100,8 @@
         "roi": [
             100,
             130,
-            48,
-            50
+            148,
+            60
         ],
         "roi_offset": [
             0,
@@ -116,8 +117,8 @@
         "roi": [
             100,
             130,
-            48,
-            50
+            148,
+            60
         ],
         "roi_offset": [
             0,
@@ -139,23 +140,23 @@
     },
     "eternal_battle_Flag_seen_entrance": {
         "recognition": "TemplateMatch",
-        "template": "eternal_battle/entrance__600_150_540_40__550_100_640_140.png",
+        "template": "eternal_battle/entrance_202506__580_150_120_50__530_100_220_150.png",
         "roi": [
-            600,
+            580,
             150,
-            540,
-            40
+            120,
+            50
         ],
         "threshold": 0.9
     },
     "eternal_battle_tap_entrance": {
         "recognition": "TemplateMatch",
-        "template": "eternal_battle/entrance__600_150_540_40__550_100_640_140.png",
+        "template": "eternal_battle/entrance_202506__580_150_120_50__530_100_220_150.png",
         "roi": [
-            600,
+            580,
             150,
-            540,
-            40
+            120,
+            50
         ],
         "threshold": 0.9,
         "action": "Click"
