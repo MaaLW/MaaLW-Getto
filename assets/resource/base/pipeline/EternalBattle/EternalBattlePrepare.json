@@ -139,23 +139,23 @@
     },
     "eternal_battle_Flag_seen_entrance": {
         "recognition": "TemplateMatch",
-        "template": "eternal_battle/entrance__600_150_540_40__550_100_640_140.png",
+        "template": "eternal_battle/entrance_202506__580_150_120_50__530_100_220_150.png",
         "roi": [
-            600,
+            580,
             150,
-            540,
-            40
+            120,
+            50
         ],
         "threshold": 0.9
     },
     "eternal_battle_tap_entrance": {
         "recognition": "TemplateMatch",
-        "template": "eternal_battle/entrance__600_150_540_40__550_100_640_140.png",
+        "template": "eternal_battle/entrance_202506__580_150_120_50__530_100_220_150.png",
         "roi": [
-            600,
+            580,
             150,
-            540,
-            40
+            120,
+            50
         ],
         "threshold": 0.9,
         "action": "Click"
