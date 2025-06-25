@@ -72,10 +72,10 @@
         "roi": [
             100,
             130,
-            148,
+            88,
             60
         ],
-        "threshold": 0.9
+        "threshold": 0.7
     },
     "eternal_battle_Flag_next_area_mark_at_3": {
         "recognition": "TemplateMatch",
@@ -83,7 +83,7 @@
         "roi": [
             100,
             130,
-            148,
+            88,
             60
         ],
         "roi_offset": [
@@ -92,7 +92,7 @@
             0,
             0
         ],
-        "threshold": 0.9
+        "threshold": 0.7
     },
     "eternal_battle_Flag_next_area_mark_at_4": {
         "recognition": "TemplateMatch",
@@ -100,7 +100,7 @@
         "roi": [
             100,
             130,
-            148,
+            88,
             60
         ],
         "roi_offset": [
@@ -109,7 +109,7 @@
             0,
             0
         ],
-        "threshold": 0.9
+        "threshold": 0.7
     },
     "eternal_battle_Flag_next_area_mark_at_5": {
         "recognition": "TemplateMatch",
@@ -117,7 +117,7 @@
         "roi": [
             100,
             130,
-            148,
+            88,
             60
         ],
         "roi_offset": [
@@ -126,7 +126,7 @@
             0,
             0
         ],
-        "threshold": 0.9
+        "threshold": 0.7
     },
     "eternal_battle_Flag_at_entrance": {
         "recognition": "OCR",
