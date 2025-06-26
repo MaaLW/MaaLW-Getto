@@ -36,7 +36,7 @@ class EternalBattlePlayer(Player):
             self.repeat_times -= 1
             if not threading.main_thread().is_alive():
                 break
-        pass
+        logger.info("%s Replaying Finished.", self)
 
     def post_stop(self):
         """Sets the stop flag to True, indicating that the player should stop gracefully.
@@ -63,6 +63,7 @@ class EternalBattlePlayer(Player):
         self.b_stop = True
         # Replace the Driver function to a dummy one
         self.__run_ppl = lambda *args, **kwargs: (bool(False), object())
+        self.tasker.post_stop()
         logger.info("%s Get Force Stop Signal, Will Do No More Actions and Stop Soon. Please Wait...", self)
         pass
 
@@ -237,7 +238,7 @@ class EternalBattlePlayer(Player):
                                                                                         "interrupt":["eternal_battle_tap_victory_interrupt_button", 
                                                                                                      "eternal_battle_tap_victory_next_button"]}, 
                                                                         "eternal_battle_Flag_seen_victory":{"inverse":True}})
-                                scene = 9.1
+                                break
                             else:
                                 b_success1, job1 = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=10, 
                                                     pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_victory"], 
