@@ -1,0 +1,13 @@
+{
+    "lab20250626_Entrance": {
+        "recognition": "DirectHit",
+        "next": [
+            "lab20250626_Node_Never_Hit"
+        ],
+        "timeout": 20000
+    },
+    "lab20250626_Node_Never_Hit": {
+        "recognition": "DirectHit",
+        "inverse": true
+    }
+}

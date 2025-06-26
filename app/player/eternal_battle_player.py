@@ -434,7 +434,10 @@ class EternalBattlePlayer(Player):
         return True
 
 
-def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override: dict = {}, timeout: int = 10) -> tuple[bool, object]:
+def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override: dict = {}, timeout: int = 10, 
+                                  pre_wait_stopping_timeout: int = 2, 
+                                  post_wait_stopping_timeout: int = 2
+                                  ) -> tuple[bool, object]:
     """Run a pipeline task with a timeout.
 
     Args:
@@ -448,12 +451,30 @@ def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override:
             and the job result if the task was completed.
     """
     time_start = time()
+    while tasker.stopping and (time() - time_start) < pre_wait_stopping_timeout:
+        # Wait for the tasker to complete stopping
+        sleep(0.01)
+        continue
+    if tasker.stopping:
+        # Error: Tasker is still stopping
+        return False, None
+    time_start2 = time()
     job = tasker.post_task(entry, pipeline_override)
-    while (time() - time_start) < timeout:
+    while (time() - time_start2) < timeout:
         if job.done:
             return True, job.get()
-        # TODO consider shorten sleep time to enhance performance
         sleep(0.01)
+        continue
+    # Timeout
     tasker.post_stop()
+    time_start3 = time()
+    while tasker.stopping and (time() - time_start3) < post_wait_stopping_timeout:
+        # Wait for the tasker to complete stopping
+        sleep(0.01)
+        continue
+    if tasker.stopping:
+        # Error: Tasker is still stopping
+        # Best Effort. Cannot handle this better. Shouldn't happen
+        pass
     return False, job.get()
 
