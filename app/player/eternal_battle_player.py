@@ -24,6 +24,7 @@ class EternalBattlePlayer(Player):
         self.b_stop = False
         self.load_recordfile()
         self.__run_ppl = mlw_run_pipeline_with_timeout
+        self.err_count = 0
 
     def run(self):
         while self.repeat_times > 0 and not self.b_stop:
@@ -31,7 +32,12 @@ class EternalBattlePlayer(Player):
             b_res = self.__replay_eternal_battle()
             if not b_res:
                 logger.warning("%s Run Failed once. Please notice.", self)
+                self.err_count += 1
+                if self.err_count > 9:
+                    logger.error("%s Run Failed more than 9 times in a row. Replay Stopped.", self)
+                    break
             else:
+                self.err_count = 0
                 pass
             self.repeat_times -= 1
             if not threading.main_thread().is_alive():
