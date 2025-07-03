@@ -220,6 +220,7 @@ class EternalBattlePlayer(Player):
                             continue
                         else:
                             self.__replay_battle_actions(actions=area_actions)
+                            sleep(1.0)
                         # After battle actions replayed, check state
                         b_success, job = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=120, 
                                                 pipeline_override={"Common_Entrance":{"next":["eternal_battle_Flag_seen_victory", "battle_Flag_seen_turn_flag", 
@@ -254,8 +255,8 @@ class EternalBattlePlayer(Player):
                             del (b_success1, job1)
                         elif job.nodes[-1].name == "battle_Flag_seen_turn_flag":
                             # Still in battle after replay. Might want to retry
-                            b_success1, job1 = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=20, 
-                                                pipeline_override={"Common_Entrance":{"next":["battle_tap_restart_button"], 
+                            b_success1, job1 = self.__run_ppl(tasker=self.tasker, entry="Common_Entrance", timeout=30, 
+                                                pipeline_override={"Common_Entrance":{"next":["battle_tap_restart_button"], "timeout":30000, 
                                                                                     "interrupt":["battle_toggle_menu"]}, 
                                                                     "battle_tap_restart_button":{"next":["battle_tap_restart_confirm_button"],
                                                                                                 "interrupt":["battle_tap_restart_button"]}})
