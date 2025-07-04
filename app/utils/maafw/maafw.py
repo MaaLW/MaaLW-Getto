@@ -49,7 +49,22 @@ class MaaFW:
         self_deco = self.resource.custom_action(name)
         return self_deco
     
-    def run_ppl(self, entry: str, pipeline_override: dict = {}, timeout: int = 10) -> tuple[bool, TaskDetail | None]:
+    def run_ppl(self, entry: str, pipeline_override: dict = {}, timeout: float = 10.0, 
+                                  pre_wait_stopping_timeout: float = 2.0, 
+                                  post_wait_stopping_timeout: float = 1.0
+                                  ) -> tuple[bool, TaskDetail | None]:
+        
+        # Pre check
+        time_start_pre = datetime.now()
+        while self.tasker.stopping and (datetime.now() - time_start_pre) < timedelta(seconds=pre_wait_stopping_timeout):
+            # Wait for the tasker to complete stopping
+            sleep(0.01)
+            continue
+        if self.tasker.stopping:
+            # Error: Tasker is still stopping
+            #logger.error("Tasker is still stopping")
+            return False, None
+        
         time_start = datetime.now()
         job = self.tasker.post_task(entry, pipeline_override)
         while (datetime.now() - time_start) < timedelta(seconds=timeout):
@@ -58,6 +73,15 @@ class MaaFW:
             # TODO consider shorten sleep time to enhance performance
             sleep(0.01)
         self.tasker.post_stop()
+        time_start_post = datetime.now()
+        while self.tasker.stopping and (datetime.now() - time_start_post) < timedelta(seconds=post_wait_stopping_timeout):
+            # Wait for the tasker to complete stopping
+            sleep(0.01)
+            continue
+        if self.tasker.stopping:
+            # Error: Tasker is still stopping
+            # Best Effort. Cannot handle this better. Shouldn't happen
+            pass
         return False, job.get()
     
     def dummy_run_ppl(self, *args, **kwargs) -> tuple[bool, TaskDetail | None]:
