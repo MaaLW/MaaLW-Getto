@@ -42,7 +42,9 @@ Python 3.12
 
 本次战斗结束后将停止
 
-```force stop```
+```stop -f```
+
+```stop --force```
 
 强制停止
 
