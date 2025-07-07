@@ -10,9 +10,9 @@ from app.config import config
 from app.utils.maafw import Toolkit, AdbDevice
 from app.utils.maafw.maafw import maafw
 from app.utils.logger import logger
-from app.player import Player, PlayerFactory
-from app.ui.cmd02 import UserInterface02
-from app.core import CoreDummy02
+from app.player.eternal_battle_player import Player
+from app.ui.cmd import UserInterface
+from app.core import Core
 
 def main():
     # StartUp()
@@ -40,10 +40,11 @@ def main():
         logger.error("Failed to init MaaFramework.")
         exit()
 
-    core = CoreDummy02()
+    core = Core()
+    core.start()
     
     def run_user_interface():
-        ui = UserInterface02(core=core)
+        ui = UserInterface(core=core)
         ui.cmdloop()
     ui_thread = threading.Thread(target=run_user_interface)
     ui_thread.start()

@@ -4,7 +4,7 @@ from . import (Resource,
                AdbDevice, 
                AdbController, Controller,
                NotificationHandler,
-               Tasker)
+               Tasker, Job)
 from ..datetime import timedelta, sleep, datetime
 
 class MaaFW:
@@ -86,5 +86,8 @@ class MaaFW:
     
     def dummy_run_ppl(self, *args, **kwargs) -> tuple[bool, TaskDetail | None]:
         return (False, None)
+    
+    def post_stop(self) -> Job:
+        return self.tasker.post_stop()
 
 maafw = MaaFW()

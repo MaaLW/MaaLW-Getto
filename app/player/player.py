@@ -17,6 +17,7 @@ class Player(Thread):
         self._core = core
         self._stop_event = Event()
         self._run_ppl = maafw.run_ppl
+        self._dont_post_stop = Event()
         pass
 
     def run(self):
@@ -29,12 +30,23 @@ class Player(Thread):
             self._post_run()
         pass
 
-    def stop(self):
+    def stop(self, b_force:bool=False):
+        if b_force: 
+            self._force_stop_player()
+        else: 
+            self._stop_player()
+        pass
+
+    def force_stop(self):
+        self._force_stop_player()
+        pass
+
+    def _stop_player(self):
         self.__set_stop()
         logger.info("%s Get Stop Signal, Will Stop Gracefully. Please Wait...", self)
         pass
 
-    def force_stop(self):
+    def _force_stop_player(self):
         '''
         Set stop event and replace any resources to dummy ones.
         
@@ -42,6 +54,9 @@ class Player(Thread):
         '''
         self.__set_stop()
         self._run_ppl = maafw.dummy_run_ppl
+        if not self._dont_post_stop.is_set(): 
+            self._dont_post_stop.set()
+            maafw.post_stop()
         logger.info("%s Get Force Stop Signal, Will Do No More Actions and Stop Soon. Please Wait...", self)
         pass
 
@@ -55,6 +70,7 @@ class Player(Thread):
 
     def _post_run(self):
         self._notify_core(info=NotifyInfo.DONE)
+        self._dont_post_stop.set()
         pass
 
     def peri_run(self):

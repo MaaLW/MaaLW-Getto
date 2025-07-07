@@ -42,3 +42,17 @@ class Core(CoreInterface):
     def is_alive(self) -> bool:
         return self.scheduler.is_alive()
 #core = Core()
+
+class CoreDummy02(CoreInterface):
+    '''
+    Dummy Core for Compatibility with v0.2
+    '''
+    def post_message(self, msg: Message, priority=100):
+        pass
+
+    def need_scrape(self, gp: GamePage) -> bool:
+        return False
+
+    def is_alive(self) -> bool:
+        import threading
+        return threading.main_thread().is_alive()
