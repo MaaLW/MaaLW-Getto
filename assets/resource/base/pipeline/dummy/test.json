@@ -1,0 +1,6 @@
+{
+    "TestBench01": {
+        "recognition": "Custom",
+        "custom_recognition": "ErrandReco"
+    }
+}

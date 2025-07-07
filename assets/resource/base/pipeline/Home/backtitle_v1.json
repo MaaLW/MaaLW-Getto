@@ -1,0 +1,88 @@
+{
+    "Home_Go_Back_Title_v1": {
+        "recognition": "TemplateMatch",
+        "template": "Home.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "next": [
+            "Home_Go_Back_Title_v1_Flag_Already_At_Title"
+        ],
+        "interrupt": [
+            "Common_Network_Timeout_Handler_Cancel_v1",
+            "Home_Go_Back_Title_v1_Click_Confirm",
+            "Home_Go_Back_Title_v1_Press_Back"
+        ]
+    },
+    "Home_Go_Back_Title_v1_Flag_Already_At_Title": {
+        "recognition": "TemplateMatch",
+        "template": "Home/title_page__160_120_940_380__110_70_1040_480.png",
+        "roi": [
+            160,
+            120,
+            940,
+            380
+        ],
+        "threshold": 0.9
+    },
+    "Home_Go_Back_Title_v1_Click_Confirm": {
+        "recognition": "TemplateMatch",
+        "template": "Home/Home_backtotitle_greenmasked-20250425-181451.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "Home_Go_Back_Title_v1_Click_Confirm_Step01",
+            "Home_Go_Back_Title_v1_Int_Failed"
+        ]
+    },
+    "Home_Go_Back_Title_v1_Click_Confirm_Step01": {
+        "recognition": "OCR",
+        "expected": "要返回标题画面吗",
+        "roi": [
+            460,
+            290,
+            330,
+            120
+        ],
+        "threshold": 0.8,
+        "pre_delay": 0,
+        "post_delay": 0,
+        "next": [
+            "Home_Go_Back_Title_v1_Click_Confirm_Step02",
+            "Home_Go_Back_Title_v1_Int_Failed"
+        ]
+    },
+    "Home_Go_Back_Title_v1_Click_Confirm_Step02": {
+        "recognition": "TemplateMatch",
+        "template": "Home/Backtotitle_Dialog_Confirm_Button__690_480_180_50__640_430_280_150.png",
+        "roi": [
+            640,
+            430,
+            280,
+            150
+        ],
+        "threshold": 0.9,
+        "pre_delay": 0,
+        "action": "Click",
+        "next": [
+            "Home_Go_Back_Title_v1_Flag_Already_At_Title"
+        ],
+        "timeout": 10000
+    },
+    "Home_Go_Back_Title_v1_Press_Back": {
+        "recognition": "TemplateMatch",
+        "template": "Home.png",
+        "green_mask": true,
+        "threshold": 0.9,
+        "pre_delay": 0,
+        "action": "Key",
+        "key": 4
+    },
+    "Home_Go_Back_Title_v1_Int_Failed": {
+        "recognition": "DirectHit"
+    },
+    "Home_Go_Back_Title_v1_Int_Succeeded": {
+        "recognition": "DirectHit"
+    }
+}

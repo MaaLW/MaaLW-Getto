@@ -3,14 +3,19 @@
 from pathlib import Path
 import json
 from time import sleep
+from queue import PriorityQueue
+import threading
 
 from app.config import config
-from app.utils.maafw import maafw, Toolkit, AdbDevice
+from app.utils.maafw import Toolkit, AdbDevice
+from app.utils.maafw.maafw import maafw
 from app.utils.logger import logger
-from app.player.eternal_battle_player import Player, EternalBattlePlayer
+from app.player import Player, PlayerFactory
+from app.ui.cmd02 import UserInterface02
+from app.core import CoreDummy02
 
 def main():
-
+    # StartUp()
     adb_device_info = config["adb_device"]
 
     if not Toolkit.init_option(maafw.user_path):
@@ -27,8 +32,7 @@ def main():
         input_methods = adb_device_info.getint("input_methods"),         # DON'T USE 8 On Mumu
         config = json.loads(adb_device_info.get("config"))
     )
-    #adb_device.input_methods = 2  # force to use minitouch
-    #adb_device.input_methods = 4  # force to use maatouch
+
     if not maafw.connect_adb_device(adb_device):
         logger.error("Failed to connect adb device.")
 
@@ -36,39 +40,23 @@ def main():
         logger.error("Failed to init MaaFramework.")
         exit()
 
-    # On Start, Start an EternalBattlePlayer by default for now. Will be removed later
-    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile= config.get('lostword.eternal_battle_record', 'path'))
-    player.start()
+    core = CoreDummy02()
+    
+    def run_user_interface():
+        ui = UserInterface02(core=core)
+        ui.onecmd("start")
+        ui.cmdloop()
+    ui_thread = threading.Thread(target=run_user_interface)
+    ui_thread.start()
 
-    command_str = ""
-    # Main Loop
-    while True:
-        # get input
-        command = input("Getto > ")
-        match command.split():
-            case ["exit" | "quit", *rest]:
-                break
-            case ["stop"]:
-                player.post_stop()
-            case ["force", "stop"]:
-                player.force_stop()
-            case ["start", *rest]:
-                if player.is_alive():
-                    logger.warning("%s is already running", player)
-                elif rest == []:
-                    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=config.get('lostword.eternal_battle_record', 'path'))
-                    player.start()
-                elif rest[0].isdecimal():
-                    player = EternalBattlePlayer(tasker=maafw.tasker, recordfile=config.get('lostword.eternal_battle_record', 'path'), repeat_times=int(rest[0]))
-                    player.start()
-                else:
-                    logger.warning("unknown command")
-            case []:
-                pass
-            case _:
-                logger.warning("unknown command")
-        sleep(0.1)
-
+    try:
+        ui_thread.join()
+    except KeyboardInterrupt:
+        print("Main thread interrupted.")
+    finally:
+        ui_thread.join()
+        pass
+    return
 
 
 if __name__ == "__main__":

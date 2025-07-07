@@ -1,0 +1,31 @@
+{
+    "Common_Generic_Error_Dialog_Handler_Stop_v1": {
+        "recognition": "Custom",
+        "custom_recognition": "LostwordFindGenericErrorDialog_v1",
+        "next": [
+            "Common_Stop_Task_on_Dialog"
+        ]
+    },
+    "Common_Generic_Error_Dialog_Handler_v1_Helper_Seen_Caption": {
+        "recognition": "TemplateMatch",
+        "template": "common/Dialog01_Caption__400_170_480_60__350_120_580_160.png",
+        "roi": [
+            350,
+            120,
+            580,
+            160
+        ],
+        "threshold": 0.9
+    },
+    "Common_Generic_Error_Dialog_Handler_v1_Helper_Seen_Close_Button": {
+        "recognition": "TemplateMatch",
+        "template": "common/Dialog01_Close_Button_Wided__400_470_480_80__350_420_580_180.png",
+        "roi": [
+            350,
+            420,
+            580,
+            180
+        ],
+        "threshold": 0.9
+    }
+}

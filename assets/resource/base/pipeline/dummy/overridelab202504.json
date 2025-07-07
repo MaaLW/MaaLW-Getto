@@ -1,0 +1,32 @@
+{
+    "OverrideLab202504Main": {
+        "recognition": "Custom",
+        "custom_recognition": "overridelab202504main"
+    },
+    "OverrideLab202504Sub": {
+        "recognition": "Custom",
+        "custom_recognition": "overridelab202504sub",
+        "custom_recognition_param": {
+            "value": "default"
+        },
+        "roi": [
+            10,
+            20,
+            30,
+            40
+        ]
+    },
+    "OverrideLab202504Action": {
+        "action": "Custom",
+        "custom_action": "overridelab202504action",
+        "custom_action_param": {
+            "value": "default"
+        },
+        "target": [
+            30,
+            40,
+            50,
+            60
+        ]
+    }
+}

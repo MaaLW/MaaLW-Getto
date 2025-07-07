@@ -1,32 +1,15 @@
 from enum import StrEnum, auto
 from dataclasses import dataclass, field, fields
 from time import sleep
-from typing import Optional
 import json, re
 
 import jsons
 
-from ..maafw import maafw, Rect, Context, CustomRecognition
+from ..maafw import Rect, Context, CustomRecognition
+from ..maafw.custom import custom_registry
 from ..logger import logger
 from ..datetime import datetime, time, timedelta
-
-def is_in_rect(r: Rect):
-    """
-    Returns a function that checks if a given rectangle `r1` is completely
-    within the boundaries of rectangle `r`.
-
-    Parameters:
-    - r: The reference rectangle within which the check is performed.
-
-    Returns:
-    - A function that takes a rectangle `r1` and returns True if `r1` is
-      entirely within `r`, otherwise False.
-    """
-
-    def _is_in_rect(r1: Rect) -> bool:
-        return max(r1.x, r1.x + r1.w) <= max(r.x, r.x + r.w) and min(r1.x, r1.x + r1.w) >= min(r.x, r.x + r.w) and\
-              max(r1.y, r1.y + r1.h) <= max(r.y, r.y + r.h) and min(r1.y, r1.y + r1.h) >= min(r.y, r.y + r.h)
-    return _is_in_rect
+from .define import is_in_rect
 
 regex_time = re.compile(r"[0-9]{2}:[0-9]{2}:[0-9]{2}")
 img_save_path = "./assets/cache/debug/errand/"
@@ -50,13 +33,6 @@ class Dimensions:
     relative_box_negative_whole_errand: Rect = field(default_factory=lambda: Rect(0, 0, -980, -189)) # add this to ctual box for whole errand to get the origin
     relative_box_time_expire: Rect = field(default_factory=lambda: Rect(0, 120, 220, 70)) # add this to origin to get the actual box for time expire
     relative_box_time_cost: Rect = field(default_factory=lambda: Rect(250, 80, 240, 90)) # add this to origin to get the actual box for time cost
-    pass
-@dataclass
-class CustomParam:
-    num_daily_errands: int = 5
-    num_limited_errands: int = 3
-@dataclass
-class CustomResult:
     pass
 
 class ErrandState(StrEnum):
@@ -92,7 +68,7 @@ class Errand:
     datetime_complete: datetime | None = None
     pass
 
-@maafw.resource.custom_recognition("ErrandRecoTestBench")
+@custom_registry.custom_recognition("ErrandRecoTestBench")
 class ErrandRecognitionTestBench(CustomRecognition):
     def analyze(
         self,
@@ -123,7 +99,7 @@ class ErrandRecognitionTestBench(CustomRecognition):
 
         return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail="Hello World!")
 
-@maafw.resource.custom_recognition("ErrandRecoSingle")
+@custom_registry.custom_recognition("ErrandRecoSingle")
 class ErrandRecognitionSingle(CustomRecognition):
     def analyze(
         self,
@@ -159,7 +135,7 @@ class ErrandRecognitionSingle(CustomRecognition):
         
         return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail=jsons.dumps(errand))
 
-@maafw.resource.custom_recognition("ErrandRecoTest1")
+@custom_registry.custom_recognition("ErrandRecoTest1")
 class ErrandRecognition1(CustomRecognition):
     '''
     ErrandRecognition1
@@ -340,7 +316,7 @@ class ErrandRecognition1(CustomRecognition):
         return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail=dumped)
         
 
-@maafw.resource.custom_recognition("ErrandReco")
+@custom_registry.custom_recognition("ErrandReco")
 class ErrandRecognition(CustomRecognition):
     '''
     ErrandRecognition
@@ -354,7 +330,7 @@ class ErrandRecognition(CustomRecognition):
     ) -> CustomRecognition.AnalyzeResult:
         enter_time = datetime.now()
         today_end_time = datetime.combine(enter_time, time.max)
-        failed_result = CustomRecognition.AnalyzeResult(None, "")
+        failed_result = CustomRecognition.AnalyzeResult(box=(0, 0, 50, 50), detail="")
         dims = Dimensions(**{k: v for k, v in json.loads(argv.custom_recognition_param).items() if k in (f.name for f in fields(Dimensions))})
         images, reco_times = (), ()
         new_context = context.clone()
@@ -573,7 +549,7 @@ class ErrandRecognition(CustomRecognition):
             # TODO : Validate errand?
             daily_errands = daily_errands + (errand,)
         logger.debug("Successfully parsed %d Daily Errands and %d Limited Errands. Time Elapsed %3f seconds.", len(daily_errands), len(limited_errands), (datetime.now() - enter_time).total_seconds())
-        dumped = jsons.dumps((daily_errands, limited_errands))
+        dumped = jsons.dumps(daily_errands + limited_errands)
         
-        return CustomRecognition.AnalyzeResult(box=(0, 0, 100, 100), detail=dumped)
+        return CustomRecognition.AnalyzeResult(box=(0, 0, 50, 50), detail=dumped)
 

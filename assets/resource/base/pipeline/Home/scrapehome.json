@@ -1,0 +1,12 @@
+{
+    "Home_Scrape_Base_OCR": {
+        "recognition": "OCR",
+        "expected": [
+            ".*"
+        ]
+    },
+    "Home_Scrape_Custom_Reco_Runner_v1": {
+        "recognition": "Custom",
+        "custom_recognition": "GettoScrapeHome_v1"
+    }
+}

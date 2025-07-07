@@ -1,6 +1,12 @@
 {
     "version": "1.0",
     "message": "Welecome to the Moon!",
+    "agent": {
+        "child_exec": ".venv/Scripts/python",
+        "child_args": [
+            "agent.py"
+        ]
+    },
     "controller": [
         {
             "name": "安卓端",
@@ -19,14 +25,14 @@
         {
             "name": "Default",
             "path": [
-                "{PROJECT_DIR}/resource/base"
+                "{PROJECT_DIR}/assets/resource/base"
             ]
         },
         {
             "name": "Bilibili",
             "path": [
-                "{PROJECT_DIR}/resource/base",
-                "{PROJECT_DIR}/resource/bilibili"
+                "{PROJECT_DIR}/assets/resource/base",
+                "{PROJECT_DIR}/assets/resource/bilibili"
             ]
         }
     ],
@@ -38,6 +44,10 @@
         {
             "name": "OCR",
             "entry": "Peek_OCR"
+        },
+        {
+            "name": "TestBench01",
+            "entry": "TestBench01"
         }
     ]
 }

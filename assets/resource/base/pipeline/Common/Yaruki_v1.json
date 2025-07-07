@@ -1,0 +1,72 @@
+{
+    "Common_Yaruki_Warning_Handler_Confirm_v1": {
+        "recognition": "Custom",
+        "custom_recognition": "LostwordFindYarukiWarningDialog_v1",
+        "action": "Click"
+    },
+    "Common_Yaruki_Warning_Handler_Cancel_v1": {
+        "recognition": "Custom",
+        "custom_recognition": "LostwordFindYarukiWarningDialog_v1",
+        "custom_recognition_param": {
+            "find_button": "cancel"
+        },
+        "action": "Click"
+    },
+    "Common_Yaruki_Warning_Handler_v1_Helper_Template_Match": {
+        "recognition": "TemplateMatch",
+        "template": "battle/not_enough_yaruki__250_160_780_400__200_110_880_500.png",
+        "roi": [
+            200,
+            110,
+            880,
+            500
+        ]
+    },
+    "Common_Yaruki_Warning_Handler_v1_Helper_OCR_01": {
+        "recognition": "OCR",
+        "expected": [
+            "干劲",
+            "不行了"
+        ],
+        "roi": [
+            300,
+            160,
+            700,
+            400
+        ]
+    },
+    "Common_Yaruki_Warning_Handler_v1_Helper_OCR_02": {
+        "recognition": "OCR",
+        "expected": [
+            "信赖度下降"
+        ],
+        "roi": [
+            300,
+            160,
+            700,
+            400
+        ]
+    },
+    "Common_Yaruki_Warning_Handler_v1_Helper_Confirm_Button": {
+        "recognition": "TemplateMatch",
+        "template": "common/common_dialog_confirm_button__700_480_160_50__650_430_260_150.png",
+        "roi": [
+            650,
+            430,
+            260,
+            150
+        ],
+        "threshold": 0.9
+    },
+    "Common_Yaruki_Warning_Handler_v1_Helper_Cancel_Button": {
+        "recognition": "TemplateMatch",
+        "template": "common/common_dialog_cancel_button__420_480_160_50__370_430_260_150.png",
+        "roi": [
+            370,
+            430,
+            260,
+            150
+        ],
+        "threshold": 0.9
+    }
+}

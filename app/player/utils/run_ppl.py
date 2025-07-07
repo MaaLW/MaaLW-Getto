@@ -1,7 +1,8 @@
 from ...utils.maafw import Tasker, JobWithResult
 from ...utils.datetime import datetime, timedelta, sleep
 
-def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override: dict = {}, timeout: int = 10) -> tuple[bool, JobWithResult | None]:
+def maafw_run_ppl(tasker: Tasker, entry: str, pipeline_override: dict = {}, timeout: int = 10) -> tuple[bool, JobWithResult | None]:
+    # Deprecated 2025/04/18
     """Run a pipeline task with a timeout.
 
     Args:
@@ -23,3 +24,6 @@ def mlw_run_pipeline_with_timeout(tasker: Tasker, entry: str, pipeline_override:
         sleep(0.01)
     tasker.post_stop()
     return False, job.get()
+
+def dummy_run_ppl (*args, **kwargs) -> tuple[bool, JobWithResult | None]:
+    return (False, None)
