@@ -44,6 +44,7 @@ def main():
     
     def run_user_interface():
         ui = UserInterface02(core=core)
+        ui.onecmd("start")
         ui.cmdloop()
     ui_thread = threading.Thread(target=run_user_interface)
     ui_thread.start()
