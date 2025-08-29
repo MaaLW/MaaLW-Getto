@@ -35,7 +35,9 @@ class UserInterface(cmd.Cmd):
     def do_play(self, arg):
         """Start a player. Usage: play <player>"""
         try: args = self.play_parser.parse_args(arg.split())
-        except: return
+        except Exception as e: 
+            logger.error(e)
+            return
         self.core.post_message(Message(Source.USER, Command.PLAY, content=vars(args)), priority=50)
 
     def help_play(self):
@@ -44,7 +46,9 @@ class UserInterface(cmd.Cmd):
     def do_stop(self, arg):
         """Stop current player. Usage: stop [-f]"""
         try: args = self.stop_parser.parse_args(arg.split())
-        except: return
+        except Exception as e: 
+            logger.error(e)
+            return
         self.core.post_message(Message(Source.USER, Command.STOP, content=vars(args)), priority=50)
 
     def help_stop(self):

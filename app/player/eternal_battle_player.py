@@ -1,4 +1,5 @@
 # app/player/eternal_battle_player.py
+# deprecated. Only works in v0.2.x
 
 import threading 
 import json
